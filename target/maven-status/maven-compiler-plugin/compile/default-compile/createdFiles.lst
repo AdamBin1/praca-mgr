@@ -1,0 +1,6 @@
+com\springmvc\dao\Property.class
+com\springmvc\controllers\ObjectPresentationController.class
+com\springmvc\error\BadRequestModelAndView.class
+com\springmvc\controllers\HelloController.class
+com\springmvc\model\PageModel.class
+com\springmvc\dao\TextBox.class
