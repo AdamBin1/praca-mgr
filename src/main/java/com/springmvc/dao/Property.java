@@ -1,10 +1,27 @@
 package com.springmvc.dao;
 
-public abstract class Property {
+public class Property {
 
+	PropertyType type;
+	String name;
 	short stage;
 	int sequence;
-	String value;
+	
+	public PropertyType getType() {
+		return type;
+	}
+
+	public void setType(PropertyType type) {
+		this.type = type;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public short getStage() {
 		return stage;
@@ -20,14 +37,6 @@ public abstract class Property {
 
 	public void setSequence(int sequence) {
 		this.sequence = sequence;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
 	}
 
 }

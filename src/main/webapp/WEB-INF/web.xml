@@ -37,11 +37,6 @@
   </servlet-mapping>
   
   <error-page>
-    <error-code>400</error-code>
-    <location>/jsp/resource-not-found.jsp</location>
-  </error-page>
-    <error-page>
-    <error-code>404</error-code>
-    <location>/jsp/resource-not-found.jsp</location>
+    <location>/error</location>
   </error-page>
 </web-app>
