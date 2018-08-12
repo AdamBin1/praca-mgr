@@ -1,15 +1,13 @@
 package com.springmvc.dao;
 
-public class TextBox extends Property{
+public class TextBoxProp extends Property{
 
 	private int length;
 	String value;
 
-	public TextBox(String name, short stage, int sequence, int length, String value) {
+	public TextBoxProp(int id, String name, short stage, int sequence, boolean saveRequired, int length, String value) {
+		super(id, name, stage, sequence, saveRequired);
 		this.type = PropertyType.TEXT;
-		this.name = name;
-		this.stage = stage;
-		this.sequence = sequence;
 		this.length = length;
 		this.value = value;
 	}

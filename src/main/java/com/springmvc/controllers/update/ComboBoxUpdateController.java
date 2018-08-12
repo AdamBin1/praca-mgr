@@ -1,20 +1,31 @@
-package com.springmvc.controllers;
+package com.springmvc.controllers.update;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/combobox")
-public class ComboBoxController {
+@RequestMapping("/konfiguracja/pola_wyboru")
+public class ComboBoxUpdateController {
 
-	@RequestMapping("/add")
+	
+	// DOKOŃCZYĆ/ZMIENIĆ
+	
+	
+	@RequestMapping("/dodaj")
 	public ModelAndView addCombo() {
 		return new ModelAndView("addcombo");
 	}
 	
-	@RequestMapping("/create")
+	@RequestMapping("/edytuj/{nazwa}")
+	public ModelAndView editCombo(@PathVariable("nazwa") String name) {
+		
+		return new ModelAndView("addcombo");
+	}
+	
+	@RequestMapping("/save")
 	public ModelAndView createCombo(@RequestBody String s) {
 		System.out.println(s);
 		

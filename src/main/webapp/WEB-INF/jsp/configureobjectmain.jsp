@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet"
 	href="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/claro.css">
-<title>Reprezentacja obiektu</title>
+<title>Konfiguracja obiektu</title>
 
 <script>
 	//	require(["dojo/parser", "dijit/form/DateTextBox", "dijit/form/ComboBox"]);
@@ -68,7 +69,58 @@
 			//       greeting.innerHTML += ' from Dojo!';
 		});
 	</script>
+	
+	GŁÓWNA KONFIGURACJA
+	<br/><br/><br/>
 
+	<table id="propTable">
+		<c:forEach items="${properties}" var="properties">
+			<tr>
+				<td>
+					<label>${properties.id}</label>
+				</td>
+				<td>
+					<label>Nazwa</label>
+				</td>
+				<td>
+					<input id="Name${properties.id}" maxlength="255" value="${properties.name}"></input>
+				</td>
+				<td>
+					<label>Typ</label>
+				<td>
+				<td>
+					<select id="Type${properties.id}" data-dojo-type="dijit/form/ComboBox">
+						<c:choose>
+							<c:when test="${properties.type eq 'TEXT'}">
+								<option selected>Pole Tekstowe</option>
+							</c:when>
+							<c:otherwise>
+								<option>Pole Tekstowe</option>
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
+							<c:when test="${properties.type eq 'COMBO'}">
+								<option selected>Combo Box</option>
+							</c:when>
+							<c:otherwise>
+								<option>Combo Box</option>
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
+							<c:when test="${properties.type eq 'DATE'}">
+								<option selected>Data</option>
+							</c:when>
+							<c:otherwise>
+								<option>Data</option>
+							</c:otherwise>
+						</c:choose>
+					</select>
+				</td>
+			</tr>		
+		</c:forEach>
+	</table>
+
+PONIZEJ DO USUNIECIA
 
 	<c:if test="${not empty properties}">
 		<c:forEach items="${properties}" var="properties">
@@ -90,7 +142,7 @@
 							<label for="${properties.id}">${properties.name}</label>
 						</td>
 						<td>
-							<input id="${properties.id}" type="text" value="${properties.getValue()}"
+							<input id="${properties.id}" value="${properties.getValue()}"
 							data-dojo-type="dijit/form/DateTextBox" required="true" />
 						</td>
 					</tr>
@@ -102,7 +154,7 @@
 							<label for="${properties.id}">${properties.name}</label>
 						</td>
 						<td>
-							<select id="${properties.id}" type="text" data-dojo-type="dijit/form/ComboBox" name="${properties.name}">
+							<select id="${properties.id}" type="text" data-dojo-type="dijit/form/ComboBox"">
 								<c:forEach items="${properties.options}" var="option">
 									<c:choose>
 										<c:when test="${option.id == properties.choosenOption}">
@@ -124,6 +176,6 @@
 	<h1 id="greeting">Hello</h1>
 	<button onclick="zapisz()">Zapisz</button>
 
-	<input type="button" id="submit" value="Ajax Submit" />
+	<input type="button" onclick="zmien()" id="submit" value="Ajax Submit" />
 
 </body>

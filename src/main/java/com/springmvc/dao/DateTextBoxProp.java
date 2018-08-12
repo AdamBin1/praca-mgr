@@ -1,14 +1,12 @@
 package com.springmvc.dao;
 
-public class DateTextBox extends Property{
+public class DateTextBoxProp extends Property{
 	
 	private String value;
 
-	public DateTextBox(String name, short stage, int sequence, String value) {
+	public DateTextBoxProp(int id, String name, short stage, int sequence, boolean saveRequired, String value) {
+		super(id, name, stage, sequence, saveRequired);
 		this.type = PropertyType.DATE;
-		this.name = name;
-		this.stage = stage;
-		this.sequence = sequence;
 		this.value = value;
 	}
 
