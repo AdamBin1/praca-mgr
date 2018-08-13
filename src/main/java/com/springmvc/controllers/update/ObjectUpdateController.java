@@ -22,7 +22,7 @@ import com.springmvc.model.PageModel;
 @Controller
 public class ObjectUpdateController {
 
-	@RequestMapping(value = "/obiekt/update/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/konfiguracja/update", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> save(@RequestBody String jsonString) {
 
 		PageModel pm = new PageModel();

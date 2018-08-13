@@ -32,7 +32,7 @@
 		});
 
 		$.ajax({
-			url : "update/3",
+			url : "konfiguracja/update",
 			type : "POST",
 			dataType : 'json',
 			contentType : "application/json; charset=utf-8",
@@ -154,7 +154,7 @@ PONIZEJ DO USUNIECIA
 							<label for="${properties.id}">${properties.name}</label>
 						</td>
 						<td>
-							<select id="${properties.id}" type="text" data-dojo-type="dijit/form/ComboBox"">
+							<select id="${properties.id}" type="text" data-dojo-type="dijit/form/ComboBox">
 								<c:forEach items="${properties.options}" var="option">
 									<c:choose>
 										<c:when test="${option.id == properties.choosenOption}">
@@ -174,8 +174,19 @@ PONIZEJ DO USUNIECIA
 	</c:if>
 
 	<h1 id="greeting">Hello</h1>
-	<button onclick="zapisz()">Zapisz</button>
+	<table>
+		<tr>
+			<td>
+				<button onclick="location.href='konfiguracja/pola_wyboru'">Pola wyboru</button>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<button onclick="zapisz()">Zapisz</button>
+			</td>
+		</tr>
+	</table>
 
-	<input type="button" onclick="zmien()" id="submit" value="Ajax Submit" />
+	<!-- >input type="button" onclick="zmien()" id="submit" value="Ajax Submit" / -->
 
 </body>

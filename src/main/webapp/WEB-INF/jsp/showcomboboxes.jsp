@@ -24,16 +24,23 @@
 							<label for="${combobox.id}">Nazwa: </label>
 						</td>
 						<td>
-							<input id="${combobox.id}" maxlength="255" value="${combobox.name}"></input>
+							<input id="${combobox.id}" value="${combobox.name}" disabled="disabled"></input>
 						</td>
 						<td>
 							<button onclick="location.href='pola_wyboru/edytuj/${combobox.name}'">Edytuj</button>
 						</td>
 					</tr>
 				</c:forEach>
+			</table>
+			<table>
 				<tr>
 					<td>
-						<button onclick="location.href='pola_wyboru/dodaj'">Dodaj</button>
+						<button onclick="location.href='pola_wyboru/dodaj'">Dodaj nowe pole wyboru</button>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button onclick="location.href='/SpringMVC/konfiguracja'">Wróć</button>
 					</td>
 				</tr>
 			</table>

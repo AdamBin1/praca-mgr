@@ -18,11 +18,12 @@ public class PropertyService {
 	 */
 	public List<Property> updateFromJson(List<Property> properties, String jsonString) {
 
-		Map<Integer, String> inputMap = JsonService.convertJsonToMap(jsonString);
+		Map<String, String> inputMap = JsonService.convertJsonToMap(jsonString);
 
 		for (Property p : properties) {
-			if (inputMap.containsKey(p.getId())) {
-				String newValue = inputMap.get(p.getId());
+			String key = Integer.toString(p.getId());
+			if (inputMap.containsKey(key)) {
+				String newValue = inputMap.get(key);
 				switch (p.getType()) {
 				case TEXT:
 					TextBoxProp tb = (TextBoxProp) p;

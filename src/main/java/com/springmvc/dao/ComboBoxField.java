@@ -6,23 +6,25 @@ import java.util.List;
 public class ComboBoxField{
 
 	
-	int id;
+	Integer id;
 	String name;
-	boolean saveRequired;
 	List<ComboOption> options = new ArrayList<>();
 	
-	public ComboBoxField(int id, String name, boolean saveRequired, List<ComboOption> options) {
+	
+	public ComboBoxField() {
+	}
+
+	public ComboBoxField(Integer id, String name, List<ComboOption> options) {
 		this.id = id;
 		this.name = name;
-		this.saveRequired = saveRequired;
 		this.options = options;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -32,14 +34,6 @@ public class ComboBoxField{
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public boolean isSaveRequired() {
-		return saveRequired;
-	}
-
-	public void setSaveRequired(boolean saveRequired) {
-		this.saveRequired = saveRequired;
 	}
 
 	public List<ComboOption> getOptions() {

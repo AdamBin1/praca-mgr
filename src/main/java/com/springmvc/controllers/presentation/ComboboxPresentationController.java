@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.springmvc.model.ComboboxesModel;
+import com.springmvc.model.AllComboBoxesModel;
 
 @Controller
 public class ComboboxPresentationController {
@@ -14,7 +14,7 @@ public class ComboboxPresentationController {
 		
 	//	try
 		
-		ComboboxesModel cm = new ComboboxesModel();
+		AllComboBoxesModel cm = new AllComboBoxesModel();
 		return new ModelAndView("showcomboboxes", cm.getModel());
 
 	}
