@@ -1,15 +1,17 @@
-package com.springmvc.dao;
+package com.springmvc.data.model;
 
 public class TextBoxProp extends Property{
 
 	private int length;
-	String value;
+	
+	public TextBoxProp() {
+		super();
+	}
 
-	public TextBoxProp(int id, String name, short stage, int sequence, boolean saveRequired, int length, String value) {
+	public TextBoxProp(int id, String name, short stage, int sequence, boolean saveRequired, int length) {
 		super(id, name, stage, sequence, saveRequired);
 		this.type = PropertyType.TEXT;
 		this.length = length;
-		this.value = value;
 	}
 	
 	public int getLength() {
@@ -18,14 +20,6 @@ public class TextBoxProp extends Property{
 
 	public void setLength(int length) {
 		this.length = length;
-	}
-	
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
 	}
 	
 }

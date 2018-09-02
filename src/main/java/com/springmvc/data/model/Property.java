@@ -1,4 +1,4 @@
-package com.springmvc.dao;
+package com.springmvc.data.model;
 
 public class Property {
 
@@ -6,14 +6,18 @@ public class Property {
 	PropertyType type;
 	String name;
 	short stage;
-	int sequence;
+	int sec;
 	boolean saveRequired;
 	
-	public Property(int id, String name, short stage, int sequence, boolean saveRequired) {
+	public Property() {
+		
+	}
+	
+	public Property(int id, String name, short stage, int sec, boolean saveRequired) {
 		this.id = id;
 		this.name = name;
 		this.stage = stage;
-		this.sequence = sequence;
+		this.sec = sec;
 		this.saveRequired = saveRequired;
 	}
 
@@ -49,12 +53,12 @@ public class Property {
 		this.stage = stage;
 	}
 
-	public int getSequence() {
-		return sequence;
+	public int getSec() {
+		return sec;
 	}
 
-	public void setSequence(int sequence) {
-		this.sequence = sequence;
+	public void setSec(int sec) {
+		this.sec = sec;
 	}
 
 	public boolean isSaveRequired() {

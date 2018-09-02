@@ -22,13 +22,34 @@
 		var data = [];
 
 		$("#propTable tr").each(function(rowIndex) {
-		    $(this).find("input, select").each(function() {
-		    	var res_data = {
-		    			id: 	$(this).attr("id"),
-		    			val: 	$(this).val()
-		    	};
-		    	data.push(res_data);
+			var res_data = {
+	    			id: 	"-1",
+	    			name: 	"",
+	    			sec:	0,
+	    			type:	"",
+	    			val1:	"",
+	    			
+	    	};
+						
+			$(this).find("td").each(function() {
+			    $(this).find("#id").each(function() {
+			    	res_data.id = $(this).val();
+			    });
+			    $(this).find("#sec").each(function() {
+			    	res_data.sec = $(this).val();
+			    });
+			    $(this).find("#name").each(function() {
+			    	res_data.name = $(this).val();
+			    });
+			    $(this).find("#type").each(function() {
+			    	res_data.type = $(this).val();
+			    });
+			    $(this).find("#val1").each(function() {
+			    	res_data.val1 = $(this).val();
+			    });
 		    });
+			
+			data.push(res_data);
 		});
 
 		$.ajax({
@@ -74,119 +95,108 @@
 	<br/><br/><br/>
 
 	<table id="propTable">
-		<c:forEach items="${properties}" var="properties">
+		<c:forEach items="${properties}" var="property">
 			<tr>
 				<td>
-					<label>${properties.id}</label>
+					<input id="id" hidden="true" value="${property.id}"/>
+				</td>
+				<td>
+					<label for="sec">Numer w sekwencji: </label>
+				</td>
+				<td>
+					<input id="sec" type="number" min="1" max="999" value="${property.sec}"/>
 				</td>
 				<td>
 					<label>Nazwa</label>
 				</td>
 				<td>
-					<input id="Name${properties.id}" maxlength="255" value="${properties.name}"></input>
+					<input id="name" maxlength="255" value="${property.name}"></input>
 				</td>
 				<td>
 					<label>Typ</label>
 				<td>
 				<td>
-					<select id="Type${properties.id}" data-dojo-type="dijit/form/ComboBox">
+					<select id="type" data-dojo-type="dijit/form/ComboBox">
 						<c:choose>
-							<c:when test="${properties.type eq 'TEXT'}">
-								<option selected>Pole Tekstowe</option>
+							<c:when test="${property.type eq 'TEXT'}">
+								<option value="TEXT" selected>Pole Tekstowe</option>
 							</c:when>
 							<c:otherwise>
-								<option>Pole Tekstowe</option>
+								<option value="TEXT">Pole Tekstowe</option>
 							</c:otherwise>
 						</c:choose>
 						<c:choose>
-							<c:when test="${properties.type eq 'COMBO'}">
-								<option selected>Combo Box</option>
+							<c:when test="${property.type eq 'COMBO'}">
+								<option value="COMBO" selected>Combo Box</option>
 							</c:when>
 							<c:otherwise>
-								<option>Combo Box</option>
+								<option value="COMBO">Combo Box</option>
 							</c:otherwise>
 						</c:choose>
 						<c:choose>
-							<c:when test="${properties.type eq 'DATE'}">
-								<option selected>Data</option>
+							<c:when test="${property.type eq 'DATE'}">
+								<option value="DATE" selected>Data</option>
 							</c:when>
 							<c:otherwise>
-								<option>Data</option>
+								<option value="DATE">Data</option>
 							</c:otherwise>
 						</c:choose>
 					</select>
 				</td>
+				<td>
+					
+					<c:choose>
+						<c:when test="${property.type eq 'TEXT'}">
+						<td>
+							<label for="val1">Długość</label>
+						</td>
+						<td>
+							<input id="val1" type="number" min="1" max="999" value="${property.length}"/>
+						</td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${property.type eq 'COMBO'}">
+							<td>
+								<label for="val1">Wartości</label>
+							<td>
+							<select id="val1" data-dojo-type="dijit/form/ComboBox">
+								<c:forEach items="${comboboxes}" var="combobox">
+								
+									<c:choose>
+										<c:when test="${property.comboBoxField.id eq combobox.id}">
+											<option value="${combobox.id}" selected>${combobox.name}</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${combobox.id}">${combobox.name}</option>
+										</c:otherwise>
+									</c:choose>
+								
+								</c:forEach>
+							</select>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${property.type eq 'DATE'}">
+							<!-- nastepne wartosci do daty -->
+						</c:when>
+					</c:choose>
+				</td>
 			</tr>		
 		</c:forEach>
 	</table>
-
-PONIZEJ DO USUNIECIA
-
-	<c:if test="${not empty properties}">
-		<c:forEach items="${properties}" var="properties">
-			<table id="propTable">
-				<c:if test="${properties.type eq 'TEXT'}">
-					<tr>
-						<td>
-							<label for="${properties.id}">${properties.name}</label>
-						</td>
-						<td>
-							<input id="${properties.id}" maxlength="${properties.length}" value="${properties.value}"></input>
-						<td>
-					</tr>
-				</c:if>
-
-				<c:if test="${properties.type eq 'DATE'}">
-					<tr>
-						<td>
-							<label for="${properties.id}">${properties.name}</label>
-						</td>
-						<td>
-							<input id="${properties.id}" value="${properties.getValue()}"
-							data-dojo-type="dijit/form/DateTextBox" required="true" />
-						</td>
-					</tr>
-				</c:if>
-
-				<c:if test="${properties.type eq 'COMBO'}">
-					<tr>
-						<td>
-							<label for="${properties.id}">${properties.name}</label>
-						</td>
-						<td>
-							<select id="${properties.id}" type="text" data-dojo-type="dijit/form/ComboBox">
-								<c:forEach items="${properties.options}" var="option">
-									<c:choose>
-										<c:when test="${option.id == properties.choosenOption}">
-											<option selected>${option.value}</option>
-										</c:when>
-										<c:otherwise>
-											<option>${option.value}</option>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</select>
-						</td>
-					</tr>
-				</c:if>
-			</table>
-		</c:forEach>
-	</c:if>
-
-	<h1 id="greeting">Hello</h1>
+	
+	<br/><br/><br/>
+	
 	<table>
-		<tr>
-			<td>
-				<button onclick="location.href='konfiguracja/pola_wyboru'">Pola wyboru</button>
-			</td>
-		</tr>
 		<tr>
 			<td>
 				<button onclick="zapisz()">Zapisz</button>
 			</td>
+			<td>
+				<button onclick="location.href='konfiguracja/pola_wyboru'">Pola wyboru</button>
+			</td>
 		</tr>
 	</table>
-
-	<!-- >input type="button" onclick="zmien()" id="submit" value="Ajax Submit" / -->
 
 </body>

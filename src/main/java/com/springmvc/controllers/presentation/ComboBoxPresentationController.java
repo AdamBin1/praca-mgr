@@ -1,4 +1,4 @@
-package com.springmvc.controllers;
+package com.springmvc.controllers.presentation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,26 +9,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.dao.service.ComboBoxConfigurationService;
-import com.springmvc.dao.service.PropertyService;
 
 @Controller
-public class ObjectConfigurationController {
-
-	@Autowired
-	PropertyService propertyService;
+public class ComboBoxPresentationController {
 	
 	@Autowired
 	ComboBoxConfigurationService comboBoxConfigurationService;
 	
-	@RequestMapping("/konfiguracja")
-	public ModelAndView showMainConfiguration() {
+	@RequestMapping("konfiguracja/pola_wyboru")
+	public ModelAndView showComboboxes() {
 		
-		Map<String, Object> model = new HashMap<>();
-		
-		model.put("properties", propertyService.getAllProperties());
+		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("comboboxes", comboBoxConfigurationService.getAllComboBoxFields());
 		
-		return new ModelAndView("configureobjectmain", model);
+		return new ModelAndView("showcomboboxes", model);
 
 	}
 }

@@ -1,4 +1,4 @@
-package com.springmvc.dao;
+package com.springmvc.data.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,10 @@ public class ComboBoxField{
 	
 	
 	public ComboBoxField() {
+	}
+	
+	public ComboBoxField(Integer id) {
+		this.id = id;
 	}
 
 	public ComboBoxField(Integer id, String name, List<ComboOption> options) {

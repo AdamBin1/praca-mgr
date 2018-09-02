@@ -1,4 +1,4 @@
-package com.springmvc.dao;
+package com.springmvc.data.model;
 
 public enum PropertyType {
 	TEXT(1), DATE(2), COMBO(3);

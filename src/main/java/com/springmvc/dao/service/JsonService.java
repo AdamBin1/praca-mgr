@@ -5,13 +5,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.stereotype.Component;
 
-import com.springmvc.dao.ComboBoxField;
-import com.springmvc.dao.ComboOption;
+import com.springmvc.data.model.ComboBoxField;
+import com.springmvc.data.model.ComboBoxProp;
+import com.springmvc.data.model.ComboOption;
+import com.springmvc.data.model.DateTextBoxProp;
+import com.springmvc.data.model.Property;
+import com.springmvc.data.model.TextBoxProp;
 
+@Component
 public class JsonService {
 
 	private static final ObjectMapper objectMapper;
@@ -20,11 +25,58 @@ public class JsonService {
 		objectMapper = new ObjectMapper();
 	}
 
-	public static Map<String, String> convertJsonToMap(String inputJson) {
+	/**
+	 *  Mapuje wejściowy JSON na listę Properties gotową do zapisu.
+	 *  
+	 *  Struktura JSONa:
+	 *  	 obiekt {"id" - #id_prop (-1 dla nowych), name - #nazwa_prop, sec - #numer_w_sekwencji,
+	 *  		type - #typ_prop, val1 - (#dlugosc dla pol tekstowych, #id_combo_field dla combo)}
+	 * @param inputJson
+	 * @return
+	 */
+	public static List<Property> convertJsonToProperties(String inputJson) {
 
 		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
 
-		return dataAsMap.stream().collect(Collectors.toMap(t1 -> t1.get("id"), t2->t2.get("val")));
+		List<Property> propList = new ArrayList<>();
+		
+		for(HashMap<String, String> map:dataAsMap) {
+			Property prop = null;
+			switch (map.get("type")) {
+			case "TEXT":
+				prop = new TextBoxProp();
+				if(!map.get("val1").isEmpty()){
+					((TextBoxProp)prop).setLength((Integer.parseInt(map.get("val1"))));
+				}
+				break;
+			case "COMBO":
+				prop = new ComboBoxProp();
+				if(!map.get("val1").isEmpty()){
+					((ComboBoxProp)prop).setComboBoxField(new ComboBoxField(Integer.parseInt(map.get("val1"))));
+				}
+				break;
+			case "DATE":
+				prop = new DateTextBoxProp();
+				//TODO: mapowanie wartości
+				break;
+			}
+			
+			if(!map.get("id").equals("-1")){
+				prop.setId(Integer.parseInt(map.get("id")));
+			}
+			if(!map.get("name").isEmpty()) {
+				prop.setName(map.get("name"));
+			}
+			if(!map.get("sec").equals("0")) {
+				prop.setSec(Integer.parseInt(map.get("sec")));
+			}
+			
+			propList.add(prop);
+			
+		}
+		
+		
+		return propList;
 	}
 	
 	/**
@@ -58,6 +110,7 @@ public class JsonService {
 			if(!map.get("sec").equals("")) {
 				co.setSec(Integer.parseInt(map.get("sec")));
 			}
+			co.setComboBoxFieldId(cbf.getId());
 			options.add(co);
 		}
 

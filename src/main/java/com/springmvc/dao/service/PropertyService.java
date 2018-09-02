@@ -1,14 +1,25 @@
 package com.springmvc.dao.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import com.springmvc.dao.ComboBoxProp;
-import com.springmvc.dao.DateTextBoxProp;
-import com.springmvc.dao.Property;
-import com.springmvc.dao.TextBoxProp;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.springmvc.data.model.Property;
+import com.springmvc.data.model.TextBoxProp;
+
+@Service
 public class PropertyService {
+	
+	@Autowired
+	private ComboBoxPropService comboBoxPropService; 
+	
+	@Autowired
+	private TextBoxPropService textBoxPropService; 
+	
+	@Autowired
+	private DateTextBoxPropService dateTextBoxPropService; 
 	
 	/**
 	 * 	Zmienia dane obiektom w kolekcji według wartości z
@@ -16,9 +27,9 @@ public class PropertyService {
 	 * @param jsonString ze zbiorem par w postaci {id: X, value: Y}
 	 * @return
 	 */
-	public List<Property> updateFromJson(List<Property> properties, String jsonString) {
+/*	public List<Property> updateFromJson(List<Property> properties, String jsonString) {
 
-		Map<String, String> inputMap = JsonService.convertJsonToMap(jsonString);
+		Map<String, String> inputMap = JsonService.convertJsonToProperties(jsonString);
 
 		for (Property p : properties) {
 			String key = Integer.toString(p.getId());
@@ -55,5 +66,28 @@ public class PropertyService {
 
 		return properties;
 	}
+*/
+	public List<Property> getAllProperties(){
+		List<Property> propertyList = new ArrayList<>();
+		propertyList.addAll(comboBoxPropService.getAllComboBoxProperties());
+		propertyList.addAll(textBoxPropService.getAllTextBoxProperties());
+		propertyList.addAll(dateTextBoxPropService.getAllDateTextBoxProperties());
+		//TODO: nastepne property
+		
+		propertyList.sort((p1,p2) -> p1.getSec() - p2.getSec());
+		return propertyList;
+	}
+	
+	public void saveProperties(List<Property> properties) {
+		for(Property prop : properties) {
+			switch (prop.getType()) {
+			case TEXT:
+				textBoxPropService.saveTextBoxPropery((TextBoxProp)prop);
+				break;
 
+			default:
+				break;
+			}
+		}
+	}
 }
