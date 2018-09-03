@@ -4,33 +4,37 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html >
+<title>Etapy</title>
 <head>
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 
 </head>
-
-<title>Pola wyboru</title>
-
 <body>
-	Dost&#281;pne pola wyboru:
+	Aktualne etapy:
 	<c:choose>
-		<c:when test="${empty comboboxes}">
-			<br/><br/>Brak dostępnych - <button onclick="location.href='pola_wyboru/dodaj'">Dodaj</button>
+		<c:when test="${empty stages}">
+			<br/><br/>Brak dostępnych - <button onclick="location.href='etapy/dodaj'">Dodaj</button>
 		</c:when>
 		<c:otherwise>
-			<table id="comboTable">
-				<c:forEach items="${comboboxes}" var="combobox">
+			<table id="stagesTable">
+				<c:forEach items="${stages}" var="stage">
 					<tr>
 						<td>
-							<label for="${combobox.id}">Nazwa: </label>
+							<label for="name">Nazwa: </label>
 						</td>
 						<td>
-							<input id="${combobox.id}" value="${combobox.name}" disabled="disabled"></input>
+							<input id="name" value="${stage.name}" disabled="disabled"></input>
 						</td>
 						<td>
-							<button onclick="location.href='pola_wyboru/edytuj/${combobox.name}'">Edytuj</button>
+							<label for="sec">Numer w sekwencji: </label>
+						</td>
+						<td>
+							<input id="sec" value="${stage.sec}" disabled="disabled"></input>
+						</td>
+						<td>
+							<button onclick="location.href='etapy/edytuj/${stage.name}'">Edytuj</button>
 						</td>
 					</tr>
 				</c:forEach>
@@ -38,7 +42,7 @@
 			<table>
 				<tr>
 					<td>
-						<button onclick="location.href='pola_wyboru/dodaj'">Dodaj nowe pole wyboru</button>
+						<button onclick="location.href='etapy/dodaj'">Dodaj nowy etap</button>
 					</td>
 				</tr>
 				<tr>

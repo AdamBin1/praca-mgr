@@ -20,4 +20,10 @@ public class DateTextBoxPropService {
 		
 		return dateTextBoxPropDAO.getAllDateTextBoxes();
 	}
+
+	public void saveDateTextBoxProperty(DateTextBoxProp dtbp) {
+		DateTextBoxPropDAO dateTextBoxPropDAO = new DateTextBoxPropDaoImpl();
+		
+		dateTextBoxPropDAO.insertOrUpdateDateTextBoxProp(dtbp);
+	}
 }

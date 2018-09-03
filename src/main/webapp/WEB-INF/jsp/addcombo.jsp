@@ -4,6 +4,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+<title>Konfiguracja pola wyboru</title>
 <head>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -69,9 +70,8 @@
 	function addOption(){
 		var table = document.getElementById("comboboxOptions");
 		var row = table.insertRow(-1);
-		var newId = row.rowIndex;
-		var cell1 = row.insertCell(0);
-		cell1.innerHTML = "<label>Opcja: </label>" +
+		var cell = row.insertCell(0);
+		cell.innerHTML = "<label>Opcja: </label>" +
 		"<input id=\"value\" maxlength=\"255\"/>" +
 		"<label for=\"sec\"> Numer w sekwencji: </label>" +
 		"<input id=\"sec\" type=\"number\" min=\"1\" max=\"999\"/>";

@@ -22,6 +22,17 @@ public class ComboBoxPropDaoImpl implements ComboBoxPropDAO{
 		return list;
 	}
 	
+	@Override
+	public void insertOrUpdateComboBoxProp(ComboBoxProp cbp) {
+		if(cbp.getId() == -1) {
+			list.add(cbp);
+		} else {
+			list.removeIf(o->cbp.getId() == o.getId());
+			list.add(cbp);
+		}
+		
+	}
+	
 	@PostConstruct
 	public void init() {
 			list = new ArrayList<ComboBoxProp>();

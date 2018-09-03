@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet"
 	href="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/claro.css">
-<title>Konfiguracja obiektu</title>
+<title>Konfiguracja etapu</title>
 
 <script>
 	//	require(["dojo/parser", "dijit/form/DateTextBox", "dijit/form/ComboBox"]);
@@ -29,6 +29,27 @@
 	function zapisz() {
 		
 		var data = [];
+		
+		var stage_id = "${stage.id}";
+		
+		if(stage_id != ""){
+	    	var id_data = {
+    			stage_id: stage_id
+	    	};	
+	    	data.push(id_data);
+		}
+		
+		var name = {
+				name: $("#name").val()
+		};
+		
+		data.push(name);
+
+		var sec = {
+				sec: $("#sec").val()
+		};
+		
+		data.push(sec);
 
 		$("#propTable tr").each(function(rowIndex) {
 			var res_data = {
@@ -62,7 +83,7 @@
 		});
 
 		$.ajax({
-			url : "konfiguracja/update",
+			url : "zatwierdz",
 			type : "POST",
 			dataType : 'json',
 			contentType : "application/json; charset=utf-8",
@@ -166,15 +187,20 @@
 		});
 	</script>
 	
-	Konfiguracja obiektu
+	Konfiguracja etapu
 	<button onclick="addProperty()">Dodaj właściwość</button>
-	<br/><br/><br/>
+	<br/><br/>
+		<label for="name">Nazwa: </label>
+		<input id="name" maxlength="255" value="${stage.name}"></input>
+		<label for="sec">Numer w sekwencji: </label>
+		<input id="sec" type="number" min="1" max="999" value="${stage.sec}"/>
+	<br/><br/>
 
 	<table id="propTable">
-		<c:if test="${empty properties}">
+		<c:if test="${empty stage.properties}">
 			<script>addProperty();</script>
 		</c:if>
-		<c:forEach items="${properties}" var="property">
+		<c:forEach items="${stage.properties}" var="property">
 			<tr>
 				<td hidden="true">
 					<input id="id" hidden="true" value="${property.id}"/>
@@ -275,16 +301,7 @@
 		<tr>
 			<td>
 				<button onclick="zapisz()">Zapisz</button>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<button onclick="location.href='pola_wyboru'">Pola wyboru</button>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<button onclick="location.href='etapy'">Konfiguracja etapów</button>
+				<button onclick="location.href='/SpringMVC/konfiguracja/etapy'">Wróć</button>
 			</td>
 		</tr>
 	</table>

@@ -7,6 +7,7 @@ public class ComboBoxProp extends Property{
 	
 	public ComboBoxProp() {
 		super();
+		this.type = PropertyType.COMBO;
 	}
 	
 	public ComboBoxProp(int id, String name, short stage, int sequence, boolean saveRequired, ComboBoxField comboBoxField, int choosenOption) {

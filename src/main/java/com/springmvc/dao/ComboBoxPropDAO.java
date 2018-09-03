@@ -6,4 +6,6 @@ import com.springmvc.data.model.ComboBoxProp;
 
 public interface ComboBoxPropDAO {
 	public List<ComboBoxProp> getAllComboBoxes();
+
+	public void insertOrUpdateComboBoxProp(ComboBoxProp cbp);
 }

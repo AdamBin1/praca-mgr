@@ -21,6 +21,16 @@ public class DateTextBoxPropDaoImpl implements DateTextBoxPropDAO{
 		return list;
 	}
 	
+	@Override
+	public void insertOrUpdateDateTextBoxProp(DateTextBoxProp dtbp) {
+		if(dtbp.getId() == -1) {
+			list.add(dtbp);
+		} else {
+			list.removeIf(o->dtbp.getId() == o.getId());
+			list.add(dtbp);
+		}
+	}
+	
 	@PostConstruct
 	public void init() {
 			list = new ArrayList<DateTextBoxProp>();
@@ -30,6 +40,8 @@ public class DateTextBoxPropDaoImpl implements DateTextBoxPropDAO{
 	//		list.add(new DateTextBoxProp(9, "Date Text prop 9", (short)0, 70, false));
 
 	}
+
+
 
 
 

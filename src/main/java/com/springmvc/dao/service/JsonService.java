@@ -14,6 +14,7 @@ import com.springmvc.data.model.ComboBoxProp;
 import com.springmvc.data.model.ComboOption;
 import com.springmvc.data.model.DateTextBoxProp;
 import com.springmvc.data.model.Property;
+import com.springmvc.data.model.Stage;
 import com.springmvc.data.model.TextBoxProp;
 
 @Component
@@ -29,7 +30,7 @@ public class JsonService {
 	 *  Mapuje wejściowy JSON na listę Properties gotową do zapisu.
 	 *  
 	 *  Struktura JSONa:
-	 *  	 obiekt {"id" - #id_prop (-1 dla nowych), name - #nazwa_prop, sec - #numer_w_sekwencji,
+	 *  	 obiekty {"id" - #id_prop (-1 dla nowych), name - #nazwa_prop, sec - #numer_w_sekwencji,
 	 *  		type - #typ_prop, val1 - (#dlugosc dla pol tekstowych, #id_combo_field dla combo)}
 	 * @param inputJson
 	 * @return
@@ -38,45 +39,37 @@ public class JsonService {
 
 		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
 
-		List<Property> propList = new ArrayList<>();
-		
-		for(HashMap<String, String> map:dataAsMap) {
-			Property prop = null;
-			switch (map.get("type")) {
-			case "TEXT":
-				prop = new TextBoxProp();
-				if(!map.get("val1").isEmpty()){
-					((TextBoxProp)prop).setLength((Integer.parseInt(map.get("val1"))));
-				}
-				break;
-			case "COMBO":
-				prop = new ComboBoxProp();
-				if(!map.get("val1").isEmpty()){
-					((ComboBoxProp)prop).setComboBoxField(new ComboBoxField(Integer.parseInt(map.get("val1"))));
-				}
-				break;
-			case "DATE":
-				prop = new DateTextBoxProp();
-				//TODO: mapowanie wartości
-				break;
-			}
-			
-			if(!map.get("id").equals("-1")){
-				prop.setId(Integer.parseInt(map.get("id")));
-			}
-			if(!map.get("name").isEmpty()) {
-				prop.setName(map.get("name"));
-			}
-			if(!map.get("sec").equals("0")) {
-				prop.setSec(Integer.parseInt(map.get("sec")));
-			}
-			
-			propList.add(prop);
-			
+		return getPropertyListFromDataAsMap(dataAsMap);
+	}
+
+	/**
+	 *  Mapuje wejściowy JSON na obiekt Stage gotowy do zapisu.
+	 *  
+	 *  Struktura JSONa:
+	 *  	opcjonalna para {stage_id - #id} - występuje tylko dla edycji
+	 *  	para			{name - #nazwa}
+	 *  	para			{sec - #sec}
+	 *  	następnie obiekty {"id" - #id_prop (-1 dla nowych), name - #nazwa_prop, sec - #numer_w_sekwencji,
+	 *  		type - #typ_prop, val1 - (#dlugosc dla pol tekstowych, #id_combo_field dla combo)}
+	 * @param inputJson
+	 * @return
+	 */
+	public static Stage convertJsonToStage(String inputJson) {
+		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
+
+		Stage stage = new Stage();
+		if(dataAsMap.get(0).containsKey("stage_id")) {
+			stage.setId(Integer.parseInt(dataAsMap.get(0).get("stage_id")));
+			dataAsMap.remove(0);
 		}
+		stage.setName(dataAsMap.get(0).get("name"));
+		dataAsMap.remove(0);
 		
+		stage.setSec(Integer.parseInt(dataAsMap.get(0).get("sec")));
+		dataAsMap.remove(0);
 		
-		return propList;
+		stage.setProperties(getPropertyListFromDataAsMap(dataAsMap));
+		return stage;
 	}
 	
 	/**
@@ -128,6 +121,47 @@ public class JsonService {
 		}
 		return dataAsMap;
 	}
+	
+	private static List<Property> getPropertyListFromDataAsMap(List<HashMap<String, String>> dataAsMap) {
+		List<Property> propList = new ArrayList<>();
+		
+		for(HashMap<String, String> map:dataAsMap) {
+			Property prop = null;
+			switch (map.get("type")) {
+			case "TEXT":
+				prop = new TextBoxProp();
+				if(!map.get("val1").isEmpty()){
+					((TextBoxProp)prop).setLength((Integer.parseInt(map.get("val1"))));
+				}
+				break;
+			case "COMBO":
+				prop = new ComboBoxProp();
+				if(!map.get("val1").isEmpty()){
+					((ComboBoxProp)prop).setComboBoxField(new ComboBoxField(Integer.parseInt(map.get("val1"))));
+				}
+				break;
+			case "DATE":
+				prop = new DateTextBoxProp();
+				//TODO: mapowanie wartości
+				break;
+			}
+			
+			if(!map.get("id").equals("-1")){
+				prop.setId(Integer.parseInt(map.get("id")));
+			}
+			if(!map.get("name").isEmpty()) {
+				prop.setName(map.get("name"));
+			}
+			if(!map.get("sec").equals("0")) {
+				prop.setSec(Integer.parseInt(map.get("sec")));
+			}
+			
+			propList.add(prop);
+			
+		}
+		
+		return propList;
+	}
 
 	public static String createSuccessMessage() {
 	    String json = "{\"message\": \"" + "success" + "\"}";
@@ -144,6 +178,5 @@ public class JsonService {
 		
 		return sb.toString();
 	}
-
 
 }

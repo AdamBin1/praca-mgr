@@ -4,6 +4,8 @@
 	<meta charset="UTF-8">
 </head>
 
+<title>B&#x0142;&#x0105;d</title>
+
 <body>
 	<h2 align="center">Wyst&#x0105;pi&#x0142; b&#x0142;&#x0105;d!</h2>
 	

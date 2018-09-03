@@ -15,7 +15,7 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td><button onclick="location.href='konfiguracja'">Konfiguracja</button></td>
+				<td><button onclick="location.href='konfiguracja/obiekt'">Konfiguracja</button></td>
 				<td><button onclick="location.href='obiekt/1'">Modelowanie</button></td>
 			</tr>
 		</tbody>
