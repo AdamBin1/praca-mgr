@@ -31,11 +31,11 @@ public class ComboBoxUpdateController {
 		return new ModelAndView("addcombo");
 	}
 	
-	@RequestMapping("/edytuj/{nazwa}")
-	public ModelAndView editCombo(@PathVariable("nazwa") String name) {
+	@RequestMapping("/edytuj/{id}")
+	public ModelAndView editCombo(@PathVariable("id") int id) {
 		
 		HashMap<String, Object> model = new HashMap<String, Object>();
-		ComboBoxField cbf = comboBoxConfigurationService.getComboBoxFieldForName(name);
+		ComboBoxField cbf = comboBoxConfigurationService.getComboBoxFieldForId(id);
 		if(cbf == null) {
 			return new ModelAndView("resource-not-found");
 		} else {

@@ -20,6 +20,12 @@ public class ComboBoxPropService {
 		
 		return comboBoxPropDAO.getAllComboBoxes();
 	}
+	
+	public ComboBoxProp getComboBoxPropertyForId(int id) {
+		ComboBoxPropDAO comboBoxPropDAO = new ComboBoxPropDaoImpl();
+		
+		return comboBoxPropDAO.getComboBoxPropertyForId(id);
+	}
 
 	public void saveComboBoxProperty(ComboBoxProp cbp) {
 		ComboBoxPropDAO comboBoxPropDAO = new ComboBoxPropDaoImpl();

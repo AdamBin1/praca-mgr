@@ -13,8 +13,6 @@ public interface ComboBoxFieldDAO {
 	
 	public void insertOrUpdateComboBoxField(ComboBoxField cbf);
 
-	public ComboBoxField getComboBoxFieldForName(String name);
-	
 	public ComboBoxField getComboBoxFieldForId(int id);
 
 }

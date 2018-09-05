@@ -27,7 +27,7 @@ public class JsonService {
 	}
 
 	/**
-	 *  Mapuje wejściowy JSON na listę Properties gotową do zapisu.
+	 *  Mapuje wejściowy JSON na główny etap gotowy do zapisu.
 	 *  
 	 *  Struktura JSONa:
 	 *  	 obiekty {"id" - #id_prop (-1 dla nowych), name - #nazwa_prop, sec - #numer_w_sekwencji,
@@ -35,11 +35,13 @@ public class JsonService {
 	 * @param inputJson
 	 * @return
 	 */
-	public static List<Property> convertJsonToProperties(String inputJson) {
+	public static Stage convertJsonToMainStage(String inputJson) {
 
 		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
+		
+		Stage stage = new Stage(0, null, null, getPropertyListFromDataAsMap(dataAsMap));
 
-		return getPropertyListFromDataAsMap(dataAsMap);
+		return stage;
 	}
 
 	/**

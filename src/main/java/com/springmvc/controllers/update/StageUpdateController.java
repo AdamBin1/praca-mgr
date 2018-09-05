@@ -37,11 +37,11 @@ public class StageUpdateController {
 		return new ModelAndView("addstage", model);
 	}
 	
-	@RequestMapping("/edytuj/{nazwa}")
-	public ModelAndView edit(@PathVariable("nazwa") String name) {
+	@RequestMapping("/edytuj/{id}")
+	public ModelAndView edit(@PathVariable("id") int id) {
 		
 		HashMap<String, Object> model = new HashMap<String, Object>();
-		Stage stage = stageConfigurationService.getStageForName(name);
+		Stage stage = stageConfigurationService.getStageForId(id);
 		if(stage == null) {
 			return new ModelAndView("resource-not-found");
 		} else {

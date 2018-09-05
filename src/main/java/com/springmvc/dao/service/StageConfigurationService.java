@@ -18,9 +18,9 @@ public class StageConfigurationService {
 		stageDAO = new StageDaoImpl();
 	}
 	
-	public Stage getStageForName(String name) {
+	public Stage getStageForId(int id) {
 		stageDAO.init();
-		Stage stage = stageDAO.getStageForName(name);
+		Stage stage = stageDAO.getStageForId(id);
 		stage.getProperties().sort((op1, op2) -> op1.getSec() - op2.getSec());
 		return stage;
 	}
@@ -31,9 +31,17 @@ public class StageConfigurationService {
 		return cbf;
 	}
 */	
+	
+	// tu pamietać o nie braniu main stage
 	public List<Stage> getAllStages(){
 		stageDAO.init();
 		List<Stage> list = stageDAO.getAllStages();
+		//usuniecie main stage
+		for(int i=0;i<list.size();i++) {
+			if(list.get(i).getId()==0) {
+				list.remove(i);
+			}
+		}
 		// sortowanie po sec
 		list.sort((s1, s2) -> s1.getSec().compareTo(s2.getSec()));
 		return list;

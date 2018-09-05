@@ -8,4 +8,6 @@ public interface ComboBoxPropDAO {
 	public List<ComboBoxProp> getAllComboBoxes();
 
 	public void insertOrUpdateComboBoxProp(ComboBoxProp cbp);
+
+	public ComboBoxProp getComboBoxPropertyForId(int id);
 }

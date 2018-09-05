@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.dao.service.ComboBoxConfigurationService;
-import com.springmvc.dao.service.PropertyService;
+import com.springmvc.dao.service.StageConfigurationService;
 
 @Controller
 public class ObjectConfigurationController {
 
 	@Autowired
-	PropertyService propertyService;
+	StageConfigurationService stageConfigurationService;
 	
 	@Autowired
 	ComboBoxConfigurationService comboBoxConfigurationService;
@@ -25,7 +25,7 @@ public class ObjectConfigurationController {
 		
 		Map<String, Object> model = new HashMap<>();
 		
-		model.put("properties", propertyService.getAllProperties());
+		model.put("mainstage", stageConfigurationService.getStageForId(0));
 		model.put("comboboxes", comboBoxConfigurationService.getAllComboBoxFields());
 		
 		return new ModelAndView("configureobjectmain", model);

@@ -18,12 +18,6 @@ public class ComboBoxConfigurationService {
 		comboBoxFieldDAO = new ComboBoxFieldDaoImpl();
 	}
 	
-	public ComboBoxField getComboBoxFieldForName(String name) {
-		ComboBoxField cbf = comboBoxFieldDAO.getComboBoxFieldForName(name);
-		cbf.getOptions().sort((op1, op2) -> op1.getSec() - op2.getSec());
-		return cbf;
-	}
-	
 	public ComboBoxField getComboBoxFieldForId(int id) {
 		ComboBoxField cbf = comboBoxFieldDAO.getComboBoxFieldForId(id);
 		cbf.getOptions().sort((op1, op2) -> op1.getSec() - op2.getSec());

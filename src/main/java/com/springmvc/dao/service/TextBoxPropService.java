@@ -21,9 +21,17 @@ public class TextBoxPropService {
 		return textBoxPropDAO.getAllTextBoxes();
 	}
 	
+	public TextBoxProp getTextBoxPropertyForId(int id) {
+		TextBoxPropDAO textBoxPropDAO = new TextBoxPropDaoImpl();
+		
+		return textBoxPropDAO.getTextBoxPropertyForId(id);
+	}
+
+	
 	public void saveTextBoxPropery(TextBoxProp tbp) {
 		TextBoxPropDAO textBoxPropDAO = new TextBoxPropDaoImpl();
 		
 		textBoxPropDAO.insertOrUpdateTextBoxProp(tbp);
 	}
+
 }

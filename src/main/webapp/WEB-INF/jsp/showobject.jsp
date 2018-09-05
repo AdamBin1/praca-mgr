@@ -31,7 +31,7 @@
 		});
 
 		$.ajax({
-			url : "update/3",
+			url : "zatwierdz",
 			type : "POST",
 			dataType : 'json',
 			contentType : "application/json; charset=utf-8",

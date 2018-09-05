@@ -23,6 +23,16 @@ public class ComboBoxPropDaoImpl implements ComboBoxPropDAO{
 	}
 	
 	@Override
+	public ComboBoxProp getComboBoxPropertyForId(int id) {
+		for(ComboBoxProp cbp : list) {
+			if(cbp.getId() == id) {
+				return cbp;
+			}
+		}
+		return null;
+	}
+	
+	@Override
 	public void insertOrUpdateComboBoxProp(ComboBoxProp cbp) {
 		if(cbp.getId() == -1) {
 			list.add(cbp);
@@ -38,8 +48,8 @@ public class ComboBoxPropDaoImpl implements ComboBoxPropDAO{
 			list = new ArrayList<ComboBoxProp>();
 			ComboBoxConfigurationService cbcs = new ComboBoxConfigurationService();
 			
-			list.add(new ComboBoxProp(1, "Combo prop 1", (short)0, 1, false, cbcs.getComboBoxFieldForId(1), 0));
-//			list.add(new ComboBoxProp(2, "Combo prop 2", (short)0, 25, false, cbcs.getComboBoxFieldForId(2), 0));
+			list.add(new ComboBoxProp(1, "Combo prop 1", (short)0, 1, false, cbcs.getComboBoxFieldForId(1)));
+//			list.add(new ComboBoxProp(2, "Combo prop 2", (short)0, 25, false, cbcs.getComboBoxFieldForId(2)));
 
 	}
 

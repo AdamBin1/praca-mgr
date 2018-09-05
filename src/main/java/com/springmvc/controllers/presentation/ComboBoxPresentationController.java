@@ -11,12 +11,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.springmvc.dao.service.ComboBoxConfigurationService;
 
 @Controller
+@RequestMapping("konfiguracja")
 public class ComboBoxPresentationController {
 	
 	@Autowired
 	ComboBoxConfigurationService comboBoxConfigurationService;
 	
-	@RequestMapping("konfiguracja/pola_wyboru")
+	@RequestMapping("/pola_wyboru")
 	public ModelAndView showComboboxes() {
 		
 		Map<String, Object> model = new HashMap<String, Object>();

@@ -3,7 +3,7 @@ package com.springmvc.data.model;
 public class Property {
 
 	int id;
-	PropertyType type;
+	FieldType type;
 	String name;
 	short stage;
 	int sec;
@@ -29,11 +29,11 @@ public class Property {
 		this.id = id;
 	}
 
-	public PropertyType getType() {
+	public FieldType getType() {
 		return type;
 	}
 
-	public void setType(PropertyType type) {
+	public void setType(FieldType type) {
 		this.type = type;
 	}
 

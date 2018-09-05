@@ -4,11 +4,11 @@ public class DateTextBoxProp extends Property{
 		
 	public DateTextBoxProp() {
 		super();
-		this.type = PropertyType.DATE;
+		this.type = FieldType.DATE;
 	}
 
 	public DateTextBoxProp(int id, String name, short stage, int sequence, boolean saveRequired) {
 		super(id, name, stage, sequence, saveRequired);
-		this.type = PropertyType.DATE;
+		this.type = FieldType.DATE;
 	}
 }

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.springmvc.dao.StageDAO;
 import com.springmvc.dao.service.ComboBoxPropService;
+import com.springmvc.dao.service.DateTextBoxPropService;
+import com.springmvc.dao.service.TextBoxPropService;
 import com.springmvc.data.model.Property;
 import com.springmvc.data.model.Stage;
 
@@ -21,9 +23,9 @@ public class StageDaoImpl implements StageDAO{
 	}
 	
 	@Override
-	public Stage getStageForName(String name) {
+	public Stage getStageForId(int id) {
 		for(Stage s:list) {
-			if(s.getName().equals(name)) {
+			if(s.getId() == id) {
 				return s;
 			}
 		}
@@ -37,8 +39,14 @@ public class StageDaoImpl implements StageDAO{
 		list = new ArrayList<Stage>();
 		ArrayList<Property> list2 = new ArrayList<>();
 		ComboBoxPropService cbps = new ComboBoxPropService();
-		list2.addAll(cbps.getAllComboBoxProperties());
+		TextBoxPropService tbps = new TextBoxPropService();
+		DateTextBoxPropService dtbps = new DateTextBoxPropService();
 		
+		list2.addAll(cbps.getAllComboBoxProperties());
+		list2.addAll(tbps.getAllTextBoxProperties());
+		list2.addAll(dtbps.getAllDateTextBoxProperties());
+				
+		list.add(new Stage(0, null, null, list2));
 		list.add(new Stage(1, "Etap 1", 1, list2));
 		list.add(new Stage(2, "Etap 2", 20, list2));
 		list.add(new Stage(3, "Etap 3", 30, list2));
@@ -55,7 +63,5 @@ public class StageDaoImpl implements StageDAO{
 			list.add(stage);
 		}		
 	}
-
-
 
 }

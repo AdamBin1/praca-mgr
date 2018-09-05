@@ -1,11 +1,11 @@
 package com.springmvc.data.model;
 
-public enum PropertyType {
+public enum FieldType {
 	TEXT(1), DATE(2), COMBO(3);
 
 	private final int id;
 
-	PropertyType(int id) {
+	FieldType(int id) {
 		this.id = id;
 	}
 

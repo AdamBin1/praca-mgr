@@ -34,16 +34,6 @@ public class ComboBoxFieldDaoImpl implements ComboBoxFieldDAO{
 	}
 	
 	@Override
-	public ComboBoxField getComboBoxFieldForName(String name) {
-		for(ComboBoxField cbf:list) {
-			if(cbf.getName().equals(name)) {
-				return cbf;
-			}
-		}
-		return null;
-	}
-	
-	@Override
 	public ComboBoxField getComboBoxFieldForId(int id) {
 		for(ComboBoxField cbf:list) {
 			if(cbf.getId() == id) {

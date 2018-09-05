@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class ErrorController {
 
-	@RequestMapping(path = "/error")
+	@RequestMapping("/error")
 	public ModelAndView handle(HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", request.getAttribute("javax.servlet.error.status_code"));

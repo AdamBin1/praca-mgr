@@ -6,12 +6,12 @@ public class TextBoxProp extends Property{
 	
 	public TextBoxProp() {
 		super();
-		this.type = PropertyType.TEXT;
+		this.type = FieldType.TEXT;
 	}
 
 	public TextBoxProp(int id, String name, short stage, int sequence, boolean saveRequired, int length) {
 		super(id, name, stage, sequence, saveRequired);
-		this.type = PropertyType.TEXT;
+		this.type = FieldType.TEXT;
 		this.length = length;
 	}
 	

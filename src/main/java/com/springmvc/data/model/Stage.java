@@ -5,8 +5,9 @@ import java.util.List;
 
 public class Stage{
 	
-	Integer id;
-	String name;
+	
+	Integer id;		//0 for main stage
+	String name;	//null for main stage
 	Integer sec;
 	List<Property> properties = new ArrayList<>();
 	

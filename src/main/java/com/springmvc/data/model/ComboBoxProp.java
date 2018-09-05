@@ -3,18 +3,16 @@ package com.springmvc.data.model;
 public class ComboBoxProp extends Property{
 
 	ComboBoxField comboBoxField;
-	int choosenOption;
 	
 	public ComboBoxProp() {
 		super();
-		this.type = PropertyType.COMBO;
+		this.type = FieldType.COMBO;
 	}
 	
-	public ComboBoxProp(int id, String name, short stage, int sequence, boolean saveRequired, ComboBoxField comboBoxField, int choosenOption) {
+	public ComboBoxProp(int id, String name, short stage, int sequence, boolean saveRequired, ComboBoxField comboBoxField) {
 		super(id, name, stage, sequence, saveRequired);
-		this.type = PropertyType.COMBO;
+		this.type = FieldType.COMBO;
 		this.comboBoxField = comboBoxField;
-		this.choosenOption = choosenOption;
 	}
 	
 	/**
@@ -33,18 +31,6 @@ public class ComboBoxProp extends Property{
 
 	public void setComboBoxField(ComboBoxField comboBoxField) {
 		this.comboBoxField = comboBoxField;
-	}
-
-	public int getChoosenOption() {
-		return choosenOption;
-	}
-
-	public void setChoosenOption(int choosenOption) {
-		this.choosenOption = choosenOption;
-	}
-
-	public String getValue() {
-		return comboBoxField.getOptions().get(choosenOption).getValue();
 	}
 	
 }

@@ -22,6 +22,16 @@ public class TextBoxPropDaoImpl implements TextBoxPropDAO{
 	}
 	
 	@Override
+	public TextBoxProp getTextBoxPropertyForId(int id) {
+		for(TextBoxProp tbp : list) {
+			if(tbp.getId() == id) {
+				return tbp;
+			}
+		}
+		return null;
+	}
+	
+	@Override
 	public void insertOrUpdateTextBoxProp(TextBoxProp tbp) {
 		if(tbp.getId() == -1) {
 			list.add(tbp);
@@ -37,8 +47,8 @@ public class TextBoxPropDaoImpl implements TextBoxPropDAO{
 			list = new ArrayList<TextBoxProp>();
 			
 			list.add(new TextBoxProp(3, "Text prop 3", (short)0, 10, false, 3));
-	//		list.add(new TextBoxProp(4, "Text prop 4", (short)0, 50, false, 4));
-	//		list.add(new TextBoxProp(5, "Text prop 5", (short)0, 100, false, 5));
+			list.add(new TextBoxProp(4, "Text prop 4", (short)1, 50, false, 4));
+			list.add(new TextBoxProp(5, "Text prop 5", (short)2, 100, false, 5));
 
 	}
 

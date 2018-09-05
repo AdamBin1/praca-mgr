@@ -13,8 +13,8 @@ public interface StageDAO {
 	
 	public void init();
 
-	public Stage getStageForName(String name);
-
 	public void insertOrUpdateStage(Stage stage);
+
+	public Stage getStageForId(int id);
 
 }
