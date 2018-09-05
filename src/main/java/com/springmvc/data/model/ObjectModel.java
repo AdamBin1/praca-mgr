@@ -4,6 +4,7 @@ import java.util.List;
 
 public class ObjectModel {
 
+	private Integer id;
 	private Integer activeStage;
 	private List<PropValue> values;
 	
@@ -11,10 +12,19 @@ public class ObjectModel {
 		super();
 	}
 	
-	public ObjectModel(Integer activeStage, List<PropValue> values) {
+	public ObjectModel(Integer id, Integer activeStage, List<PropValue> values) {
 		super();
+		this.id = id;
 		this.activeStage = activeStage;
 		this.values = values;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getActiveStage() {

@@ -8,4 +8,6 @@ public interface DateTextBoxPropDAO {
 	public List<DateTextBoxProp> getAllDateTextBoxes();
 
 	public void insertOrUpdateDateTextBoxProp(DateTextBoxProp dtbp);
+
+	DateTextBoxProp getDateTextBoxPropertyForId(int id);
 }

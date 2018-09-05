@@ -3,7 +3,6 @@ package com.springmvc.data.model;
 import java.time.LocalDate;
 
 public class DateTextBoxPropValue extends PropValue{
-	int id;
 	LocalDate value;	
 	
 	public DateTextBoxPropValue() {
@@ -11,10 +10,11 @@ public class DateTextBoxPropValue extends PropValue{
 		this.type = FieldType.DATE;
 	}
 
-	public DateTextBoxPropValue(int id, LocalDate value, DateTextBoxProp property) {
+	public DateTextBoxPropValue(int id, LocalDate value, Integer stageId, DateTextBoxProp property) {
 		super(id);
 		this.type = FieldType.DATE;
 		this.value = value;
+		this.objectId = stageId;
 		this.property = property;
 	}
 

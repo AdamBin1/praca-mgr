@@ -15,15 +15,21 @@ public class ComboBoxPropValueService {
 		
 	}
 	
-	public List<ComboBoxPropValue> getComboBoxPropValuesForStageId(short stageId) {
+	public List<ComboBoxPropValue> getComboBoxPropValuesForStageId(int objectId, short stageId) {
 		ComboBoxPropValueDAO comboBoxPropValueDAO = new ComboBoxPropValueDaoImpl();
 		
-		return comboBoxPropValueDAO.getComboBoxPropValuesForStageId(stageId);
+		return comboBoxPropValueDAO.getComboBoxPropValuesForStageId(objectId, stageId);
 	}
 
 	public void saveComboBoxPropValue(ComboBoxPropValue cbpv) {
 		ComboBoxPropValueDAO comboBoxPropValueDAO = new ComboBoxPropValueDaoImpl();
 		
 		comboBoxPropValueDAO.insertOrUpdateComboBoxPropValue(cbpv);
+	}
+
+	public List<ComboBoxPropValue> getNewComboBoxPropValuesForStageId(short stageId) {
+		ComboBoxPropValueDAO comboBoxPropValueDAO = new ComboBoxPropValueDaoImpl();
+		
+		return comboBoxPropValueDAO.getNewComboBoxPropValuesForStageId(stageId);
 	}
 }

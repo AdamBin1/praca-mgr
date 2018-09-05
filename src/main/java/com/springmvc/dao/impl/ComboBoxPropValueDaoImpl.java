@@ -18,7 +18,12 @@ public class ComboBoxPropValueDaoImpl implements ComboBoxPropValueDAO{
 	private static List<ComboBoxPropValue> list;
 	
 	@Override
-	public List<ComboBoxPropValue> getComboBoxPropValuesForStageId(short stageId) {
+	public List<ComboBoxPropValue> getComboBoxPropValuesForStageId(int objectId, short stageId) {
+		return list.parallelStream().filter(cbpv -> cbpv.getObjectId() == objectId && cbpv.getProperty().getStage() == stageId).collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<ComboBoxPropValue> getNewComboBoxPropValuesForStageId(short stageId) {
 		return list.parallelStream().filter(cbpv -> cbpv.getProperty().getStage() == stageId).collect(Collectors.toList());
 	}
 
@@ -38,7 +43,7 @@ public class ComboBoxPropValueDaoImpl implements ComboBoxPropValueDAO{
 			list = new ArrayList<ComboBoxPropValue>();
 			ComboBoxPropService cbps = new ComboBoxPropService();
 			
-			list.add(new ComboBoxPropValue(1, null, cbps.getComboBoxPropertyForId(1)));
+			list.add(new ComboBoxPropValue(1, null, 0, cbps.getComboBoxPropertyForId(1)));
 //			list.add(new ComboBoxProp(2, "Combo prop 2", (short)0, 25, false, cbcs.getComboBoxFieldForId(2)));
 
 	}

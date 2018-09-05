@@ -1,6 +1,7 @@
 package com.springmvc.dao.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,11 +12,16 @@ import org.springframework.stereotype.Component;
 
 import com.springmvc.data.model.ComboBoxField;
 import com.springmvc.data.model.ComboBoxProp;
+import com.springmvc.data.model.ComboBoxPropValue;
 import com.springmvc.data.model.ComboOption;
 import com.springmvc.data.model.DateTextBoxProp;
+import com.springmvc.data.model.DateTextBoxPropValue;
+import com.springmvc.data.model.ObjectModel;
+import com.springmvc.data.model.PropValue;
 import com.springmvc.data.model.Property;
 import com.springmvc.data.model.Stage;
 import com.springmvc.data.model.TextBoxProp;
+import com.springmvc.data.model.TextBoxPropValue;
 
 @Component
 public class JsonService {
@@ -30,7 +36,7 @@ public class JsonService {
 	 *  Mapuje wejściowy JSON na główny etap gotowy do zapisu.
 	 *  
 	 *  Struktura JSONa:
-	 *  	 obiekty {"id" - #id_prop (-1 dla nowych), name - #nazwa_prop, sec - #numer_w_sekwencji,
+	 *  	 obiekty {"id" - #id_prop (pusta dla nowych), name - #nazwa_prop, sec - #numer_w_sekwencji,
 	 *  		type - #typ_prop, val1 - (#dlugosc dla pol tekstowych, #id_combo_field dla combo)}
 	 * @param inputJson
 	 * @return
@@ -51,7 +57,7 @@ public class JsonService {
 	 *  	opcjonalna para {stage_id - #id} - występuje tylko dla edycji
 	 *  	para			{name - #nazwa}
 	 *  	para			{sec - #sec}
-	 *  	następnie obiekty {"id" - #id_prop (-1 dla nowych), name - #nazwa_prop, sec - #numer_w_sekwencji,
+	 *  	następnie obiekty {"id" - #id_prop (pusta dla nowych), name - #nazwa_prop, sec - #numer_w_sekwencji,
 	 *  		type - #typ_prop, val1 - (#dlugosc dla pol tekstowych, #id_combo_field dla combo)}
 	 * @param inputJson
 	 * @return
@@ -80,7 +86,7 @@ public class JsonService {
 	 *  Struktura JSONa:
 	 *  	opcjonalna para {combo_id - #id} - występuje tylko dla edycji
 	 *  	para			{name - #nazwa}
-	 *  	następnie trójki {"id" - #id_opcji (-1 dla nowych), val - #tresc_opcji, sec - #numer_w_sekwencji}
+	 *  	następnie trójki {"id" - #id_opcji (pusta dla nowych), val - #tresc_opcji, sec - #numer_w_sekwencji}
 	 * @param inputJson
 	 * @return
 	 */
@@ -98,13 +104,14 @@ public class JsonService {
 		List<ComboOption> options = new ArrayList<ComboOption>();
 		for(HashMap<String, String> map:dataAsMap) {
 			ComboOption co = new ComboOption();
-			if(!map.get("id").equals("-1")){
+			if(!map.get("id").isEmpty()){
 				co.setId(Integer.parseInt(map.get("id")));
 			}
 			co.setValue(map.get("val"));
 			if(!map.get("sec").equals("")) {
 				co.setSec(Integer.parseInt(map.get("sec")));
 			}
+			
 			co.setComboBoxFieldId(cbf.getId());
 			options.add(co);
 		}
@@ -148,7 +155,7 @@ public class JsonService {
 				break;
 			}
 			
-			if(!map.get("id").equals("-1")){
+			if(!map.get("id").isEmpty()){
 				prop.setId(Integer.parseInt(map.get("id")));
 			}
 			if(!map.get("name").isEmpty()) {
@@ -163,6 +170,61 @@ public class JsonService {
 		}
 		
 		return propList;
+	}
+	
+	/**
+	 *  Mapuje wejściowy JSON na obiekt gotowy do zapisu.
+	 *  
+	 *  Struktura JSONa:
+	 *  	opcjonalna para {object_id - #id} - występuje tylko dla edycji
+	 *  	następnie pary {"id" - #id_wartości (pusta dla nowych), type - #typ, val - #wartosc}
+	 * @param inputJson
+	 * @return
+	 */
+	public ObjectModel convertJsonToObject(String inputJson) {
+		ObjectModel object = new ObjectModel();
+		object.setValues(new ArrayList<PropValue>());
+		
+		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
+		
+		if(dataAsMap.get(0).containsKey("object_id")) {
+			object.setId(Integer.parseInt(dataAsMap.get(0).get("object_id")));
+			dataAsMap.remove(0);
+		}
+		
+		for(HashMap<String, String> map:dataAsMap) {
+			Property prop = null;
+			PropValue propVal = null;
+			switch (map.get("type")) {
+			case "TEXT":
+				prop = new TextBoxProp();
+				propVal = new TextBoxPropValue();
+				if(!map.get("val").isEmpty()){
+					((TextBoxPropValue)propVal).setValue(map.get("val"));
+				}
+				break;
+			case "COMBO":
+				prop = new ComboBoxProp();
+				propVal = new ComboBoxPropValue();
+				if(!map.get("val").isEmpty()){
+					((ComboBoxPropValue)propVal).setValue(Integer.parseInt(map.get("val")));
+				}
+				break;
+			case "DATE":
+				prop = new DateTextBoxProp();
+				propVal = new DateTextBoxPropValue();
+				if(!map.get("val").isEmpty()){
+					((DateTextBoxPropValue)propVal).setValue(LocalDate.parse(map.get("val")));
+				}
+				break;
+			}
+			if(!map.get("id").isEmpty()){
+				propVal.setId(Integer.parseInt(map.get("id")));
+			}
+			object.getValues().add(propVal);
+		}
+		
+		return object;
 	}
 
 	public static String createSuccessMessage() {

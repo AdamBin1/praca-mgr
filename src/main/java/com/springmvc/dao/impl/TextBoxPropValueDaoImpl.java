@@ -18,7 +18,12 @@ public class TextBoxPropValueDaoImpl implements TextBoxPropValueDAO{
 	private static List<TextBoxPropValue> list;
 	
 	@Override
-	public List<TextBoxPropValue> getTextBoxPropValuesForStageId(short stageId) {
+	public List<TextBoxPropValue> getTextBoxPropValuesForStageId(int objectId, short stageId) {
+		return list.parallelStream().filter(tbpv -> tbpv.getObjectId() == objectId && tbpv.getProperty().getStage() == stageId).collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<TextBoxPropValue> getNewTextBoxPropValuesForStageId(short stageId) {
 		return list.parallelStream().filter(tbpv -> tbpv.getProperty().getStage() == stageId).collect(Collectors.toList());
 	}
 
@@ -38,8 +43,8 @@ public class TextBoxPropValueDaoImpl implements TextBoxPropValueDAO{
 			list = new ArrayList<TextBoxPropValue>();
 			TextBoxPropService tbps = new TextBoxPropService();
 			
-			list.add(new TextBoxPropValue(1, "abc", tbps.getTextBoxPropertyForId(3)));
-			list.add(new TextBoxPropValue(0, null, tbps.getTextBoxPropertyForId(4)));
+			list.add(new TextBoxPropValue(1, "abc", 0, tbps.getTextBoxPropertyForId(3)));
+			list.add(new TextBoxPropValue(0, null, 0, tbps.getTextBoxPropertyForId(4)));
 //			list.add(new ComboBoxProp(2, "Combo prop 2", (short)0, 25, false, cbcs.getComboBoxFieldForId(2)));
 
 	}

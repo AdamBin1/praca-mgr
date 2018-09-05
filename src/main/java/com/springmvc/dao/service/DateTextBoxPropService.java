@@ -26,4 +26,10 @@ public class DateTextBoxPropService {
 		
 		dateTextBoxPropDAO.insertOrUpdateDateTextBoxProp(dtbp);
 	}
+
+	public DateTextBoxProp getDateTextBoxPropertyForId(int id) {
+		DateTextBoxPropDAO dateTextBoxPropDAO = new DateTextBoxPropDaoImpl();
+		
+		return dateTextBoxPropDAO.getDateTextBoxPropertyForId(id);
+	}
 }

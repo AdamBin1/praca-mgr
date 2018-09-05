@@ -6,9 +6,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet"
-	href="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/claro.css">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<style>
+body {
+	background-color: #f7f7f7;
+}
+.rounded40 {
+	border-radius:40px;
+}
+.mainctr {
+	background-color: white;
+}
+
+.break1 {
+	margin-top:15px;
+}
+</style>
+	
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
 <title>Dane obiektu</title>
 
 <script>
@@ -18,7 +37,7 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript">
 
-	function zapisz() {
+	function save() {
 		
 		var data = [];
 		
@@ -30,48 +49,27 @@
 	    	};	
 	    	data.push(id_data);
 		}
-		
-		var name = {
-				name: $("#name").val()
-		};
-		
-		data.push(name);
 
-		var sec = {
-				sec: $("#sec").val()
-		};
-		
-		data.push(sec);
-
-		$("#propTable tr").each(function(rowIndex) {
+		$("#mainContainer").find(".row-to-add").each(function() {
+			
 			var res_data = {
 	    			id: 	"-1",
-	    			name: 	"",
-	    			sec:	0,
 	    			type:	"",
-	    			val1:	"",
+	    			val:	"",
 	    			
 	    	};
 						
-			$(this).find("td").each(function() {
 			    $(this).find("#id").each(function() {
 			    	res_data.id = $(this).val();
-			    });
-			    $(this).find("#sec").each(function() {
-			    	res_data.sec = $(this).val();
-			    });
-			    $(this).find("#name").each(function() {
-			    	res_data.name = $(this).val();
 			    });
 			    $(this).find("#type").each(function() {
 			    	res_data.type = $(this).val();
 			    });
-			    $(this).find("#val1").each(function() {
-			    	res_data.val1 = $(this).val();
+			    $(this).find("#val").each(function() {
+			    	res_data.val = $(this).val();
 			    });
-		    });
 			
-			data.push(res_data);
+				data.push(res_data);
 		});
 
 		$.ajax({
@@ -92,58 +90,32 @@
 	
 </script>
 
-<script>
-	function zmien() {
-		require([ 'dojo/dom', 'dojo/domReady!' ], function(dom) {
-			var greeting = dom.byId('greeting');
-			greeting.innerHTML += ' from Dojo!';
-		});
-	}
-</script>
-
 </head>
 
-<body class="claro">
-	<script src="//ajax.googleapis.com/ajax/libs/dojo/1.13.0/dojo/dojo.js"
-		data-dojo-config="async: true"></script>
-
-	<script>
-		require([ 'dojo/dom', 'dojo/domReady!' ], function(dom) {
-			var greeting = dom.byId('greeting');
-			//       greeting.innerHTML += ' from Dojo!';
-		});
-	</script>
-	
-	<c:choose>
-		<c:when test="${empty object.activeStage}">
-		Nowy obiekt	
-		</c:when>
-		<c:otherwise>
-		Edycja obiektu
-		</c:otherwise>
-	</c:choose>
-	<br/><br/><br/>
-
-	<table id="propTable">
-		<c:forEach items="${object.values}" var="propvalue">
-			<tr>
-				<td hidden="true">
-					<input id="id" hidden="true" value="${propvalue.id}"/>
-				</td>
-				<td>
-					<label id="name" for="val">${propvalue.property.name}</label>
-				</td>
-				<c:choose>
-					<c:when test="${propvalue.type eq 'TEXT'}">
-					<td>
-						<input id="val" value="${propvalue.value}"/>
-					</td>
-					</c:when>
-				</c:choose>
-				<c:choose>
-					<c:when test="${propvalue.type eq 'COMBO'}">
-						<td>
-							<select id="val" data-dojo-type="dijit/form/ComboBox">
+<body>
+	<div id="mainContainer" class="container">
+		<div class="card break1">
+			<div class="card-header">
+			<c:choose>
+				<c:when test="${empty object.id}">
+				Nowy obiekt	
+				</c:when>
+				<c:otherwise>
+				Edycja obiektu
+				</c:otherwise>
+			</c:choose>
+			</div>
+			<div class="card-body m-3">
+			<c:forEach items="${object.values}" var="propvalue">
+				<div id="row" class="form-group row row-to-add">
+				  <label class="col-form-label col-3">${propvalue.property.name}</label>
+				  <div class="col-4">
+					<c:choose>
+						<c:when test="${propvalue.type eq 'TEXT'}">
+							<input class="form-control" id="val" maxlength="${propvalue.property.length}" value="${propvalue.value}">
+						</c:when>
+						<c:when test="${propvalue.type eq 'COMBO'}">
+							<select class="form-control" id="val">
 								<option value="-1"></option>
 								<c:forEach items="${propvalue.property.comboBoxField.options}" var="combobox">
 									<c:choose>
@@ -156,28 +128,25 @@
 									</c:choose>
 								</c:forEach>
 							</select>
-						</td>
-					</c:when>
-				</c:choose>
-				<c:choose>
-					<c:when test="${property.type eq 'DATE'}">
-						<td>
-							<input id="val" hidden="true"/>
-						</td>
-					</c:when>
-				</c:choose>
-			</tr>		
-		</c:forEach>
-	</table>
-	
-	<br/><br/><br/>
-	
-	<table>
-		<tr>
-			<td>
-				<button onclick="zapisz()">Zapisz</button>
-				<button onclick="location.href='/SpringMVC/konfiguracja/etapy'">Wróć</button>
-			</td>
-		</tr>
-	</table>
+						</c:when>
+						<c:when test="${propvalue.type eq 'DATE'}">
+							<input class="form-control" type="date" id="val" value="${propvalue.value}">
+						</c:when>
+					</c:choose>
+					<input id="id" hidden="true" value="${propvalue.id}"/>
+					<input id="type" hidden="true" value="${propvalue.type}"/>
+				  </div>
+			  </div>
+			  </c:forEach>
+			<div class="container">
+				<div class="row break1">
+					<div class="col-sm">
+						<button class="btn btn-primary" onclick="save()">Zapisz</button>
+						<button class="btn btn-light" onclick="location.href='/SpringMVC'">Wróć</button>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
 </body>

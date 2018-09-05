@@ -25,25 +25,28 @@ public class ObjectPresentationController {
 	public ModelAndView addMainObject() {
 		
 		Map<String, Object> model = new HashMap<>();
-		ObjectModel object = new ObjectModel(null, objectService.getObjectValuesForStageId((short)0));
+		ObjectModel object = new ObjectModel();
+		object.setValues(objectService.getNewObjectValuesForStageId((short)0));
 		model.put("object", object);
 		
 		return new ModelAndView("addobject", model);
 
 	}
 	
-	@RequestMapping("/obiekt/{nazwa_obiektu}")
-	public ModelAndView editMainObject(@PathVariable("nazwa_obiektu") String objectName) {
+	@RequestMapping("/obiekt/{id_obiektu}")
+	public ModelAndView editMainObject(@PathVariable("id_obiektu") int id) {
 		
-	//	try
+		Map<String, Object> model = new HashMap<>();
+		ObjectModel object = objectService.getObjectForStageId(id, (short)0);
+		object.setValues(objectService.getObjectValuesForStageId(id, (short)0));
+		model.put("object", object);
 		
-		PageModel pm = new PageModel();
-		return new ModelAndView("addobject", pm.getModel());
+		return new ModelAndView("addobject", model);
 
 	}
 	
-	@RequestMapping("/obiekt/{nazwa_obiektu}/etap/{nazwa_etapu}")
-	public ModelAndView showObjectStage(@PathVariable("nazwa_obiektu") String objectName, @PathVariable("nazwa_etapu") String stageName) {
+	@RequestMapping("/obiekt/{id_obiektu}/etap/{id_etapu}")
+	public ModelAndView showObjectStage(@PathVariable("id_obiektu") int objectId, @PathVariable("id_etapu") int stageId) {
 		
 	//	try
 		
@@ -51,14 +54,5 @@ public class ObjectPresentationController {
 		return new ModelAndView("showobjectstage", pm.getModel());
 
 	}
-	
-	@RequestMapping("/obiekt/{nazwa_obiektu}/etap/{nazwa_etapu}/edytuj")
-	public ModelAndView editObjectStage(@PathVariable("nazwa_obiektu") String objectName, @PathVariable("nazwa_etapu") String stageName) {
-		
-	//	try
-		
-		PageModel pm = new PageModel();
-		return new ModelAndView("showobjectstage", pm.getModel());
 
-	}
 }

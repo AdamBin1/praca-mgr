@@ -8,10 +8,11 @@ public class TextBoxPropValue  extends PropValue{
 		this.type = FieldType.TEXT;
 	}
 
-	public TextBoxPropValue(Integer id, String value, TextBoxProp property) {
+	public TextBoxPropValue(Integer id, String value, Integer stageId, TextBoxProp property) {
 		super(id);
 		this.type = FieldType.TEXT;
 		this.value = value;
+		this.objectId = stageId;
 		this.property = property;
 	}
 

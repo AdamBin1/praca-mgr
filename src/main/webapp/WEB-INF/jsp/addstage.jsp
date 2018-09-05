@@ -62,7 +62,7 @@ body {
 		$("#mainContainer").find(".row-to-add").each(function() {
 			
 			var res_data = {
-	    			id: 	"-1",
+	    			id: 	"",
 	    			name: 	"",
 	    			sec:	0,
 	    			type:	"",
@@ -103,32 +103,6 @@ body {
 				alert(resposeJsonObject.message);
 			}
 		});
-	};
-	
-	function addRow(){
-		var table = document.getElementById("propTable");
-		var row = table.insertRow(-1);
-		var cell0 = row.insertCell(0);
-		cell0.innerHTML = "<label for=\"sec\">Numer w sekwencji: </label>";
-		var cell1 = row.insertCell(1);
-		cell1.innerHTML = "<input id=\"sec\" type=\"number\" min=\"1\" max=\"999\"/>";
-		var cell2 = row.insertCell(2);
-		cell2.innerHTML = "<label for=\"name\">Nazwa</label>";
-		var cell3 = row.insertCell(3);
-		cell3.innerHTML = "<input id=\"name\" maxlength=\"255\"></input>";
-		var cell4 = row.insertCell(4);
-		cell4.innerHTML = "<label for=\"type\">Typ</label>";
-		var cell5 = row.insertCell(5);
-		cell5.innerHTML = "<select id=\"type\" data-dojo-type=\"dijit/form/ComboBox\" onchange=\"typeChange(this)\">" +
-			"<option value=\"TEXT\" selected>Pole Tekstowe</option>" +
-			"<option value=\"COMBO\">Combo Box</option>" +
-			"<option value=\"DATE\">Data</option>" +
-			"</select>";
-		var cell6 = row.insertCell(6);
-		cell6.innerHTML = v1nameTEXT;
-		var cell7 = row.insertCell(7);
-		cell7.innerHTML = val1TEXT;
-		
 	};
 	
 	function addRow(){		
@@ -331,7 +305,7 @@ body {
 		<label id="v1nameDate" hidden="true"></label>
 		<input class="form-control" id="val1Text" type="number" min="1" max="999">
 		<select id="val1Combo" class="form-control">
-		<option value="-1"></option>
+		<option></option>
 			<c:forEach items="${comboboxes}" var="combobox">
 				<option value="${combobox.id}">${combobox.name}</option>
 			</c:forEach>

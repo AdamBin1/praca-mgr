@@ -15,10 +15,10 @@ public class TextBoxPropValueService {
 		
 	}
 	
-	public List<TextBoxPropValue> getComboBoxPropValuesForStageId(short stageId) {
+	public List<TextBoxPropValue> getComboBoxPropValuesForStageId(int objectId, short stageId) {
 		TextBoxPropValueDAO textBoxPropValueDAO = new TextBoxPropValueDaoImpl();
 		
-		return textBoxPropValueDAO.getTextBoxPropValuesForStageId(stageId);
+		return textBoxPropValueDAO.getTextBoxPropValuesForStageId(objectId, stageId);
 	}
 
 	public void saveTextBoxPropValue(TextBoxPropValue tbpv) {
@@ -27,9 +27,9 @@ public class TextBoxPropValueService {
 		textBoxPropValueDAO.insertOrUpdateTextBoxPropValue(tbpv);
 	}
 
-	public void saveComboBoxPropValue(TextBoxPropValue tbpv) {
+	public List<TextBoxPropValue> getNewComboBoxPropValuesForStageId(short stageId) {
 		TextBoxPropValueDAO textBoxPropValueDAO = new TextBoxPropValueDaoImpl();
 		
-		textBoxPropValueDAO.insertOrUpdateTextBoxPropValue(tbpv);
+		return textBoxPropValueDAO.getNewTextBoxPropValuesForStageId(stageId);
 	}
 }

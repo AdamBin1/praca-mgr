@@ -50,7 +50,7 @@ body {
 
 		$("#mainContainer").find(".row-to-add").each(function() {
 			var res_data = {
-	    			id: 	"-1",
+	    			id: 	"",
 	    			val: 	"",
 	    			sec:	0
 	    	};
@@ -140,7 +140,7 @@ body {
 	</div>
 	
 	<div hidden="true">
-		<div id="rowToInsert" class="form-group row">
+		<div id="rowToInsert" class="form-group row row-to-add">
 		  <label class="col-form-label">Opcja</label>
 		  <div class="col-7">
 		    <input class="form-control" id="value" maxlength="255">

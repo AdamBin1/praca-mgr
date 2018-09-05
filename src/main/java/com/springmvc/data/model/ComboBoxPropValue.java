@@ -8,11 +8,11 @@ public class ComboBoxPropValue extends PropValue{
 		this.type = FieldType.COMBO;
 	}
 
-	public ComboBoxPropValue(int id, Integer value, ComboBoxProp property) {
+	public ComboBoxPropValue(int id, Integer value, Integer objectId, ComboBoxProp property) {
 		super(id);
 		this.type = FieldType.COMBO;
-		this.id = id;
 		this.value = value;
+		this.objectId = objectId;
 		this.property = property;
 	}
 

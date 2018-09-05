@@ -38,7 +38,7 @@ body {
 		$("#mainContainer").find(".row-to-add").each(function() {
 			
 			var res_data = {
-	    			id: 	"-1",
+	    			id: 	"",
 	    			name: 	"",
 	    			sec:	0,
 	    			type:	"",
@@ -279,7 +279,7 @@ body {
 		<label id="v1nameDate" hidden="true"></label>
 		<input class="form-control" id="val1Text" type="number" min="1" max="999">
 		<select id="val1Combo" class="form-control">
-		<option value="-1"></option>
+		<option></option>
 			<c:forEach items="${comboboxes}" var="combobox">
 				<option value="${combobox.id}">${combobox.name}</option>
 			</c:forEach>

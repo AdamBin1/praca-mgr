@@ -3,6 +3,7 @@ package com.springmvc.data.model;
 public class PropValue {
 	int id;
 	FieldType type;
+	Integer objectId;
 	Property property;
 	
 	public PropValue() {
@@ -27,6 +28,14 @@ public class PropValue {
 
 	public void setType(FieldType type) {
 		this.type = type;
+	}
+
+	public Integer getObjectId() {
+		return objectId;
+	}
+
+	public void setObjectId(Integer objectId) {
+		this.objectId = objectId;
 	}
 
 	public Property getProperty() {

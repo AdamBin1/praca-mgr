@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springmvc.dao.service.JsonService;
 import com.springmvc.dao.service.StageConfigurationService;
+import com.springmvc.data.model.ObjectModel;
 import com.springmvc.data.model.Stage;
 
 @Controller
-@RequestMapping(value = "/konfiguracja")
 public class ObjectUpdateController {
 	
 	@Autowired
@@ -27,9 +27,30 @@ public class ObjectUpdateController {
 	
 	@Autowired
 	StageConfigurationService stageConfigurationService;
+	
+	@RequestMapping(value = "/modelowanie/zatwierdz", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> saveObject(@RequestBody String jsonString) {
 
-	@RequestMapping(value = "/zatwierdz", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> save(@RequestBody String jsonString) {
+		System.out.println(jsonString);
+		ObjectModel object = jsonService.convertJsonToObject(jsonString);
+		//TODO:  walidacja
+		
+	//	stageConfigurationService.saveStage(mainStage);
+
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+		Map<String, String> errorMap = new HashMap<String, String>();
+		errorMap.put("jakis", "ten");
+		JsonService.createJsonMessage(errorMap);
+		
+		
+
+		return new ResponseEntity<String>(JsonService.createJsonMessage(errorMap), responseHeaders, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/konfiguracja/zatwierdz", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> saveConfiguration(@RequestBody String jsonString) {
 
 		System.out.println(jsonString);
 		Stage mainStage = jsonService.convertJsonToMainStage(jsonString);
