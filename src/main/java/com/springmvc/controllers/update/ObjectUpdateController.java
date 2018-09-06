@@ -1,6 +1,7 @@
 package com.springmvc.controllers.update;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +19,23 @@ import com.springmvc.dao.service.JsonService;
 import com.springmvc.dao.service.StageConfigurationService;
 import com.springmvc.data.model.ObjectModel;
 import com.springmvc.data.model.Stage;
+import com.springmvc.helpers.ResponseHelper;
+import com.springmvc.validation.StageValidator;
 
 @Controller
 public class ObjectUpdateController {
 	
 	@Autowired
-	JsonService jsonService;
+	StageConfigurationService stageConfigurationService;
 	
 	@Autowired
-	StageConfigurationService stageConfigurationService;
+	StageValidator stageValidator;
 	
 	@RequestMapping(value = "/modelowanie/zatwierdz", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> saveObject(@RequestBody String jsonString) {
 
 		System.out.println(jsonString);
-		ObjectModel object = jsonService.convertJsonToObject(jsonString);
+		ObjectModel object = JsonService.convertJsonToObject(jsonString);
 		//TODO:  walidacja
 		
 	//	stageConfigurationService.saveStage(mainStage);
@@ -53,21 +56,15 @@ public class ObjectUpdateController {
 	public @ResponseBody ResponseEntity<String> saveConfiguration(@RequestBody String jsonString) {
 
 		System.out.println(jsonString);
-		Stage mainStage = jsonService.convertJsonToMainStage(jsonString);
-		//TODO:  walidacja
-		
-		stageConfigurationService.saveStage(mainStage);
+		Stage mainStage = JsonService.convertJsonToMainStage(jsonString);
+		List<String> errors = stageValidator.validateMainStage(mainStage);
 
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-		Map<String, String> errorMap = new HashMap<String, String>();
-		errorMap.put("jakis", "ten");
-		JsonService.createJsonMessage(errorMap);
+		if(errors == null) {
+			stageConfigurationService.saveStage(mainStage);
+			//TODO walidacja zapisu i podmiana errors
+		}
 		
-		
-
-		return new ResponseEntity<String>(JsonService.createJsonMessage(errorMap), responseHeaders, HttpStatus.OK);
+		return ResponseHelper.createResponseEntity(errors);
 	}
 
 }

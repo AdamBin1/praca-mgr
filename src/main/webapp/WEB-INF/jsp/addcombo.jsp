@@ -31,6 +31,8 @@ body {
 <script type="text/javascript">
 	function save() {
 		
+		$("#error-alert").hide(); 
+		
 		var data = [];
 		
 		var combo_id = "${combobox.id}";
@@ -76,12 +78,24 @@ body {
 			async : false, //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
 			cache : false, //This will force requested pages not to be cached by the browser          
 			processData : false, //To avoid making query String instead of JSON
-			success : function(resposeJsonObject) {
+			success : function() {
 				// Success Message Handler
-				alert(resposeJsonObject.message);
+				showSuccessAlert();
+			},
+			error : function(resposeJsonObject) {
+				// Error Message Handler
+				showErrorAlert();
+				resposeJsonObject.responseJSON.errors.forEach(addErrorDiv);
 			}
 		});
 	};
+	
+	function addErrorDiv(value){
+		var divToInsert = $( "#errorToInsert" ).clone();
+		divToInsert.attr("id","error");
+		divToInsert.text(decodeAscii(value.error));
+		divToInsert.appendTo( "#error-alert-txt" );		
+	}
 	
 	function addRow(){		
 		var rowToInsert = $( "#rowToInsert" ).clone();
@@ -92,10 +106,43 @@ body {
 	function removeOption(selected){
 		$(selected).closest( 'div' ).remove();
 	};
+	
+    function showSuccessAlert() {
+    	$("#alert").empty();
+    	var alertToInsert = $( "#success-alertToInsert" ).clone();
+    	alertToInsert.attr("id","success-alert");
+    	alertToInsert.appendTo($("#alert"));
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+      		 $("#success-alert").slideUp(500);
+        });   
+    };
+    
+    function showErrorAlert() {
+    	$("#alert").empty();
+    	var alertToInsert = $( "#error-alertToInsert" ).clone();
+    	alertToInsert.attr("id","error-alert");
+    	alertToInsert.appendTo($("#alert"));
+    };
+    
+    function decodeAscii(text){
+    	text = text.replace(/&#261;/g, "ą");
+    	text = text.replace(/&#263;/g, "ć");
+    	text = text.replace(/&#281;/g, "ę");
+    	text = text.replace(/&#322;/g, "ł");
+    	text = text.replace(/&#324;/g, "ń");
+    	text = text.replace(/&#211;/g, "ó");
+    	text = text.replace(/&#347;/g, "ś");
+    	text = text.replace(/&#378;/g, "ź");
+    	text = text.replace(/&#380;/g, "ż");
+    	return text;
+    }
+    
 </script>
 
 </head>
 <body>
+	<div id="alert">
+	</div>
 	<div id="mainContainer" class="container">
 		<div class="card break1">
 			<div class="card-header">Pole wyboru</div>
@@ -103,7 +150,7 @@ body {
 				<div class="form-group row">
 					  <label class="col-form-label">Nazwa</label>
 					  <div class="col-6">
-					    <input id="name" class="form-control" type="text" value="${combobox.name}">
+					    <input id="name" class="form-control" type="text" maxlength="50" value="${combobox.name}">
 					  </div>
 					  <div class="col-3">
 					  	<button class="btn btn-light" onclick="addRow()">Dodaj opcję</button>
@@ -117,7 +164,7 @@ body {
 					<div id="row" class="form-group row row-to-add">
 					  <label class="col-form-label">Opcja</label>
 					  <div class="col-7">
-					    <input class="form-control" id="value" maxlength="255" value="${option.value}">
+					    <input class="form-control" id="value" maxlength="50" value="${option.value}">
 					  </div>
 					  <label class="col-form-label">Numer w sekwencji</label>
 					  <div class="col-2">
@@ -143,7 +190,7 @@ body {
 		<div id="rowToInsert" class="form-group row row-to-add">
 		  <label class="col-form-label">Opcja</label>
 		  <div class="col-7">
-		    <input class="form-control" id="value" maxlength="255">
+		    <input class="form-control" id="value" maxlength="50">
 		  </div>
 		  <label class="col-form-label">Numer w sekwencji</label>
 		  <div class="col-2">
@@ -152,6 +199,15 @@ body {
 			<button type="button" class="close" aria-label="Close" onclick="removeOption(this)">
 			  <span aria-hidden="true">&times;</span>
 			</button>
+		</div>
+		<div id="errorToInsert"></div>
+		<div class="alert alert-success" id="success-alertToInsert">
+		    <button type="button" class="close" data-dismiss="alert">x</button>
+		    Dane zostały zapisane
+		</div>
+		<div class="alert alert-danger" id="error-alertToInsert">
+		    <button type="button" class="close" data-dismiss="alert">x</button>
+		    <div id="error-alert-txt"></div>
 		</div>
 	</div>
 </body>

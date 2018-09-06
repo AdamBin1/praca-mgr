@@ -1,6 +1,7 @@
 package com.springmvc.controllers.update;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import com.springmvc.dao.service.ComboBoxConfigurationService;
 import com.springmvc.dao.service.JsonService;
 import com.springmvc.dao.service.StageConfigurationService;
 import com.springmvc.data.model.Stage;
+import com.springmvc.helpers.ResponseHelper;
+import com.springmvc.validation.StageValidator;
 
 @Controller
 @RequestMapping("/konfiguracja/etapy")
@@ -26,6 +29,9 @@ public class StageUpdateController {
 	
 	@Autowired
 	ComboBoxConfigurationService comboBoxConfigurationService;
+	
+	@Autowired
+	StageValidator stageValidator;
 	
 	// DOKOŃCZYĆ/ZMIENIĆ
 	
@@ -57,10 +63,13 @@ public class StageUpdateController {
 		System.out.println(jsonString);
 		Stage stage = JsonService.convertJsonToStage(jsonString);
 		
-		//TODO: walidacja
-		stageConfigurationService.saveStage(stage);
+		List<String> errors = stageValidator.validateStage(stage);
 		
-		return null;
+		if(errors == null) {
+			stageConfigurationService.saveStage(stage);
+			//TODO walidacja zapisu i podmiana errors
+		}
+		return ResponseHelper.createResponseEntity(errors);
 		
 	}
 }

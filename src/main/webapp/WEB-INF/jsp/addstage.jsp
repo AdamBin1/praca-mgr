@@ -98,12 +98,24 @@ body {
 			async : false, //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
 			cache : false, //This will force requested pages not to be cached by the browser          
 			processData : false, //To avoid making query String instead of JSON
-			success : function(resposeJsonObject) {
+			success : function() {
 				// Success Message Handler
-				alert(resposeJsonObject.message);
+				showSuccessAlert();
+			},
+			error : function(resposeJsonObject) {
+				// Error Message Handler
+				showErrorAlert();
+				resposeJsonObject.responseJSON.errors.forEach(addErrorDiv);
 			}
 		});
 	};
+	
+	function addErrorDiv(value){
+		var divToInsert = $( "#errorToInsert" ).clone();
+		divToInsert.attr("id","error");
+		divToInsert.text(decodeAscii(value.error));
+		divToInsert.appendTo( "#error-alert-txt" );		
+	}
 	
 	function addRow(){		
 		var rowToInsert = $( "#rowToInsert" ).clone();
@@ -159,11 +171,45 @@ body {
    	    });
 		
 	}
+	
+    function showSuccessAlert() {
+    	$("#alert").empty();
+    	var alertToInsert = $( "#success-alertToInsert" ).clone();
+    	alertToInsert.attr("id","success-alert");
+    	alertToInsert.appendTo($("#alert"));
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+      		 $("#success-alert").slideUp(500);
+        });   
+        $(window).scrollTop(0);
+    };
+    
+    function showErrorAlert() {
+    	$("#alert").empty();
+    	var alertToInsert = $( "#error-alertToInsert" ).clone();
+    	alertToInsert.attr("id","error-alert");
+    	alertToInsert.appendTo($("#alert"));
+    	$(window).scrollTop(0);
+    };
+    
+    function decodeAscii(text){
+    	text = text.replace(/&#261;/g, "ą");
+    	text = text.replace(/&#263;/g, "ć");
+    	text = text.replace(/&#281;/g, "ę");
+    	text = text.replace(/&#322;/g, "ł");
+    	text = text.replace(/&#324;/g, "ń");
+    	text = text.replace(/&#211;/g, "ó");
+    	text = text.replace(/&#347;/g, "ś");
+    	text = text.replace(/&#378;/g, "ź");
+    	text = text.replace(/&#380;/g, "ż");
+    	return text;
+    }
 </script>
 
 </head>
 	
 <body>
+	<div id="alert">
+	</div>
 	<div id="mainContainer" class="container">
 		<div class="card break1">
 			<div class="card-header">Konfiguracja etapu</div>
@@ -171,7 +217,7 @@ body {
 				<div class="form-group row">
 					  <label class="col-form-label">Nazwa</label>
 					  <div class="col-4">
-					    <input id="name" class="form-control" type="text" value="${stage.name}">
+					    <input id="name" class="form-control" type="text" maxlength="50" value="${stage.name}">
 					  </div>
 					  <label class="col-form-label">Numer w sekwencji</label>
 					  <div class="col-2">
@@ -189,11 +235,11 @@ body {
 					<div id="row" class="form-group row row-to-add">
 					  <label class="col-form-label">Numer w sekwencji</label>
 					  <div class="col-2">
-					    <input class="form-control" id="sec" type="number" min="1" max="999" value="${property.sec}">
+					    <input class="form-control" id="sec" type="number" min="1" max="999" maxlength="3" value="${property.sec}">
 					  </div>
 					  <label class="col-form-label">Nazwa</label>
 					  <div class="col-2">
-					    <input class="form-control" id="name" maxlength="255" value="${property.name}">
+					    <input class="form-control" id="name" maxlength="50" value="${property.name}">
 					  </div>
   					  <label class="col-form-label">Typ</label>
 					  <div class="col-2">
@@ -208,10 +254,10 @@ body {
 							</c:choose>
 							<c:choose>
 								<c:when test="${property.type eq 'COMBO'}">
-									<option value="COMBO" selected>Combo Box</option>
+									<option value="COMBO" selected>Pole wyboru</option>
 								</c:when>
 								<c:otherwise>
-									<option value="COMBO">Combo Box</option>
+									<option value="COMBO">Pole wyboru</option>
 								</c:otherwise>
 							</c:choose>
 							<c:choose>
@@ -282,13 +328,13 @@ body {
 			  </div>
 			  <label class="col-form-label">Nazwa</label>
 			  <div class="col-2">
-			    <input class="form-control" id="name" maxlength="255">
+			    <input class="form-control" id="name" maxlength="50">
 			  </div>
 			  <label class="col-form-label">Typ</label>
 			  <div class="col-2">
 				<select id="type" class="form-control" onchange="typeChange(this)">
 					<option value="TEXT" selected>Pole Tekstowe</option>
-					<option value="COMBO">Combo Box</option>
+					<option value="COMBO">Pole wyboru</option>
 					<option value="DATE">Data</option>
 				</select>
 			  </div>
@@ -311,5 +357,14 @@ body {
 			</c:forEach>
 		</select>
 		<label id="val1Date" hidden="true"></label>
+		<div id="errorToInsert"></div>
+		<div class="alert alert-success" id="success-alertToInsert">
+		    <button type="button" class="close" data-dismiss="alert">x</button>
+		    Dane zostały zapisane
+		</div>
+		<div class="alert alert-danger" id="error-alertToInsert">
+		    <button type="button" class="close" data-dismiss="alert">x</button>
+		    <div id="error-alert-txt"></div>
+		</div>
 	</div>
 </body>

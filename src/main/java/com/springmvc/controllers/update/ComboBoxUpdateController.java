@@ -1,6 +1,7 @@
 package com.springmvc.controllers.update;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.springmvc.dao.service.ComboBoxConfigurationService;
 import com.springmvc.dao.service.JsonService;
 import com.springmvc.data.model.ComboBoxField;
+import com.springmvc.helpers.ResponseHelper;
+import com.springmvc.validation.ComboBoxValidator;
 
 @Controller
 @RequestMapping("/konfiguracja/pola_wyboru")
@@ -22,6 +25,10 @@ public class ComboBoxUpdateController {
 
 	@Autowired
 	private ComboBoxConfigurationService comboBoxConfigurationService;
+	
+	@Autowired
+	private ComboBoxValidator comboBoxValidator;
+	
 	
 	// DOKOŃCZYĆ/ZMIENIĆ
 	
@@ -50,9 +57,11 @@ public class ComboBoxUpdateController {
 		System.out.println(jsonString);
 		ComboBoxField cbf = JsonService.convertJsonToComboBoxField(jsonString);
 		
-		//TODO: walidacja
-		comboBoxConfigurationService.saveComboBoxField(cbf);
-		
-		return null;
+		List<String> errors = comboBoxValidator.validateComboBoxField(cbf);
+		if(errors == null) {
+			comboBoxConfigurationService.saveComboBoxField(cbf);
+			//TODO walidacja zapisu i podmiana errors
+		}
+		return ResponseHelper.createResponseEntity(errors);
 	}
 }

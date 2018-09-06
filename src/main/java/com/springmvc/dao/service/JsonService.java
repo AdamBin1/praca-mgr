@@ -73,7 +73,9 @@ public class JsonService {
 		stage.setName(dataAsMap.get(0).get("name"));
 		dataAsMap.remove(0);
 		
-		stage.setSec(Integer.parseInt(dataAsMap.get(0).get("sec")));
+		if(!dataAsMap.get(0).get("sec").isEmpty()) {
+			stage.setSec(Integer.parseInt(dataAsMap.get(0).get("sec")));
+		}
 		dataAsMap.remove(0);
 		
 		stage.setProperties(getPropertyListFromDataAsMap(dataAsMap));
@@ -161,7 +163,7 @@ public class JsonService {
 			if(!map.get("name").isEmpty()) {
 				prop.setName(map.get("name"));
 			}
-			if(!map.get("sec").equals("0")) {
+			if(!map.get("sec").isEmpty() && !map.get("sec").equals("0")) {
 				prop.setSec(Integer.parseInt(map.get("sec")));
 			}
 			
@@ -181,7 +183,7 @@ public class JsonService {
 	 * @param inputJson
 	 * @return
 	 */
-	public ObjectModel convertJsonToObject(String inputJson) {
+	public static ObjectModel convertJsonToObject(String inputJson) {
 		ObjectModel object = new ObjectModel();
 		object.setValues(new ArrayList<PropValue>());
 		
@@ -241,6 +243,32 @@ public class JsonService {
 		sb.setCharAt(sb.length()-1, '}');
 		
 		return sb.toString();
+	}
+	
+	public static String createJsonErrorsMessage(List<String> list) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{\"").append("errors").append("\":[");
+		
+		list.forEach(messageString -> sb.append("{\"").append("error").append("\": \"").append(convertToASCII(messageString)).append("\"},"));
+		
+		sb.setCharAt(sb.length()-1, ']');
+		sb.append('}');
+		
+		return sb.toString();
+	}
+	
+	private static String convertToASCII(String string) {
+		string = string.replace("ą", "&#261;");
+		string = string.replace("ć", "&#263;");
+		string = string.replace("ę", "&#281;");
+		string = string.replace("ł", "&#322;");
+		string = string.replace("ń", "&#324;");
+		string = string.replace("ó", "&#211;");
+		string = string.replace("ś", "&#347;");
+		string = string.replace("ź", "&#378;");
+		string = string.replace("ż", "&#380;");
+		
+		return string;
 	}
 
 }
