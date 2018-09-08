@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.springmvc.data.model.ComboBoxField;
@@ -25,6 +28,9 @@ import com.springmvc.data.model.TextBoxPropValue;
 
 @Component
 public class JsonService {
+	
+	@Autowired
+	ComboBoxConfigurationService comboBoxConfigurationService;
 
 	private static final ObjectMapper objectMapper;
 
@@ -41,11 +47,12 @@ public class JsonService {
 	 * @param inputJson
 	 * @return
 	 */
-	public static Stage convertJsonToMainStage(String inputJson) {
+	public Stage convertJsonToMainStage(String inputJson) {
 
 		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
 		
-		Stage stage = new Stage(0, null, null, getPropertyListFromDataAsMap(dataAsMap));
+		Stage stage = new Stage(1, null, null, null);
+		setPropertiesForStage(stage, dataAsMap);
 
 		return stage;
 	}
@@ -62,7 +69,7 @@ public class JsonService {
 	 * @param inputJson
 	 * @return
 	 */
-	public static Stage convertJsonToStage(String inputJson) {
+	public Stage convertJsonToStage(String inputJson) {
 		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
 
 		Stage stage = new Stage();
@@ -78,7 +85,7 @@ public class JsonService {
 		}
 		dataAsMap.remove(0);
 		
-		stage.setProperties(getPropertyListFromDataAsMap(dataAsMap));
+		setPropertiesForStage(stage, dataAsMap);
 		return stage;
 	}
 	
@@ -92,7 +99,7 @@ public class JsonService {
 	 * @param inputJson
 	 * @return
 	 */
-	public static ComboBoxField convertJsonToComboBoxField(String inputJson) {
+	public ComboBoxField convertJsonToComboBoxField(String inputJson) {
 		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
 		
 		ComboBoxField cbf = new ComboBoxField();
@@ -114,7 +121,7 @@ public class JsonService {
 				co.setSec(Integer.parseInt(map.get("sec")));
 			}
 			
-			co.setComboBoxFieldId(cbf.getId());
+			co.setComboBoxField(cbf);
 			options.add(co);
 		}
 
@@ -122,7 +129,7 @@ public class JsonService {
 		return cbf;
 	}
 	
-	private static List<HashMap<String, String>> createDataMap(String inputJson) {
+	private List<HashMap<String, String>> createDataMap(String inputJson) {
 		List<HashMap<String, String>> dataAsMap = null;
 		try {
 			dataAsMap = objectMapper.readValue(inputJson, List.class);
@@ -133,26 +140,35 @@ public class JsonService {
 		return dataAsMap;
 	}
 	
-	private static List<Property> getPropertyListFromDataAsMap(List<HashMap<String, String>> dataAsMap) {
-		List<Property> propList = new ArrayList<>();
+	private void setPropertiesForStage(Stage stage, List<HashMap<String, String>> dataAsMap) {
+		Set<TextBoxProp> textBoxProps = new HashSet();
+		Set<ComboBoxProp> comboBoxProps = new HashSet();
+		Set<DateTextBoxProp> dateTextBoxProps = new HashSet();
+		
+		stage.setTextBoxProperties(textBoxProps);
+		stage.setComboBoxProperties(comboBoxProps);
+		stage.setDateTextBoxProperties(dateTextBoxProps);
 		
 		for(HashMap<String, String> map:dataAsMap) {
 			Property prop = null;
 			switch (map.get("type")) {
 			case "TEXT":
 				prop = new TextBoxProp();
+				textBoxProps.add((TextBoxProp) prop);
 				if(!map.get("val1").isEmpty()){
 					((TextBoxProp)prop).setLength((Integer.parseInt(map.get("val1"))));
 				}
 				break;
 			case "COMBO":
 				prop = new ComboBoxProp();
+				comboBoxProps.add((ComboBoxProp) prop);
 				if(!map.get("val1").isEmpty()){
-					((ComboBoxProp)prop).setComboBoxField(new ComboBoxField(Integer.parseInt(map.get("val1"))));
+					((ComboBoxProp)prop).setComboBoxField(comboBoxConfigurationService.getComboBoxFieldForId(Integer.parseInt(map.get("val1"))));
 				}
 				break;
 			case "DATE":
 				prop = new DateTextBoxProp();
+				dateTextBoxProps.add((DateTextBoxProp) prop);
 				//TODO: mapowanie wartości
 				break;
 			}
@@ -166,12 +182,10 @@ public class JsonService {
 			if(!map.get("sec").isEmpty() && !map.get("sec").equals("0")) {
 				prop.setSec(Integer.parseInt(map.get("sec")));
 			}
-			
-			propList.add(prop);
+			prop.setStage(stage);
 			
 		}
-		
-		return propList;
+		stage.updateProperties();
 	}
 	
 	/**
@@ -183,7 +197,7 @@ public class JsonService {
 	 * @param inputJson
 	 * @return
 	 */
-	public static ObjectModel convertJsonToObject(String inputJson) {
+	public ObjectModel convertJsonToObject(String inputJson) {
 		ObjectModel object = new ObjectModel();
 		object.setValues(new ArrayList<PropValue>());
 		
@@ -229,12 +243,12 @@ public class JsonService {
 		return object;
 	}
 
-	public static String createSuccessMessage() {
+	public String createSuccessMessage() {
 	    String json = "{\"message\": \"" + "success" + "\"}";
 		return json;
 	}
 	
-	public static String createJsonMessage(Map<? extends Object, ? extends Object> data) {
+	public String createJsonMessage(Map<? extends Object, ? extends Object> data) {
 		StringBuilder sb = new StringBuilder();
 		sb.append('{');
 		
@@ -245,7 +259,7 @@ public class JsonService {
 		return sb.toString();
 	}
 	
-	public static String createJsonErrorsMessage(List<String> list) {
+	public String createJsonErrorsMessage(List<String> list) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"").append("errors").append("\":[");
 		
@@ -257,7 +271,7 @@ public class JsonService {
 		return sb.toString();
 	}
 	
-	private static String convertToASCII(String string) {
+	private String convertToASCII(String string) {
 		string = string.replace("ą", "&#261;");
 		string = string.replace("ć", "&#263;");
 		string = string.replace("ę", "&#281;");

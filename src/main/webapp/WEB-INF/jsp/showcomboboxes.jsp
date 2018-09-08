@@ -37,8 +37,13 @@ body {
 			<c:choose>
 				<c:when test="${empty comboboxes}">
 					<label class="col-10 col-form-label">Brak pól wyboru</label>
-					<div class="col-sm">
-						<button class="btn btn-primary" onclick="location.href='pola_wyboru/dodaj'">Dodaj</button>
+					<div class="container">
+						<div class="row break1">
+							<div class="col-sm">
+								<button class="btn btn-primary" onclick="location.href='pola_wyboru/dodaj'">Dodaj nowe pole wyboru</button>
+								<button class="btn btn-light" onclick="location.href='obiekt'">Wróć</button>
+							</div>
+						</div>
 					</div>
 				</c:when>
 				<c:otherwise>

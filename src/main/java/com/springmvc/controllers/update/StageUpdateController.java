@@ -15,9 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.dao.service.ComboBoxConfigurationService;
 import com.springmvc.dao.service.JsonService;
+import com.springmvc.dao.service.ResponseService;
 import com.springmvc.dao.service.StageConfigurationService;
 import com.springmvc.data.model.Stage;
-import com.springmvc.helpers.ResponseHelper;
 import com.springmvc.validation.StageValidator;
 
 @Controller
@@ -28,10 +28,16 @@ public class StageUpdateController {
 	private StageConfigurationService stageConfigurationService;
 	
 	@Autowired
-	ComboBoxConfigurationService comboBoxConfigurationService;
+	private ComboBoxConfigurationService comboBoxConfigurationService;
 	
 	@Autowired
-	StageValidator stageValidator;
+	private StageValidator stageValidator;
+	
+	@Autowired
+	private JsonService jsonService;
+	
+	@Autowired
+	private ResponseService responseService;
 	
 	// DOKOŃCZYĆ/ZMIENIĆ
 	
@@ -61,7 +67,7 @@ public class StageUpdateController {
 	@RequestMapping(value = {"edytuj/zatwierdz", "/zatwierdz"}, method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> save(@RequestBody String jsonString) {
 		System.out.println(jsonString);
-		Stage stage = JsonService.convertJsonToStage(jsonString);
+		Stage stage = jsonService.convertJsonToStage(jsonString);
 		
 		List<String> errors = stageValidator.validateStage(stage);
 		
@@ -69,7 +75,7 @@ public class StageUpdateController {
 			stageConfigurationService.saveStage(stage);
 			//TODO walidacja zapisu i podmiana errors
 		}
-		return ResponseHelper.createResponseEntity(errors);
+		return responseService.createResponseEntity(errors);
 		
 	}
 }

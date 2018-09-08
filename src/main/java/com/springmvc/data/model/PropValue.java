@@ -1,49 +1,21 @@
 package com.springmvc.data.model;
 
-public class PropValue {
-	int id;
-	FieldType type;
-	Integer objectId;
-	Property property;
-	
-	public PropValue() {
-		
-	}
-	
-	public PropValue(int id) {
-		this.id = id;
-	}
+public interface PropValue {
 
-	public int getId() {
-		return id;
-	}
+	public int getId();
 
-	public void setId(int id) {
-		this.id = id;
-	}
+	public void setId(int id);
 
-	public FieldType getType() {
-		return type;
-	}
+	public FieldType getType();
 
-	public void setType(FieldType type) {
-		this.type = type;
-	}
+	public void setType(FieldType type);
 
-	public Integer getObjectId() {
-		return objectId;
-	}
+	public Integer getObjectId();
 
-	public void setObjectId(Integer objectId) {
-		this.objectId = objectId;
-	}
+	public void setObjectId(Integer objectId);
 
-	public Property getProperty() {
-		return property;
-	}
+	public Property getProperty();
 
-	public void setProperty(Property property) {
-		this.property = property;
-	}
+	public void setProperty(Property property);
 	
 }

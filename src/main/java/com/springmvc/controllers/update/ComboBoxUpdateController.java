@@ -15,8 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.dao.service.ComboBoxConfigurationService;
 import com.springmvc.dao.service.JsonService;
+import com.springmvc.dao.service.ResponseService;
 import com.springmvc.data.model.ComboBoxField;
-import com.springmvc.helpers.ResponseHelper;
 import com.springmvc.validation.ComboBoxValidator;
 
 @Controller
@@ -28,6 +28,12 @@ public class ComboBoxUpdateController {
 	
 	@Autowired
 	private ComboBoxValidator comboBoxValidator;
+	
+	@Autowired
+	private JsonService jsonService;
+	
+	@Autowired
+	private ResponseService responseService;
 	
 	
 	// DOKOŃCZYĆ/ZMIENIĆ
@@ -55,13 +61,13 @@ public class ComboBoxUpdateController {
 	@RequestMapping(value = {"edytuj/zatwierdz", "/zatwierdz"}, method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> save(@RequestBody String jsonString) {
 		System.out.println(jsonString);
-		ComboBoxField cbf = JsonService.convertJsonToComboBoxField(jsonString);
+		ComboBoxField cbf = jsonService.convertJsonToComboBoxField(jsonString);
 		
 		List<String> errors = comboBoxValidator.validateComboBoxField(cbf);
 		if(errors == null) {
 			comboBoxConfigurationService.saveComboBoxField(cbf);
 			//TODO walidacja zapisu i podmiana errors
 		}
-		return ResponseHelper.createResponseEntity(errors);
+		return responseService.createResponseEntity(errors);
 	}
 }

@@ -1,72 +1,25 @@
 package com.springmvc.data.model;
 
-public class Property {
+public interface Property {
 
-	int id;
-	FieldType type;
-	String name;
-	short stage;
-	int sec;
-	boolean saveRequired;
+	public Integer getId();
+
+	public void setId(Integer id);
 	
-	public Property() {
-		
-	}
+	public FieldType getType();
+
+	public void setType(FieldType type);
+
+	public String getName();
 	
-	public Property(int id, String name, short stage, int sec, boolean saveRequired) {
-		this.id = id;
-		this.name = name;
-		this.stage = stage;
-		this.sec = sec;
-		this.saveRequired = saveRequired;
-	}
+	public void setName(String name);
 
-	public int getId() {
-		return id;
-	}
+	public Stage getStage();
 
-	public void setId(int id) {
-		this.id = id;
-	}
+	public void setStage(Stage stage);
 
-	public FieldType getType() {
-		return type;
-	}
+	public int getSec();
 
-	public void setType(FieldType type) {
-		this.type = type;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public short getStage() {
-		return stage;
-	}
-
-	public void setStage(short stage) {
-		this.stage = stage;
-	}
-
-	public int getSec() {
-		return sec;
-	}
-
-	public void setSec(int sec) {
-		this.sec = sec;
-	}
-
-	public boolean isSaveRequired() {
-		return saveRequired;
-	}
-
-	public void setSaveRequired(boolean saveRequired) {
-		this.saveRequired = saveRequired;
-	}
+	public void setSec(int sec);
 
 }

@@ -25,7 +25,7 @@ public class ObjectConfigurationController {
 		
 		Map<String, Object> model = new HashMap<>();
 		
-		model.put("mainstage", stageConfigurationService.getStageForId(0));
+		model.put("mainstage", stageConfigurationService.getMainStage());
 		model.put("comboboxes", comboBoxConfigurationService.getAllComboBoxFields());
 		
 		return new ModelAndView("configureobjectmain", model);

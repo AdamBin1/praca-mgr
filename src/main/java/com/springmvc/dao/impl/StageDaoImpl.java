@@ -1,67 +1,42 @@
 package com.springmvc.dao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import org.springframework.data.repository.Repository;
 
-import com.springmvc.dao.StageDAO;
-import com.springmvc.dao.service.ComboBoxPropService;
-import com.springmvc.dao.service.DateTextBoxPropService;
-import com.springmvc.dao.service.TextBoxPropService;
-import com.springmvc.data.model.Property;
 import com.springmvc.data.model.Stage;
 
-@Component
-public class StageDaoImpl implements StageDAO{
+public interface StageDaoImpl extends Repository<Stage, Integer> {
 
-	private static List<Stage> list = null;
-
-	@Override
-	public List<Stage> getAllStages() {
-		return list;
-	}
+	public List<Stage> findAll();
 	
-	@Override
-	public Stage getStageForId(int id) {
-		for(Stage s:list) {
-			if(s.getId() == id) {
-				return s;
-			}
-		}
-		return null;
-	}
+	public Stage findById(Integer id);
 
-	public void init() {
-		if(list != null) {
-			return;
-		}
-		list = new ArrayList<Stage>();
-		ArrayList<Property> list2 = new ArrayList<>();
-		ComboBoxPropService cbps = new ComboBoxPropService();
-		TextBoxPropService tbps = new TextBoxPropService();
-		DateTextBoxPropService dtbps = new DateTextBoxPropService();
-		
-		list2.addAll(cbps.getAllComboBoxProperties());
-		list2.addAll(tbps.getAllTextBoxProperties());
-		list2.addAll(dtbps.getAllDateTextBoxProperties());
-				
-		list.add(new Stage(0, null, null, list2));
-		list.add(new Stage(1, "Etap 1", 1, list2));
-		list.add(new Stage(2, "Etap 2", 20, list2));
-		list.add(new Stage(3, "Etap 3", 30, list2));
-	}
-
-	@Override
-	public void insertOrUpdateStage(Stage stage) {
-		// TODO: podczas zamieniania na hibernate trzeba zadbać o zapis elementów z listy opcji
-		init();
-		if(stage.getId() == null) {
-			list.add(stage);
-		} else {
-			list.removeIf(o->stage.getId() == o.getId());
-			list.add(stage);
-		}		
-	}
+	public Stage findByName(String name);
+	
+	public Stage save(Stage stage);
+	
+	public int countByName(String name);
+	
+	public int countByIdNotAndName(Integer id, String name);
+	
+	public int countBySec(int sec);
+	
+	public int countByIdNotAndSec(Integer id, int sec);
+	
+//	@Override
+//	public Stage getMainStage() {
+//		Query q = entityManager.createQuery("SELECT s FROM Stage s WHERE s.name = null");
+//		
+//		//dla pustej bazy inicjalizacja main stage
+//		if(q.getResultList().isEmpty()) {
+//			Stage s = new Stage(null, null, null, null, null, null);
+//			insertOrUpdateStage(s);
+//			q = entityManager.createQuery("SELECT s FROM Stage s WHERE s.name = null");
+//		}
+//		
+//		Stage s = (Stage) q.getSingleResult();
+//		return s;
+//	}
 
 }

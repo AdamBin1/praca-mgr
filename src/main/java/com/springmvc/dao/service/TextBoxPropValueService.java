@@ -30,6 +30,6 @@ public class TextBoxPropValueService {
 	public List<TextBoxPropValue> getNewComboBoxPropValuesForStageId(short stageId) {
 		TextBoxPropValueDAO textBoxPropValueDAO = new TextBoxPropValueDaoImpl();
 		
-		return textBoxPropValueDAO.getNewTextBoxPropValuesForStageId(stageId);
+		return null;// textBoxPropValueDAO.getNewTextBoxPropValuesForStageId(stageId);
 	}
 }

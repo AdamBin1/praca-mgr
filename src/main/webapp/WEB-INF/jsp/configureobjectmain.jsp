@@ -116,6 +116,8 @@ body {
 		    	newElementVal1 = $(this).clone();
 		    });
 		    
+		    $(currentRow).find("#val1div").show();
+		    
 		} else if(value == "TEXT"){
 
 		    $("#v1nameText").each(function() {
@@ -125,6 +127,8 @@ body {
 		    	newElementVal1 = $(this).clone();
 		    });
 		    
+		    $(currentRow).find("#val1div").show();
+		    
 		} else if(value == "DATE"){
 
 		    $("#v1nameDate").each(function() {
@@ -133,7 +137,8 @@ body {
 		    $("#val1Date").each(function() {
 		    	newElementVal1 = $(this).clone();
 		    });
-			
+		    
+		    $(currentRow).find("#val1div").hide();			
 		}
 		
 		newElementV1name.attr("id","v1name");
@@ -253,7 +258,6 @@ body {
 								<div class="col-2">
 									<select id="val1" class="form-control">
 										<c:forEach items="${comboboxes}" var="combobox">
-										
 											<c:choose>
 												<c:when test="${property.comboBoxField.id eq combobox.id}">
 													<option value="${combobox.id}" selected>${combobox.name}</option>
@@ -262,7 +266,6 @@ body {
 													<option value="${combobox.id}">${combobox.name}</option>
 												</c:otherwise>
 											</c:choose>
-										
 										</c:forEach>
 									</select>
 								</div>
@@ -270,7 +273,10 @@ body {
 						</c:choose>
 						<c:choose>
 							<c:when test="${property.type eq 'DATE'}">
-							<label id="v1name"class="col-form-label" id="v1name"></label>
+							<label id="v1name"class="col-form-label" id="v1name" hidden="true"></label>
+							<div class="col-2">
+								<input id="val1" hidden="true">
+							</div>
 							</c:when>
 						</c:choose>
 					  <input id="id" hidden="true" value="${property.id}"/>
@@ -313,7 +319,7 @@ body {
 				</select>
 			  </div>
 			  <label class="col-form-label" id="v1name">Długość</label>
-			  <div class="col-2">
+			  <div id="val1div" class="col-2">
 			    <input class="form-control" id="val1" type="number" min="1" max="999">
 			  </div>
 			<button type="button" class="close" aria-label="Close" onclick="removeOption(this)">

@@ -5,14 +5,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.springmvc.dao.service.StageConfigurationService;
+import com.springmvc.data.model.ComboBoxProp;
 import com.springmvc.data.model.FieldType;
 import com.springmvc.data.model.Stage;
 import com.springmvc.data.model.TextBoxProp;
 
 @Component
 public class StageValidator {
+	
+	@Autowired
+	StageConfigurationService stageConfigurationService;
 	
 	boolean wrongNames;
 	boolean wrongSec;
@@ -39,10 +45,17 @@ public class StageValidator {
 			} else if (stage.getName().length()>50) {
 				errors.add("Nazwa etapu zbyt długa");
 			}
+			
+			if(stageConfigurationService.isNameInDatabase(stage.getId(), stage.getName())) {
+				errors.add("Nazwa etapu jest już użyta");
+			}
+			
 		}
 		
 		if(!mainStage && (stage.getSec() == null || stage.getName().isEmpty())) {
 			errors.add("Nieprawidłowy numer w sekwencji dla etapu");
+		} else if(!mainStage && stageConfigurationService.isSecInDatabase(stage.getId(), stage.getSec())) {
+			errors.add("Istnieje etap z takim numerem w sekwencji");
 		}
 		
 		stage.getProperties().stream().forEach(property -> {
@@ -77,7 +90,16 @@ public class StageValidator {
 					errors.add("Nieprawidłowa długość dla właściwości o nazwie " + property.getName() + "");
 				}			
 			}
-		});		
+		});	
+		
+		stage.getProperties().stream().forEach(property -> {
+			if(property.getType() == FieldType.COMBO) {
+				ComboBoxProp cbp = (ComboBoxProp) property;
+				if(cbp.getComboBoxField() == null) {
+					errors.add("Wartości nie mogą być puste dla właściwości o nazwie " + property.getName() + "");
+				}			
+			}
+		});
 		
 		Set<Integer> sequences = new HashSet<>();
 		stage.getProperties().stream().forEach(property -> {

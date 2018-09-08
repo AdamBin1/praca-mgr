@@ -1,12 +1,9 @@
 package com.springmvc.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.springmvc.data.model.ComboBoxField;
-import com.springmvc.data.model.ComboOption;
 
 public class ComboBoxModel {
 	private Map<String, Object> model;
@@ -26,19 +23,19 @@ public class ComboBoxModel {
 	}
 
 	private void init(Map<String, Object> model2) {
-		List<ComboOption> listaOpcji = new ArrayList<ComboOption>();
-		listaOpcji.add(new ComboOption(1, "Opcja 1", 1, 1));
-		listaOpcji.add(new ComboOption(2, "Opcja 2123", 2, 1));
-		
-		//Sortowanie listy Opcji zawsze po sec;
-		listaOpcji.sort((co1, co2) -> co1.getSec() - co2.getSec());
-		
-		ComboBoxField comboBoxField = new ComboBoxField(1, "nazwa", listaOpcji);
-		model.put("combobox", comboBoxField);
+//		List<ComboOption> listaOpcji = new ArrayList<ComboOption>();
+////		listaOpcji.add(new ComboOption(1, "Opcja 1", 1, 1));
+////		listaOpcji.add(new ComboOption(2, "Opcja 2123", 2, 1));
+//		
+//		//Sortowanie listy Opcji zawsze po sec;
+//		listaOpcji.sort((co1, co2) -> co1.getSec() - co2.getSec());
+//		
+//		ComboBoxField comboBoxField = new ComboBoxField(1, "nazwa", listaOpcji);
+//		model.put("combobox", comboBoxField);
 	}
 
 	public Map<String, Object> getModel() {
-		return model;
+		return null;
 	}
 
 	public void setModel(Map<String, Object> model) {

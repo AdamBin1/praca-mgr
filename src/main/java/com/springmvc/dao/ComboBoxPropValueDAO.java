@@ -10,5 +10,5 @@ public interface ComboBoxPropValueDAO {
 
 	public void insertOrUpdateComboBoxPropValue(ComboBoxPropValue cbpv);
 
-	public List<ComboBoxPropValue> getNewComboBoxPropValuesForStageId(short stageId);
+//	public List<ComboBoxPropValue> getNewComboBoxPropValuesForStageId(short stageId);
 }

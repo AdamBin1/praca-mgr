@@ -10,5 +10,5 @@ public interface DateTextBoxPropValueDAO {
 
 	public void insertOrUpdateDateTextBoxPropValue(DateTextBoxPropValue dtbpv);
 
-	public List<DateTextBoxPropValue> getNewDateTextBoxPropValuesForStageId(short stageId);
+//	public List<DateTextBoxPropValue> getNewDateTextBoxPropValuesForStageId(short stageId);
 }

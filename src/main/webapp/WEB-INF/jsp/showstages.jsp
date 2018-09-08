@@ -37,8 +37,13 @@ body {
 			<c:choose>
 				<c:when test="${empty stages}">
 					<label class="col-10 col-form-label">Brak etapów</label>
-					<div class="col-sm">
-						<button class="btn btn-primary" onclick="location.href='etapy/dodaj'">Dodaj</button>
+					<div class="container">
+						<div class="row break1">
+							<div class="col-sm">
+								<button class="btn btn-primary" onclick="location.href='etapy/dodaj'">Dodaj nowy etap</button>
+								<button class="btn btn-light" onclick="location.href='obiekt'">Wróć</button>
+							</div>
+						</div>
 					</div>
 				</c:when>
 				<c:otherwise>

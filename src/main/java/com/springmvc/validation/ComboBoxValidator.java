@@ -5,12 +5,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.springmvc.dao.service.ComboBoxConfigurationService;
 import com.springmvc.data.model.ComboBoxField;
 
 @Component
 public class ComboBoxValidator {
+	
+	@Autowired
+	ComboBoxConfigurationService comboBoxConfigurationService;
 	
 	boolean wrongNames;
 	boolean wrongSec;
@@ -26,6 +31,11 @@ public class ComboBoxValidator {
 		if(cbf.getName() == null || cbf.getName().isEmpty()) {
 			errors.add("Nazwa nie może być pusta");
 		}
+		
+		if(comboBoxConfigurationService.isNameInDatabase(cbf.getId(), cbf.getName())) {
+			errors.add("Nazwa jest użyta w innym polu wyboru");
+		}
+		
 		cbf.getOptions().stream().forEach(option -> {
 			if(!wrongNames && (option.getValue() == null || option.getValue().isEmpty())) {
 				wrongNames = true;

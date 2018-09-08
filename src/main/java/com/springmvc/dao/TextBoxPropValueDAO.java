@@ -10,5 +10,5 @@ public interface TextBoxPropValueDAO {
 
 	public void insertOrUpdateTextBoxPropValue(TextBoxPropValue tbpv);
 
-	public List<TextBoxPropValue> getNewTextBoxPropValuesForStageId(short stageId);
+//	public List<TextBoxPropValue> getNewTextBoxPropValuesForStageId(short stageId);
 }

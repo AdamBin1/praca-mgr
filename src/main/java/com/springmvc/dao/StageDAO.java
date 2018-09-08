@@ -11,10 +11,14 @@ public interface StageDAO {
 	
 	public List<Stage> getAllStages();
 	
-	public void init();
-
 	public void insertOrUpdateStage(Stage stage);
 
 	public Stage getStageForId(int id);
+
+	public Stage getMainStage();
+
+	public boolean isNameInDatabase(Integer id, String name);
+
+	public boolean isSecInDatabase(Integer id, Integer sec);
 
 }

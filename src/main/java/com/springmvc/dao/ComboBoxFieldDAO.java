@@ -15,4 +15,6 @@ public interface ComboBoxFieldDAO {
 
 	public ComboBoxField getComboBoxFieldForId(int id);
 
+	public boolean isNameInDatabase(Integer id, String name);
+
 }

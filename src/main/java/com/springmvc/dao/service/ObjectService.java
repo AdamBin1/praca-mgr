@@ -1,16 +1,12 @@
 package com.springmvc.dao.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.springmvc.data.model.ComboBoxPropValue;
-import com.springmvc.data.model.DateTextBoxPropValue;
 import com.springmvc.data.model.ObjectModel;
 import com.springmvc.data.model.PropValue;
-import com.springmvc.data.model.TextBoxPropValue;
 
 @Service
 public class ObjectService {
@@ -25,13 +21,14 @@ public class ObjectService {
 	private DateTextBoxPropValueService dateTextBoxPropValueService; 
 	
 	public List<PropValue> getObjectValuesForStageId(int objectId, short stageId){
-		List<PropValue> propValuesList = new ArrayList<>();
-		propValuesList.addAll(comboBoxPropValueService.getComboBoxPropValuesForStageId(objectId, stageId));
-		propValuesList.addAll(textBoxPropValueService.getComboBoxPropValuesForStageId(objectId, stageId));
-		propValuesList.addAll(dateTextBoxPropValueService.getDateTextBoxPropValuesForStageId(objectId, stageId));
-		
-		propValuesList.sort((p1,p2) -> p1.getProperty().getSec() - p2.getProperty().getSec());
-		return propValuesList;
+//		List<PropValue> propValuesList = new ArrayList<>();
+//		propValuesList.addAll(comboBoxPropValueService.getComboBoxPropValuesForStageId(objectId, stageId));
+//		propValuesList.addAll(textBoxPropValueService.getComboBoxPropValuesForStageId(objectId, stageId));
+//		propValuesList.addAll(dateTextBoxPropValueService.getDateTextBoxPropValuesForStageId(objectId, stageId));
+//		
+//		propValuesList.sort((p1,p2) -> p1.getProperty().getSec() - p2.getProperty().getSec());
+//		return propValuesList;
+		return null;
 	}
 	
 	public ObjectModel getObjectForStageId(int objectId, short stageId) {
@@ -42,28 +39,29 @@ public class ObjectService {
 	}
 	
 	public List<PropValue> getNewObjectValuesForStageId(short stageId) {
-		List<PropValue> propValuesList = new ArrayList<>();
-		propValuesList.addAll(comboBoxPropValueService.getNewComboBoxPropValuesForStageId(stageId));
-		propValuesList.addAll(textBoxPropValueService.getNewComboBoxPropValuesForStageId(stageId));
-		propValuesList.addAll(dateTextBoxPropValueService.getNewDateTextBoxPropValuesForStageId(stageId));
-		
-		propValuesList.sort((p1,p2) -> p1.getProperty().getSec() - p2.getProperty().getSec());
-		return propValuesList;
+//		List<PropValue> propValuesList = new ArrayList<>();
+//		propValuesList.addAll(comboBoxPropValueService.getNewComboBoxPropValuesForStageId(stageId));
+//		propValuesList.addAll(textBoxPropValueService.getNewComboBoxPropValuesForStageId(stageId));
+//		propValuesList.addAll(dateTextBoxPropValueService.getNewDateTextBoxPropValuesForStageId(stageId));
+//		
+//		propValuesList.sort((p1,p2) -> p1.getProperty().getSec() - p2.getProperty().getSec());
+//		return propValuesList;
+		return null;
 	}
 	
 	public void saveValues(List<PropValue> values) {
-		for(PropValue value: values) {
-			switch (value.getType()) {
-			case TEXT:
-				textBoxPropValueService.saveTextBoxPropValue((TextBoxPropValue)value);
-				break;
-			case COMBO:
-				comboBoxPropValueService.saveComboBoxPropValue((ComboBoxPropValue)value);
-				break;
-			case DATE:
-				dateTextBoxPropValueService.saveDateTextBoxPropValue((DateTextBoxPropValue)value);
-			}
-		}
+//		for(PropValue value: values) {
+//			switch (value.getType()) {
+//			case TEXT:
+//				textBoxPropValueService.saveTextBoxPropValue((TextBoxPropValue)value);
+//				break;
+//			case COMBO:
+//				comboBoxPropValueService.saveComboBoxPropValue((ComboBoxPropValue)value);
+//				break;
+//			case DATE:
+//				dateTextBoxPropValueService.saveDateTextBoxPropValue((DateTextBoxPropValue)value);
+//			}
+//		}
 	}
 
 }
