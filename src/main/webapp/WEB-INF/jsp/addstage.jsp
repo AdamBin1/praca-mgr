@@ -34,11 +34,11 @@ body {
 
 <script type="text/javascript">
 
+	var stage_id = "${stage.id}";
+
 	function save() {
 		
 		var data = [];
-		
-		var stage_id = "${stage.id}";
 		
 		if(stage_id != ""){
 	    	var id_data = {
@@ -98,9 +98,16 @@ body {
 			async : false, //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
 			cache : false, //This will force requested pages not to be cached by the browser          
 			processData : false, //To avoid making query String instead of JSON
-			success : function() {
+			success : function(resposeJsonObject) {
 				// Success Message Handler
 				showSuccessAlert();
+				//w trybie edycji dodawanie id do zapisanych elementów
+				if(stage_id != ""){
+					resposeJsonObject.idSecPairs.forEach(updateDivId);
+					disableFieldsAfterSave();
+					
+				}
+				
 			},
 			error : function(resposeJsonObject) {
 				// Error Message Handler
@@ -108,6 +115,47 @@ body {
 				resposeJsonObject.responseJSON.errors.forEach(addErrorDiv);
 			}
 		});
+	};
+
+	function disableFieldsAfterSave(){
+		removeRemovalButtons();
+		disableTypes();
+		disableVal1Combo();
+	}
+	
+	function removeRemovalButtons(){
+		$("#mainContainer").find("#removeOption").each(function() {
+			$(this).remove();
+		});
+	};
+	
+	function disableTypes(){
+		$("#mainContainer").find(".type-select").each(function() {
+			$(this).prop( "disabled", true );
+		});
+	};
+	
+	function disableVal1Combo(){
+		$("#mainContainer").find(".val1-combo").each(function() {
+			$(this).prop( "disabled", true );
+		});
+	};
+	
+	function updateDivId(value){
+		$("#mainContainer").find(".row-to-add").each(function() {
+		    $(this).find("#sec").each(function() {
+		    	if($(this).val() == value.sec){
+		    		setIdForSec(this, value.id);
+		    	}
+		    });
+		});
+	};
+	
+	function setIdForSec(sec, id){
+		var currentRow = $(sec).closest('div').parent();
+		currentRow.find("#id").each(function() {
+	    	$(this).attr("value", id);
+	    });
 	};
 	
 	function addErrorDiv(value){
@@ -248,7 +296,7 @@ body {
 					  </div>
   					  <label class="col-form-label">Typ</label>
 					  <div class="col-2">
-						<select id="type" class="form-control" onchange="typeChange(this)">
+						<select id="type" class="form-control" disabled="disabled">
 							<c:choose>
 								<c:when test="${property.type eq 'TEXT'}">
 									<option value="TEXT" selected>Pole Tekstowe</option>
@@ -287,9 +335,8 @@ body {
 							<c:when test="${property.type eq 'COMBO'}">
 								<label class="col-form-label" id="v1name">Wartości</label>
 								<div class="col-2">
-									<select id="val1" class="form-control">
+									<select id="val1" class="form-control" disabled="disabled">
 										<c:forEach items="${comboboxes}" var="combobox">
-										
 											<c:choose>
 												<c:when test="${property.comboBoxField.id eq combobox.id}">
 													<option value="${combobox.id}" selected>${combobox.name}</option>
@@ -340,7 +387,7 @@ body {
 			  </div>
 			  <label class="col-form-label">Typ</label>
 			  <div class="col-2">
-				<select id="type" class="form-control" onchange="typeChange(this)">
+				<select id="type" class="form-control type-select" onchange="typeChange(this)">
 					<option value="TEXT" selected>Pole Tekstowe</option>
 					<option value="COMBO">Pole wyboru</option>
 					<option value="DATE">Data</option>
@@ -350,7 +397,8 @@ body {
 			  <div id="val1div" class="col-2">
 			    <input class="form-control" id="val1" type="number" min="1" max="999">
 			  </div>
-			<button type="button" class="close" aria-label="Close" onclick="removeOption(this)">
+			  <input id="id" hidden="true"/>
+			<button id="removeOption" type="button" class="close" aria-label="Close" onclick="removeOption(this)">
 			  <span aria-hidden="true">&times;</span>
 			</button>
 		</div>
@@ -358,7 +406,7 @@ body {
 		<label class="col-form-label" id="v1nameCombo">Wartości</label>
 		<label id="v1nameDate" hidden="true"></label>
 		<input class="form-control" id="val1Text" type="number" min="1" max="999">
-		<select id="val1Combo" class="form-control">
+		<select id="val1Combo" class="form-control val1-combo">
 		<option></option>
 			<c:forEach items="${comboboxes}" var="combobox">
 				<option value="${combobox.id}">${combobox.name}</option>

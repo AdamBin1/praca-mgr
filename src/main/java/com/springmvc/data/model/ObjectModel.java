@@ -1,17 +1,17 @@
 package com.springmvc.data.model;
 
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.OneToMany;
 
-@Entity
-@Table(name = "OBJECTS")
+//@Entity
+//@Table(name = "OBJECTS")
 public class ObjectModel {
 
 	@Id
@@ -22,18 +22,19 @@ public class ObjectModel {
 	@Column(name = "ACTIVE_STAGE_ID")
 	private Integer activeStageId;
 	
-	@Transient
-	private List<PropValue> values;
+	@Column(name = "STAGE_VALUES")
+	@OneToMany(orphanRemoval=true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "objectModel")
+	private Set<StageValues> stageValues;
 	
 	public ObjectModel() {
 		super();
 	}
 	
-	public ObjectModel(Integer id, Integer activeStageId, List<PropValue> values) {
+	public ObjectModel(Integer id, Integer activeStageId, Set<StageValues> stageValues) {
 		super();
 		this.id = id;
 		this.activeStageId = activeStageId;
-		this.values = values;
+		this.stageValues = stageValues;
 	}
 
 	public Integer getId() {
@@ -52,12 +53,12 @@ public class ObjectModel {
 		this.activeStageId = activeStageId;
 	}
 
-	public List<PropValue> getValues() {
-		return values;
+	public Set<StageValues> getStageValues() {
+		return stageValues;
 	}
 
-	public void setValues(List<PropValue> values) {
-		this.values = values;
+	public void setStageValues(Set<StageValues> stageValues) {
+		this.stageValues = stageValues;
 	}
 
 	@Override
@@ -66,7 +67,6 @@ public class ObjectModel {
 		int result = 1;
 		result = prime * result + ((activeStageId == null) ? 0 : activeStageId.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((values == null) ? 0 : values.hashCode());
 		return result;
 	}
 
@@ -89,12 +89,14 @@ public class ObjectModel {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (values == null) {
-			if (other.values != null)
+		if (stageValues == null) {
+			if (other.stageValues != null)
 				return false;
-		} else if (!values.equals(other.values))
+		} else if (!stageValues.equals(other.stageValues))
 			return false;
 		return true;
 	}
+
+	
 	
 }

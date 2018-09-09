@@ -17,6 +17,7 @@ import com.springmvc.dao.service.ComboBoxConfigurationService;
 import com.springmvc.dao.service.JsonService;
 import com.springmvc.dao.service.ResponseService;
 import com.springmvc.dao.service.StageConfigurationService;
+import com.springmvc.data.model.IdSecPair;
 import com.springmvc.data.model.Stage;
 import com.springmvc.validation.StageValidator;
 
@@ -72,10 +73,12 @@ public class StageUpdateController {
 		List<String> errors = stageValidator.validateStage(stage);
 		
 		if(errors == null) {
-			stageConfigurationService.saveStage(stage);
+			Stage savedStage = stageConfigurationService.saveStage(stage);
 			//TODO walidacja zapisu i podmiana errors
+			List<IdSecPair> idSecPairs = stageConfigurationService.getIdSecPairList(savedStage);
+			return responseService.createSuccessResponseEntity(idSecPairs);
 		}
-		return responseService.createResponseEntity(errors);
+		return responseService.createErrorResponseEntity(errors);
 		
 	}
 }

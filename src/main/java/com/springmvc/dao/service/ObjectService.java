@@ -32,10 +32,11 @@ public class ObjectService {
 	}
 	
 	public ObjectModel getObjectForStageId(int objectId, short stageId) {
-		ObjectModel model = new ObjectModel();
-		model.setId(objectId);
-		model.setValues(getObjectValuesForStageId(objectId, stageId));
-		return model;
+//		ObjectModel model = new ObjectModel();
+//		model.setId(objectId);
+//		model.setValues(getObjectValuesForStageId(objectId, stageId));
+//		return model;
+		return null;
 	}
 	
 	public List<PropValue> getNewObjectValuesForStageId(short stageId) {

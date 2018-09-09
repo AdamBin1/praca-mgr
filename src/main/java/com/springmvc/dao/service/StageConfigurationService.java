@@ -1,5 +1,6 @@
 package com.springmvc.dao.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.springmvc.dao.impl.StageDaoImpl;
+import com.springmvc.data.model.IdSecPair;
 import com.springmvc.data.model.Stage;
 
 @Service
@@ -44,8 +46,8 @@ public class StageConfigurationService {
 		return stages;
 	}
 	
-	public void saveStage(Stage stage) {
-		stageDAO.save(stage);
+	public Stage saveStage(Stage stage) {
+		return stageDAO.save(stage);
 	}
 
 	public Object getMainStage() {
@@ -61,18 +63,25 @@ public class StageConfigurationService {
 
 	public boolean isNameInDatabase(Integer id, String name) {
 		if(id == null) {
-			return stageDAO.countByName(name) < 1;
+			return stageDAO.countByName(name) > 0;
 		} else {
-			return stageDAO.countByIdNotAndName(id, name) < 1;
+			return stageDAO.countByIdNotAndName(id, name) > 0;
 		}
 	}
 
 	public boolean isSecInDatabase(Integer id, int sec) {
 		if(id == null) {
-			return stageDAO.countBySec(sec) < 1;
+			return stageDAO.countBySec(sec) > 0;
 		} else {
-			return stageDAO.countByIdNotAndSec(id, sec) < 1;
+			return stageDAO.countByIdNotAndSec(id, sec) > 0;
 		}
+	}
+
+	public List<IdSecPair> getIdSecPairList(Stage stage) {
+		List<IdSecPair> idSecPairs = new ArrayList<>();
+		stage.updateProperties();
+		stage.getProperties().parallelStream().forEach(option -> idSecPairs.add(new IdSecPair(option.getId(), option.getSec())));
+		return idSecPairs;
 	}
 	
 }

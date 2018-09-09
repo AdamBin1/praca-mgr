@@ -68,9 +68,17 @@ public class ComboBoxValidator {
 			errors.add("Wartości numerów w sekwencji muszą być unikalne");
 		}
 		
+		// jeżeli wszystko ok, ujemne id są nullowane, bo to nowe opcje
+		cbf.getOptions().parallelStream().forEach(o -> {
+			if(o.getId()<0) {
+				o.setId(null);
+			}
+		});
+		
 		if(errors.isEmpty()) {
 			return null;
 		}
+		
 		return errors;
 	}
 }

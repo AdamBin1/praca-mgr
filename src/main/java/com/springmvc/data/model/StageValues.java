@@ -16,8 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "STAGES")
-public class Stage{
+@Table(name = "STAGES_VALUES")
+public class StageValues{
 	
 	@Id
 	@Column(name = "ID", nullable=false)
@@ -45,14 +45,14 @@ public class Stage{
 	@Transient
 	private List<Property> properties;
 	
-	public Stage() {
+	public StageValues() {
 	}
 	
-	public Stage(Integer id) {
+	public StageValues(Integer id) {
 		this.id = id;
 	}
 	
-	public Stage(Integer id, String name, Integer sec, List<Property> properties) {
+	public StageValues(Integer id, String name, Integer sec, List<Property> properties) {
 		this.id = id;
 		this.name = name;
 		this.sec = sec;
@@ -60,7 +60,7 @@ public class Stage{
 		this.properties = properties;
 	}
 
-	public Stage(Integer id, String name, Integer sec, 
+	public StageValues(Integer id, String name, Integer sec, 
 			Set<TextBoxProp> textBoxProperties,
 			Set<ComboBoxProp> comboBoxProperties,
 			Set<DateTextBoxProp> dateTextBoxProperties) {
@@ -160,7 +160,7 @@ public class Stage{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Stage other = (Stage) obj;
+		StageValues other = (StageValues) obj;
 		if (comboBoxProperties == null) {
 			if (other.comboBoxProperties != null)
 				return false;

@@ -29,13 +29,14 @@ body {
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
 <script type="text/javascript">
+
+	var combo_id = "${combobox.id}";
+
 	function save() {
 		
 		$("#error-alert").hide(); 
 		
 		var data = [];
-		
-		var combo_id = "${combobox.id}";
 		
 		if(combo_id != ""){
 	    	var id_data = {
@@ -78,9 +79,15 @@ body {
 			async : false, //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
 			cache : false, //This will force requested pages not to be cached by the browser          
 			processData : false, //To avoid making query String instead of JSON
-			success : function() {
+			success : function(resposeJsonObject) {
 				// Success Message Handler
 				showSuccessAlert();
+				//w trybie edycji dodawanie id do zapisanych elementów
+				if(combo_id != ""){
+					resposeJsonObject.idSecPairs.forEach(updateDivId);
+					removeRemovalButtons();
+				}
+				
 			},
 			error : function(resposeJsonObject) {
 				// Error Message Handler
@@ -90,12 +97,35 @@ body {
 		});
 	};
 	
+	function removeRemovalButtons(){
+		$("#mainContainer").find("#removeOption").each(function() {
+			$(this).remove();
+		});
+	};
+	
+	function updateDivId(value){
+		$("#mainContainer").find(".row-to-add").each(function() {
+		    $(this).find("#sec").each(function() {
+		    	if($(this).val() == value.sec){
+		    		setIdForSec(this, value.id);
+		    	}
+		    });
+		});
+	};
+	
+	function setIdForSec(sec, id){
+		var currentRow = $(sec).closest('div').parent();
+		currentRow.find("#id").each(function() {
+	    	$(this).attr("value", id);
+	    });
+	};
+	
 	function addErrorDiv(value){
 		var divToInsert = $( "#errorToInsert" ).clone();
 		divToInsert.attr("id","error");
 		divToInsert.text(decodeAscii(value.error));
 		divToInsert.appendTo( "#error-alert-txt" );		
-	}
+	};
 	
 	function addRow(){		
 		var rowToInsert = $( "#rowToInsert" ).clone();
@@ -196,7 +226,8 @@ body {
 		  <div class="col-2">
 		    <input class="form-control" id="sec" type="number" min="1" max="999">
 		  </div>
-			<button type="button" class="close" aria-label="Close" onclick="removeOption(this)">
+		  <input id="id" hidden="true"/>
+			<button id="removeOption" type="button" class="close" aria-label="Close" onclick="removeOption(this)">
 			  <span aria-hidden="true">&times;</span>
 			</button>
 		</div>

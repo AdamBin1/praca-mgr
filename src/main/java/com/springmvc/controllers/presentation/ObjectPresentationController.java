@@ -26,7 +26,7 @@ public class ObjectPresentationController {
 		
 		Map<String, Object> model = new HashMap<>();
 		ObjectModel object = new ObjectModel();
-		object.setValues(objectService.getNewObjectValuesForStageId((short)0));
+//		object.setValues(objectService.getNewObjectValuesForStageId(1));
 		model.put("object", object);
 		
 		return new ModelAndView("addobject", model);
@@ -38,7 +38,7 @@ public class ObjectPresentationController {
 		
 		Map<String, Object> model = new HashMap<>();
 		ObjectModel object = objectService.getObjectForStageId(id, (short)0);
-		object.setValues(objectService.getObjectValuesForStageId(id, (short)0));
+//		object.setValues(objectService.getObjectValuesForStageId(id, (short)0));
 		model.put("object", object);
 		
 		return new ModelAndView("addobject", model);

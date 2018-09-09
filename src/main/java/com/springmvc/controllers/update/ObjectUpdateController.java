@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.springmvc.dao.service.JsonService;
 import com.springmvc.dao.service.ResponseService;
 import com.springmvc.dao.service.StageConfigurationService;
+import com.springmvc.data.model.IdSecPair;
 import com.springmvc.data.model.ObjectModel;
 import com.springmvc.data.model.Stage;
 import com.springmvc.validation.StageValidator;
@@ -66,11 +67,13 @@ public class ObjectUpdateController {
 		List<String> errors = stageValidator.validateMainStage(mainStage);
 
 		if(errors == null) {
-			stageConfigurationService.saveStage(mainStage);
+			Stage savedStage = stageConfigurationService.saveStage(mainStage);
 			//TODO walidacja zapisu i podmiana errors
+			List<IdSecPair> idSecPairs = stageConfigurationService.getIdSecPairList(savedStage);
+			return responseService.createSuccessResponseEntity(idSecPairs);
 		}
 		
-		return responseService.createResponseEntity(errors);
+		return responseService.createErrorResponseEntity(errors);
 	}
 
 }

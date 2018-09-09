@@ -2,12 +2,13 @@ package com.springmvc.dao.service;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.springmvc.data.model.ComboBoxPropValue;
 import com.springmvc.data.model.ComboOption;
 import com.springmvc.data.model.DateTextBoxProp;
 import com.springmvc.data.model.DateTextBoxPropValue;
+import com.springmvc.data.model.IdSecPair;
 import com.springmvc.data.model.ObjectModel;
 import com.springmvc.data.model.PropValue;
 import com.springmvc.data.model.Property;
@@ -110,11 +112,16 @@ public class JsonService {
 		cbf.setName(dataAsMap.get(0).get("name"));
 		dataAsMap.remove(0);
 		
-		List<ComboOption> options = new ArrayList<ComboOption>();
-		for(HashMap<String, String> map:dataAsMap) {
+		SortedSet<ComboOption> options = new TreeSet<ComboOption>();
+		HashMap<String, String> map;
+		for(int i=0 ; i < dataAsMap.size() ; i++) {
+			map = dataAsMap.get(i);
 			ComboOption co = new ComboOption();
 			if(!map.get("id").isEmpty()){
 				co.setId(Integer.parseInt(map.get("id")));
+			} else {
+				// minusowe oznaczają, że są to nowe elementy
+				co.setId(-1-i);
 			}
 			co.setValue(map.get("val"));
 			if(!map.get("sec").equals("")) {
@@ -199,7 +206,7 @@ public class JsonService {
 	 */
 	public ObjectModel convertJsonToObject(String inputJson) {
 		ObjectModel object = new ObjectModel();
-		object.setValues(new ArrayList<PropValue>());
+//		object.setValues(new TreeSet<PropValue>());
 		
 		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
 		
@@ -237,7 +244,7 @@ public class JsonService {
 			if(!map.get("id").isEmpty()){
 				propVal.setId(Integer.parseInt(map.get("id")));
 			}
-			object.getValues().add(propVal);
+//			object.getValues().add(propVal);
 		}
 		
 		return object;
@@ -264,6 +271,19 @@ public class JsonService {
 		sb.append("{\"").append("errors").append("\":[");
 		
 		list.forEach(messageString -> sb.append("{\"").append("error").append("\": \"").append(convertToASCII(messageString)).append("\"},"));
+		
+		sb.setCharAt(sb.length()-1, ']');
+		sb.append('}');
+		
+		return sb.toString();
+	}
+	
+	public String createJsonSuccessMessage(List<IdSecPair> idSecPairs) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{\"").append("idSecPairs").append("\":[");
+		
+		idSecPairs.forEach(idSec -> sb.append("{\"").append("id").append("\":\"").append(idSec.getId())
+				.append("\",\"sec").append("\":\"").append(idSec.getSec()).append("\"},"));
 		
 		sb.setCharAt(sb.length()-1, ']');
 		sb.append('}');

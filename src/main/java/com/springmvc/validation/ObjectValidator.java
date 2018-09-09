@@ -20,16 +20,16 @@ public class ObjectValidator {
 
 		List<String> errors = new ArrayList<>();
 
-		object.getValues().stream().forEach(propValue -> {
-			String error = validateValue(propValue);
-			if(error!=null) {
-				errors.add(error);
-			}			
-		});
-		
-		if(errors.isEmpty()) {
-			return null;
-		}
+//		object.getValues().stream().forEach(propValue -> {
+//			String error = validateValue(propValue);
+//			if(error!=null) {
+//				errors.add(error);
+//			}			
+//		});
+//		
+//		if(errors.isEmpty()) {
+//			return null;
+//		}
 		return errors;
 	}
 

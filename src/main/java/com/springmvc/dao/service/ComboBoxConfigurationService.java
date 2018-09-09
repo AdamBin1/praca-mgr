@@ -1,5 +1,6 @@
 package com.springmvc.dao.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.springmvc.dao.impl.ComboBoxFieldDaoImpl;
 import com.springmvc.data.model.ComboBoxField;
+import com.springmvc.data.model.IdSecPair;
 
 @Service
 @Transactional
@@ -21,7 +23,6 @@ public class ComboBoxConfigurationService {
 	
 	public ComboBoxField getComboBoxFieldForId(int id) {
 		ComboBoxField cbf = comboBoxFieldDAO.findById(id);
-		cbf.getOptions().sort((o1, o2)->o1.getSec()-o2.getSec());
 		return cbf;
 	}
 	
@@ -32,15 +33,21 @@ public class ComboBoxConfigurationService {
 		return list;
 	}
 	
-	public void saveComboBoxField(ComboBoxField cbf) {
-		comboBoxFieldDAO.save(cbf);
+	public ComboBoxField saveComboBoxField(ComboBoxField cbf) {
+		return comboBoxFieldDAO.save(cbf);
 	}
 
 	public boolean isNameInDatabase(Integer id, String name) {
 		if(id == null) {
-			return comboBoxFieldDAO.countByName(name) < 1;
+			return comboBoxFieldDAO.countByName(name) > 0;
 		} else {
-			return comboBoxFieldDAO.countByIdNotAndName(id, name) < 1;
+			return comboBoxFieldDAO.countByIdNotAndName(id, name) > 0;
 		}
+	}
+
+	public List<IdSecPair> getIdSecPairList(ComboBoxField cbf) {
+		List<IdSecPair> idSecPairs = new ArrayList<>();
+		cbf.getOptions().parallelStream().forEach(option -> idSecPairs.add(new IdSecPair(option.getId(), option.getSec())));
+		return idSecPairs;
 	}
 }

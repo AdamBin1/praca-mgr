@@ -1,7 +1,7 @@
 package com.springmvc.data.model;
 
-import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
@@ -25,9 +26,10 @@ public class ComboBoxField{
 	@Column(name = "NAME")
 	private String name;
 	
+	@OrderBy("sec")
 	@Column(name = "COMBO_OPTION")
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "comboBoxField")
-	private List<ComboOption> options;
+	private SortedSet<ComboOption> options;
 	
 	@Column(name = "COMBO_PROPERTY")
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "comboBoxField")
@@ -41,7 +43,7 @@ public class ComboBoxField{
 		this.id = id;
 	}
 
-	public ComboBoxField(Integer id, String name, List<ComboOption> options) {
+	public ComboBoxField(Integer id, String name, SortedSet<ComboOption> options) {
 		this.id = id;
 		this.name = name;
 		this.options = options;
@@ -63,11 +65,11 @@ public class ComboBoxField{
 		this.name = name;
 	}
 
-	public List<ComboOption> getOptions() {
+	public SortedSet<ComboOption> getOptions() {
 		return options;
 	}
 
-	public void setOptions(List<ComboOption> options) {
+	public void setOptions(SortedSet<ComboOption> options) {
 		this.options = options;
 	}
 
@@ -85,8 +87,6 @@ public class ComboBoxField{
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((options == null) ? 0 : options.hashCode());
-		result = prime * result + ((properties == null) ? 0 : properties.hashCode());
 		return result;
 	}
 

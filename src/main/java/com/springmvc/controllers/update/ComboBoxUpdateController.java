@@ -17,6 +17,7 @@ import com.springmvc.dao.service.ComboBoxConfigurationService;
 import com.springmvc.dao.service.JsonService;
 import com.springmvc.dao.service.ResponseService;
 import com.springmvc.data.model.ComboBoxField;
+import com.springmvc.data.model.IdSecPair;
 import com.springmvc.validation.ComboBoxValidator;
 
 @Controller
@@ -65,9 +66,11 @@ public class ComboBoxUpdateController {
 		
 		List<String> errors = comboBoxValidator.validateComboBoxField(cbf);
 		if(errors == null) {
-			comboBoxConfigurationService.saveComboBoxField(cbf);
+			ComboBoxField savedCbf = comboBoxConfigurationService.saveComboBoxField(cbf);
 			//TODO walidacja zapisu i podmiana errors
+			List<IdSecPair> idSecPairs = comboBoxConfigurationService.getIdSecPairList(savedCbf);
+			return responseService.createSuccessResponseEntity(idSecPairs);
 		}
-		return responseService.createResponseEntity(errors);
+		return responseService.createErrorResponseEntity(errors);
 	}
 }
