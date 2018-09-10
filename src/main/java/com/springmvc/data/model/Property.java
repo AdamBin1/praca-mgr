@@ -21,5 +21,9 @@ public interface Property {
 	public int getSec();
 
 	public void setSec(int sec);
+	
+	public PropValue getPropValue();
+	
+	public void setPropValue(PropValue propValue);
 
 }

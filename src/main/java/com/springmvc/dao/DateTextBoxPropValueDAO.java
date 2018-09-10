@@ -1,14 +1,16 @@
 package com.springmvc.dao;
 
-import java.util.List;
+import org.springframework.data.repository.Repository;
 
 import com.springmvc.data.model.DateTextBoxPropValue;
+import com.springmvc.data.model.PropValue;
 
-public interface DateTextBoxPropValueDAO {
+public interface DateTextBoxPropValueDAO extends Repository<DateTextBoxPropValue, Integer>{
 
-	public List<DateTextBoxPropValue> getDateTextBoxPropValuesForStageId(int objectId, short stageId);
+	public DateTextBoxPropValue save(DateTextBoxPropValue dtbpv);
 
-	public void insertOrUpdateDateTextBoxPropValue(DateTextBoxPropValue dtbpv);
+	public Iterable<DateTextBoxPropValue> saveAll(Iterable<DateTextBoxPropValue> dateTextBoxPropValues);
 
-//	public List<DateTextBoxPropValue> getNewDateTextBoxPropValuesForStageId(short stageId);
+	public PropValue findByObjectIdAndPropId(int objectId, Integer propId);
+
 }

@@ -33,6 +33,9 @@ public class TextBoxProp implements Property{
 	@Column(name = "LENGTH")	
 	private int length;
 	
+	@Transient
+	TextBoxPropValue textBoxPropValue;
+	
 	public TextBoxProp() {
 		super();
 		this.type = FieldType.TEXT;
@@ -104,6 +107,16 @@ public class TextBoxProp implements Property{
 	@Override
 	public void setSec(int sec) {
 		this.sec = sec;
+	}
+	
+	@Override
+	public TextBoxPropValue getPropValue() {
+		return textBoxPropValue;
+	}
+	
+	@Override
+	public void setPropValue(PropValue propValue) {
+		this.textBoxPropValue = (TextBoxPropValue) propValue;
 	}
 
 	@Override

@@ -1,35 +1,30 @@
 package com.springmvc.dao.service;
 
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springmvc.dao.TextBoxPropValueDAO;
-import com.springmvc.dao.impl.TextBoxPropValueDaoImpl;
+import com.springmvc.data.model.PropValue;
 import com.springmvc.data.model.TextBoxPropValue;
 
 @Service
 public class TextBoxPropValueService {
 	
+	@Autowired
+	TextBoxPropValueDAO textBoxPropValueDAO;
+	
 	public TextBoxPropValueService() {
-		
 	}
 	
-	public List<TextBoxPropValue> getComboBoxPropValuesForStageId(int objectId, short stageId) {
-		TextBoxPropValueDAO textBoxPropValueDAO = new TextBoxPropValueDaoImpl();
-		
-		return textBoxPropValueDAO.getTextBoxPropValuesForStageId(objectId, stageId);
+	public TextBoxPropValue save(TextBoxPropValue tbpv) {
+		return textBoxPropValueDAO.save(tbpv);
 	}
 
-	public void saveTextBoxPropValue(TextBoxPropValue tbpv) {
-		TextBoxPropValueDAO textBoxPropValueDAO = new TextBoxPropValueDaoImpl();
-		
-		textBoxPropValueDAO.insertOrUpdateTextBoxPropValue(tbpv);
+	public Iterable<TextBoxPropValue> saveAll(Iterable<TextBoxPropValue> textBoxPropValues) {
+		return textBoxPropValueDAO.saveAll(textBoxPropValues);
 	}
 
-	public List<TextBoxPropValue> getNewComboBoxPropValuesForStageId(short stageId) {
-		TextBoxPropValueDAO textBoxPropValueDAO = new TextBoxPropValueDaoImpl();
-		
-		return null;// textBoxPropValueDAO.getNewTextBoxPropValuesForStageId(stageId);
+	public PropValue findByObjectIdAndPropId(int objectId, Integer propId) {
+		return textBoxPropValueDAO.findByObjectIdAndPropId(objectId, propId);
 	}
 }

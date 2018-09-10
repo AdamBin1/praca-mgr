@@ -2,9 +2,9 @@ package com.springmvc.data.model;
 
 public interface PropValue {
 
-	public int getId();
+	public Integer getId();
 
-	public void setId(int id);
+	public void setId(Integer id);
 
 	public FieldType getType();
 
@@ -14,8 +14,10 @@ public interface PropValue {
 
 	public void setObjectId(Integer objectId);
 
-	public Property getProperty();
+	public Integer getPropId();
 
-	public void setProperty(Property property);
-	
+	public void setPropId(Integer propId);
+
+	public boolean isSet();
+
 }

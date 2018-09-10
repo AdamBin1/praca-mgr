@@ -7,18 +7,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.springmvc.dao.impl.StageDaoImpl;
+import com.springmvc.dao.StageDAO;
+import com.springmvc.data.model.FieldType;
+import com.springmvc.data.model.IdPropIdType;
 import com.springmvc.data.model.IdSecPair;
+import com.springmvc.data.model.ObjectModel;
 import com.springmvc.data.model.Stage;
 
 @Service
 @Transactional
-public class StageConfigurationService {
+public class StageService {
 	
 	@Autowired
-	private StageDaoImpl stageDAO; 
+	private StageDAO stageDAO; 
 	
-	public StageConfigurationService() {
+	@Autowired
+	TextBoxPropValueService textBoxPropValueService;
+
+	@Autowired
+	ComboBoxPropValueService comboBoxPropValueService;
+	
+	@Autowired
+	DateTextBoxPropValueService dateTextBoxPropValueService;
+	
+	public StageService() {
 	}
 	
 	public Stage getStageForId(int id) {
@@ -50,7 +62,7 @@ public class StageConfigurationService {
 		return stageDAO.save(stage);
 	}
 
-	public Object getMainStage() {
+	public Stage getMainStage() {
 		Stage stage = stageDAO.findByName(null);
 		if(stage == null) {
 			Stage s = new Stage(null, null, null, null, null, null);
@@ -82,6 +94,22 @@ public class StageConfigurationService {
 		stage.updateProperties();
 		stage.getProperties().parallelStream().forEach(option -> idSecPairs.add(new IdSecPair(option.getId(), option.getSec())));
 		return idSecPairs;
+	}
+
+	public List<IdPropIdType> getIdPropIdPairList(ObjectModel object) {
+		List<IdPropIdType> idPropIdPairs = new ArrayList<>();
+		
+		object.getTextBoxPropValues().forEach(pv -> idPropIdPairs.add(new IdPropIdType(pv.getId(), pv.getPropId(), FieldType.TEXT)));
+		object.getComboBoxPropValues().forEach(pv-> idPropIdPairs.add(new IdPropIdType(pv.getId(), pv.getPropId(), FieldType.COMBO)));
+		object.getDateTextBoxPropValues().forEach(pv-> idPropIdPairs.add(new IdPropIdType(pv.getId(), pv.getPropId(), FieldType.DATE)));
+		
+		return idPropIdPairs;
+	}
+
+	public void updateValues(Stage stage, int objectId) {
+		stage.getTextBoxProperties().forEach(prop -> prop.setPropValue(textBoxPropValueService.findByObjectIdAndPropId(objectId, prop.getId())));
+		stage.getComboBoxProperties().forEach(prop -> prop.setPropValue(comboBoxPropValueService.findByObjectIdAndPropId(objectId, prop.getId())));
+		stage.getDateTextBoxProperties().forEach(prop -> prop.setPropValue(dateTextBoxPropValueService.findByObjectIdAndPropId(objectId, prop.getId())));
 	}
 	
 }

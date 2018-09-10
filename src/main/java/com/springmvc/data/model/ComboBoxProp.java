@@ -33,6 +33,9 @@ public class ComboBoxProp implements Property{
 	@ManyToOne
 	private ComboBoxField comboBoxField;
 	
+	@Transient
+	private ComboBoxPropValue comboBoxPropValue;
+	
 	public ComboBoxProp() {
 		super();
 		this.type = FieldType.COMBO;
@@ -114,6 +117,16 @@ public class ComboBoxProp implements Property{
 	@Override
 	public void setSec(int sec) {
 		this.sec = sec;
+	}
+
+	@Override
+	public ComboBoxPropValue getPropValue() {
+		return comboBoxPropValue;
+	}
+	
+	@Override
+	public void setPropValue(PropValue propValue) {
+		this.comboBoxPropValue = (ComboBoxPropValue) propValue;
 	}
 
 	@Override

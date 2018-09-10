@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.dao.service.ComboBoxConfigurationService;
-import com.springmvc.dao.service.StageConfigurationService;
+import com.springmvc.dao.service.StageService;
 
 @Controller
 public class ObjectConfigurationController {
 
 	@Autowired
-	StageConfigurationService stageConfigurationService;
+	StageService stageConfigurationService;
 	
 	@Autowired
 	ComboBoxConfigurationService comboBoxConfigurationService;

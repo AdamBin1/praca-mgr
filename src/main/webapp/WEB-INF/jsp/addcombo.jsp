@@ -180,7 +180,7 @@ body {
 				<div class="form-group row">
 					  <label class="col-form-label">Nazwa</label>
 					  <div class="col-6">
-					    <input id="name" class="form-control" type="text" maxlength="50" value="${combobox.name}">
+					    <input id="name" class="form-control" type="text" maxlength="50" value="${combobox.name}"/>
 					  </div>
 					  <div class="col-3">
 					  	<button class="btn btn-light" onclick="addRow()">Dodaj opcję</button>
@@ -194,11 +194,11 @@ body {
 					<div id="row" class="form-group row row-to-add">
 					  <label class="col-form-label">Opcja</label>
 					  <div class="col-7">
-					    <input class="form-control" id="value" maxlength="50" value="${option.value}">
+					    <input class="form-control" id="value" maxlength="50" value="${option.value}"/>
 					  </div>
 					  <label class="col-form-label">Numer w sekwencji</label>
 					  <div class="col-2">
-					    <input class="form-control" id="sec" type="number" min="1" max="999" value="${option.sec}">
+					    <input class="form-control" id="sec" type="number" min="1" max="999" value="${option.sec}"/>
 					  </div>
 					  <input id="id" hidden="true" value="${option.id}"/>
 					</div>
@@ -220,11 +220,11 @@ body {
 		<div id="rowToInsert" class="form-group row row-to-add">
 		  <label class="col-form-label">Opcja</label>
 		  <div class="col-7">
-		    <input class="form-control" id="value" maxlength="50">
+		    <input class="form-control" id="value" maxlength="50"/>
 		  </div>
 		  <label class="col-form-label">Numer w sekwencji</label>
 		  <div class="col-2">
-		    <input class="form-control" id="sec" type="number" min="1" max="999">
+		    <input class="form-control" id="sec" type="number" min="1" max="999"/>
 		  </div>
 		  <input id="id" hidden="true"/>
 			<button id="removeOption" type="button" class="close" aria-label="Close" onclick="removeOption(this)">

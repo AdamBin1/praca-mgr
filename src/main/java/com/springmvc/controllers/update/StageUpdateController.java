@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.springmvc.dao.service.ComboBoxConfigurationService;
 import com.springmvc.dao.service.JsonService;
 import com.springmvc.dao.service.ResponseService;
-import com.springmvc.dao.service.StageConfigurationService;
+import com.springmvc.dao.service.StageService;
 import com.springmvc.data.model.IdSecPair;
 import com.springmvc.data.model.Stage;
 import com.springmvc.validation.StageValidator;
@@ -26,7 +26,7 @@ import com.springmvc.validation.StageValidator;
 public class StageUpdateController {
 
 	@Autowired
-	private StageConfigurationService stageConfigurationService;
+	private StageService stageConfigurationService;
 	
 	@Autowired
 	private ComboBoxConfigurationService comboBoxConfigurationService;
@@ -76,7 +76,7 @@ public class StageUpdateController {
 			Stage savedStage = stageConfigurationService.saveStage(stage);
 			//TODO walidacja zapisu i podmiana errors
 			List<IdSecPair> idSecPairs = stageConfigurationService.getIdSecPairList(savedStage);
-			return responseService.createSuccessResponseEntity(idSecPairs);
+			return responseService.createSuccessResponseEntityForIdSecPairs(idSecPairs);
 		}
 		return responseService.createErrorResponseEntity(errors);
 		

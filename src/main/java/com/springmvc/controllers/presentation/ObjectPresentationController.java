@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.dao.service.ObjectService;
+import com.springmvc.dao.service.StageService;
 import com.springmvc.data.model.ObjectModel;
-import com.springmvc.model.PageModel;
+import com.springmvc.data.model.Stage;
 
 @Controller
 @RequestMapping("modelowanie")
@@ -20,38 +21,66 @@ public class ObjectPresentationController {
 	@Autowired
 	ObjectService objectService;
 	
+	@Autowired
+	StageService stageService;
+	
 	
 	@RequestMapping("/dodaj")
 	public ModelAndView addMainObject() {
 		
 		Map<String, Object> model = new HashMap<>();
-		ObjectModel object = new ObjectModel();
-//		object.setValues(objectService.getNewObjectValuesForStageId(1));
-		model.put("object", object);
+		
+		model.put("stage", stageService.getMainStage());
 		
 		return new ModelAndView("addobject", model);
 
 	}
 	
 	@RequestMapping("/obiekt/{id_obiektu}")
-	public ModelAndView editMainObject(@PathVariable("id_obiektu") int id) {
+	public ModelAndView editMainObject(@PathVariable("id_obiektu") int objectId) {
 		
 		Map<String, Object> model = new HashMap<>();
-		ObjectModel object = objectService.getObjectForStageId(id, (short)0);
-//		object.setValues(objectService.getObjectValuesForStageId(id, (short)0));
+		
+		ObjectModel object = objectService.getObjectById(objectId);
+		if(object == null) {
+			return new ModelAndView("resource-not-found", model);
+		}
+		
+		Stage stage = stageService.getMainStage();
+		stageService.updateValues(stage, objectId);
+		model.put("stage", stage);
 		model.put("object", object);
 		
 		return new ModelAndView("addobject", model);
-
+		
 	}
 	
 	@RequestMapping("/obiekt/{id_obiektu}/etap/{id_etapu}")
 	public ModelAndView showObjectStage(@PathVariable("id_obiektu") int objectId, @PathVariable("id_etapu") int stageId) {
 		
-	//	try
+		Map<String, Object> model = new HashMap<>();
 		
-		PageModel pm = new PageModel();
-		return new ModelAndView("showobjectstage", pm.getModel());
+		// żeby nie pozwolić na otwieranie main stage do edycji jako etap
+//		if(stageId == 1) {
+//			return new ModelAndView("resource-not-found", model);
+//		}
+		
+		ObjectModel object = objectService.getObjectById(objectId);
+		if(object == null) {
+			return new ModelAndView("resource-not-found", model);
+		}
+		
+		Stage mainStage = stageService.getMainStage();
+		stageService.updateValues(mainStage, objectId);
+		model.put("mainStage", mainStage);
+		
+		Stage stage = stageService.getStageForId(stageId);
+		stageService.updateValues(stage, objectId);
+		
+		model.put("stage", stage);
+		model.put("object", object);
+		
+		return new ModelAndView("showobjectstage", model);
 
 	}
 

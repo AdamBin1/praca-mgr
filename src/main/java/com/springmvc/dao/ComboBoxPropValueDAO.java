@@ -1,14 +1,16 @@
 package com.springmvc.dao;
 
-import java.util.List;
+import org.springframework.data.repository.Repository;
 
 import com.springmvc.data.model.ComboBoxPropValue;
+import com.springmvc.data.model.PropValue;
 
-public interface ComboBoxPropValueDAO {
+public interface ComboBoxPropValueDAO extends Repository<ComboBoxPropValue, Integer>{
 
-	public List<ComboBoxPropValue> getComboBoxPropValuesForStageId(int objectId, short stageId);
+	public ComboBoxPropValue save(ComboBoxPropValue cbp);
 
-	public void insertOrUpdateComboBoxPropValue(ComboBoxPropValue cbpv);
+	public Iterable<ComboBoxPropValue> saveAll(Iterable<ComboBoxPropValue> comboBoxPropValues);
 
-//	public List<ComboBoxPropValue> getNewComboBoxPropValuesForStageId(short stageId);
+	public PropValue findByObjectIdAndPropId(int objectId, Integer propId);
+
 }

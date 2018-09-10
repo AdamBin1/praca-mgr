@@ -1,17 +1,15 @@
 package com.springmvc.data.model;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.FetchType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
-//@Entity
-//@Table(name = "OBJECTS")
+@Entity
+@Table(name = "OBJECTS")
 public class ObjectModel {
 
 	@Id
@@ -22,19 +20,23 @@ public class ObjectModel {
 	@Column(name = "ACTIVE_STAGE_ID")
 	private Integer activeStageId;
 	
-	@Column(name = "STAGE_VALUES")
-	@OneToMany(orphanRemoval=true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "objectModel")
-	private Set<StageValues> stageValues;
+	@Transient
+	Iterable<TextBoxPropValue> textBoxPropValues;
+	
+	@Transient
+	Iterable<ComboBoxPropValue> comboBoxPropValues;
+	
+	@Transient
+	Iterable<DateTextBoxPropValue> dateTextBoxPropValues;
 	
 	public ObjectModel() {
 		super();
 	}
 	
-	public ObjectModel(Integer id, Integer activeStageId, Set<StageValues> stageValues) {
+	public ObjectModel(Integer id, Integer activeStageId) {
 		super();
 		this.id = id;
 		this.activeStageId = activeStageId;
-		this.stageValues = stageValues;
 	}
 
 	public Integer getId() {
@@ -53,12 +55,28 @@ public class ObjectModel {
 		this.activeStageId = activeStageId;
 	}
 
-	public Set<StageValues> getStageValues() {
-		return stageValues;
+	public Iterable<TextBoxPropValue> getTextBoxPropValues() {
+		return textBoxPropValues;
 	}
 
-	public void setStageValues(Set<StageValues> stageValues) {
-		this.stageValues = stageValues;
+	public void setTextBoxPropValues(Iterable<TextBoxPropValue> textBoxPropValues) {
+		this.textBoxPropValues = textBoxPropValues;
+	}
+
+	public Iterable<ComboBoxPropValue> getComboBoxPropValues() {
+		return comboBoxPropValues;
+	}
+
+	public void setComboBoxPropValues(Iterable<ComboBoxPropValue> comboBoxPropValues) {
+		this.comboBoxPropValues = comboBoxPropValues;
+	}
+
+	public Iterable<DateTextBoxPropValue> getDateTextBoxPropValues() {
+		return dateTextBoxPropValues;
+	}
+
+	public void setDateTextBoxPropValues(Iterable<DateTextBoxPropValue> dateTextBoxPropValues) {
+		this.dateTextBoxPropValues = dateTextBoxPropValues;
 	}
 
 	@Override
@@ -88,11 +106,6 @@ public class ObjectModel {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (stageValues == null) {
-			if (other.stageValues != null)
-				return false;
-		} else if (!stageValues.equals(other.stageValues))
 			return false;
 		return true;
 	}

@@ -2,23 +2,26 @@ package com.springmvc.dao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import org.springframework.data.repository.Repository;
 
 import com.springmvc.data.model.Stage;
 
-@Component
-public interface StageDAO {
+public interface StageDAO extends Repository<Stage, Integer> {
+
+	public List<Stage> findAll();
 	
-	public List<Stage> getAllStages();
+	public Stage findById(Integer id);
+
+	public Stage findByName(String name);
 	
-	public void insertOrUpdateStage(Stage stage);
-
-	public Stage getStageForId(int id);
-
-	public Stage getMainStage();
-
-	public boolean isNameInDatabase(Integer id, String name);
-
-	public boolean isSecInDatabase(Integer id, Integer sec);
-
+	public Stage save(Stage stage);
+	
+	public int countByName(String name);
+	
+	public int countByIdNotAndName(Integer id, String name);
+	
+	public int countBySec(int sec);
+	
+	public int countByIdNotAndSec(Integer id, int sec);
+	
 }

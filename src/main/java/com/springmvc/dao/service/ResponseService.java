@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.springmvc.data.model.IdPropIdType;
 import com.springmvc.data.model.IdSecPair;
 
 @Service
@@ -19,17 +20,27 @@ public class ResponseService {
 
 	public ResponseEntity<String> createErrorResponseEntity(List<String> errors) {
 		
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+		return new ResponseEntity<String>(jsonService.createJsonErrorsMessage(errors), getApplicationJsonHeaders(), HttpStatus.UNPROCESSABLE_ENTITY);
+	}
 
-		return new ResponseEntity<String>(jsonService.createJsonErrorsMessage(errors), responseHeaders, HttpStatus.UNPROCESSABLE_ENTITY);
+	public ResponseEntity<String> createSuccessResponseEntityForIdSecPairs(List<IdSecPair> idSecPairs) {
+		
+		return new ResponseEntity<String>(jsonService.createJsonSuccessMessageForIdSecPairs(idSecPairs), getApplicationJsonHeaders(), HttpStatus.OK);
 	}
 	
-	public ResponseEntity<String> createSuccessResponseEntity(List<IdSecPair> idSecPairs) {
-		
+	public ResponseEntity<String> createSuccessResponseEntityForIdPropIdPairs(List<IdPropIdType> idPropIdTypes) {
+
+		return new ResponseEntity<String>(jsonService.createJsonSuccessMessageForIdPropIdType(idPropIdTypes), getApplicationJsonHeaders(), HttpStatus.OK);
+	}
+	
+	public ResponseEntity<String> createSuccessResponseEntity() {
+
+		return new ResponseEntity<String>(jsonService.createJsonSuccessMessage(), getApplicationJsonHeaders(), HttpStatus.OK);
+	}
+	
+	private HttpHeaders getApplicationJsonHeaders() {
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-		return new ResponseEntity<String>(jsonService.createJsonSuccessMessage(idSecPairs), responseHeaders, HttpStatus.OK);
+		return responseHeaders;
 	}
 }

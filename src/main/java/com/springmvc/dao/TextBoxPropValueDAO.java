@@ -1,14 +1,14 @@
 package com.springmvc.dao;
 
-import java.util.List;
+import org.springframework.data.repository.Repository;
 
+import com.springmvc.data.model.PropValue;
 import com.springmvc.data.model.TextBoxPropValue;
 
-public interface TextBoxPropValueDAO {
+public interface TextBoxPropValueDAO extends Repository<TextBoxPropValue, Integer> {
+	public TextBoxPropValue save(TextBoxPropValue tbpv);
 
-	public List<TextBoxPropValue> getTextBoxPropValuesForStageId(int objectId, short stageId);
+	public Iterable<TextBoxPropValue> saveAll(Iterable<TextBoxPropValue> textBoxPropValues);
 
-	public void insertOrUpdateTextBoxPropValue(TextBoxPropValue tbpv);
-
-//	public List<TextBoxPropValue> getNewTextBoxPropValuesForStageId(short stageId);
+	public PropValue findByObjectIdAndPropId(int objectId, Integer propId);
 }

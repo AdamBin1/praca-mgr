@@ -30,6 +30,9 @@ public class DateTextBoxProp implements Property{
 	@Column(name = "SEC")
 	private int sec;
 	
+	@Transient
+	DateTextBoxPropValue dateTextBoxPropValue;
+	
 	public DateTextBoxProp() {
 		super();
 		this.type = FieldType.DATE;
@@ -92,6 +95,16 @@ public class DateTextBoxProp implements Property{
 	@Override
 	public void setSec(int sec) {
 		this.sec = sec;
+	}
+	
+	@Override
+	public DateTextBoxPropValue getPropValue() {
+		return dateTextBoxPropValue;
+	}
+	
+	@Override
+	public void setPropValue(PropValue propValue) {
+		this.dateTextBoxPropValue = (DateTextBoxPropValue) propValue;
 	}
 
 	@Override

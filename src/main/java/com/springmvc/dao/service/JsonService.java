@@ -2,6 +2,8 @@ package com.springmvc.dao.service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +22,7 @@ import com.springmvc.data.model.ComboBoxPropValue;
 import com.springmvc.data.model.ComboOption;
 import com.springmvc.data.model.DateTextBoxProp;
 import com.springmvc.data.model.DateTextBoxPropValue;
+import com.springmvc.data.model.IdPropIdType;
 import com.springmvc.data.model.IdSecPair;
 import com.springmvc.data.model.ObjectModel;
 import com.springmvc.data.model.PropValue;
@@ -33,6 +36,9 @@ public class JsonService {
 	
 	@Autowired
 	ComboBoxConfigurationService comboBoxConfigurationService;
+	
+	@Autowired
+	ObjectService objectService;
 
 	private static final ObjectMapper objectMapper;
 
@@ -200,59 +206,64 @@ public class JsonService {
 	 *  
 	 *  Struktura JSONa:
 	 *  	opcjonalna para {object_id - #id} - występuje tylko dla edycji
-	 *  	następnie pary {"id" - #id_wartości (pusta dla nowych), type - #typ, val - #wartosc}
+	 *  	następnie czwórki {"id" - #id_wartości (pusta dla nowych), "prop_id" - id property, type - #typ, val - #wartosc}
 	 * @param inputJson
 	 * @return
 	 */
 	public ObjectModel convertJsonToObject(String inputJson) {
-		ObjectModel object = new ObjectModel();
-//		object.setValues(new TreeSet<PropValue>());
-		
 		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
-		
+		Integer objectId = null;
 		if(dataAsMap.get(0).containsKey("object_id")) {
-			object.setId(Integer.parseInt(dataAsMap.get(0).get("object_id")));
+			objectId = Integer.parseInt(dataAsMap.get(0).get("object_id"));
 			dataAsMap.remove(0);
 		}
 		
-		for(HashMap<String, String> map:dataAsMap) {
-			Property prop = null;
+		ObjectModel object;
+		if(objectId == null) {
+			object = new ObjectModel();
+		} else {
+			object = objectService.getObjectById(objectId);
+		}
+		Collection<TextBoxPropValue> textBoxPropValues = new ArrayList<>();
+		Collection<ComboBoxPropValue> comboBoxPropValues = new ArrayList<>();
+		Collection<DateTextBoxPropValue> dateTextBoxPropValues = new ArrayList<>();
+
+		object.setTextBoxPropValues(textBoxPropValues);
+		object.setComboBoxPropValues(comboBoxPropValues);
+		object.setDateTextBoxPropValues(dateTextBoxPropValues);
+		
+		
+		for(HashMap<String, String> map : dataAsMap) {
+			Integer propValId = map.get("id").isEmpty() ? null : Integer.parseInt(map.get("id"));
+			if(propValId == null && map.get("val").isEmpty()){
+				continue;
+			}
 			PropValue propVal = null;
 			switch (map.get("type")) {
 			case "TEXT":
-				prop = new TextBoxProp();
 				propVal = new TextBoxPropValue();
-				if(!map.get("val").isEmpty()){
-					((TextBoxPropValue)propVal).setValue(map.get("val"));
-				}
+				((TextBoxPropValue)propVal).setValue(map.get("val"));
+				textBoxPropValues.add((TextBoxPropValue) propVal);
 				break;
 			case "COMBO":
-				prop = new ComboBoxProp();
 				propVal = new ComboBoxPropValue();
-				if(!map.get("val").isEmpty()){
+				if(!map.get("val").isEmpty()) {
 					((ComboBoxPropValue)propVal).setValue(Integer.parseInt(map.get("val")));
 				}
+				comboBoxPropValues.add((ComboBoxPropValue) propVal);
 				break;
 			case "DATE":
-				prop = new DateTextBoxProp();
 				propVal = new DateTextBoxPropValue();
-				if(!map.get("val").isEmpty()){
+				if(!map.get("val").isEmpty()) {
 					((DateTextBoxPropValue)propVal).setValue(LocalDate.parse(map.get("val")));
 				}
+				dateTextBoxPropValues.add((DateTextBoxPropValue) propVal);
 				break;
 			}
-			if(!map.get("id").isEmpty()){
-				propVal.setId(Integer.parseInt(map.get("id")));
-			}
-//			object.getValues().add(propVal);
+			propVal.setPropId(Integer.parseInt(map.get("prop_id")));
+			propVal.setId(propValId);
 		}
-		
 		return object;
-	}
-
-	public String createSuccessMessage() {
-	    String json = "{\"message\": \"" + "success" + "\"}";
-		return json;
 	}
 	
 	public String createJsonMessage(Map<? extends Object, ? extends Object> data) {
@@ -264,6 +275,11 @@ public class JsonService {
 		sb.setCharAt(sb.length()-1, '}');
 		
 		return sb.toString();
+	}
+	
+	public String createJsonSuccessMessage() {
+	    String json = "{\"message\": \"" + "success" + "\"}";
+		return json;
 	}
 	
 	public String createJsonErrorsMessage(List<String> list) {
@@ -278,12 +294,26 @@ public class JsonService {
 		return sb.toString();
 	}
 	
-	public String createJsonSuccessMessage(List<IdSecPair> idSecPairs) {
+	public String createJsonSuccessMessageForIdSecPairs(List<IdSecPair> idSecPairs) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"").append("idSecPairs").append("\":[");
 		
 		idSecPairs.forEach(idSec -> sb.append("{\"").append("id").append("\":\"").append(idSec.getId())
 				.append("\",\"sec").append("\":\"").append(idSec.getSec()).append("\"},"));
+		
+		sb.setCharAt(sb.length()-1, ']');
+		sb.append('}');
+		
+		return sb.toString();
+	}
+	
+	public String createJsonSuccessMessageForIdPropIdType(List<IdPropIdType> idPropIdType) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{\"").append("idPropIdPairs").append("\":[");
+		
+		idPropIdType.forEach(data -> sb.append("{\"").append("id").append("\":\"").append(data.getId())
+				.append("\",\"propId").append("\":\"").append(data.getPropId())
+				.append("\",\"type").append("\":\"").append(data.getFieldType()).append("\"},"));
 		
 		sb.setCharAt(sb.length()-1, ']');
 		sb.append('}');

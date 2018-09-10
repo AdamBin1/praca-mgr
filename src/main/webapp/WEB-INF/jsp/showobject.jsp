@@ -5,18 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet"
-	href="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/claro.css">
 <title>Reprezentacja obiektu</title>
-
-<script>
-	//	require(["dojo/parser", "dijit/form/DateTextBox", "dijit/form/ComboBox"]);
-</script>
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript">
-	function zapisz() {
+	function save() {
 		
 		var data = [];
 
@@ -47,29 +40,9 @@
 	};
 </script>
 
-<script>
-	function zmien() {
-		require([ 'dojo/dom', 'dojo/domReady!' ], function(dom) {
-			var greeting = dom.byId('greeting');
-			greeting.innerHTML += ' from Dojo!';
-		});
-	}
-</script>
-
 </head>
 
-<body class="claro">
-	<script src="//ajax.googleapis.com/ajax/libs/dojo/1.13.0/dojo/dojo.js"
-		data-dojo-config="async: true"></script>
-
-	<script>
-		require([ 'dojo/dom', 'dojo/domReady!' ], function(dom) {
-			var greeting = dom.byId('greeting');
-			//       greeting.innerHTML += ' from Dojo!';
-		});
-	</script>
-
-
+<body>
 	<c:if test="${not empty properties}">
 		<c:forEach items="${properties}" var="properties">
 			<table id="propTable">
@@ -122,7 +95,7 @@
 	</c:if>
 
 	<h1 id="greeting">Hello</h1>
-	<button onclick="zapisz()">Zapisz</button>
+	<button onclick="save()">Zapisz</button>
 
 	<input type="button" id="submit" value="Ajax Submit" />
 

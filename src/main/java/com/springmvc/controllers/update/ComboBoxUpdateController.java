@@ -69,7 +69,7 @@ public class ComboBoxUpdateController {
 			ComboBoxField savedCbf = comboBoxConfigurationService.saveComboBoxField(cbf);
 			//TODO walidacja zapisu i podmiana errors
 			List<IdSecPair> idSecPairs = comboBoxConfigurationService.getIdSecPairList(savedCbf);
-			return responseService.createSuccessResponseEntity(idSecPairs);
+			return responseService.createSuccessResponseEntityForIdSecPairs(idSecPairs);
 		}
 		return responseService.createErrorResponseEntity(errors);
 	}

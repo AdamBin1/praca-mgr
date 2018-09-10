@@ -1,13 +1,10 @@
 package com.springmvc.data.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -19,16 +16,16 @@ public class TextBoxPropValue implements PropValue{
 	@Id
 	@Column(name = "ID", nullable=false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	@Transient
 	private FieldType type;
 	
-	//TODO: co tutaj?
+	@Column(name = "OBJECT_ID")
 	private Integer objectId;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL, optional=false)
-	private TextBoxProp property;
+	@Column(name = "PROP_ID")
+	private Integer propId;
 	
 	@Column(name = "VALUE")
 	private String value;	
@@ -38,12 +35,12 @@ public class TextBoxPropValue implements PropValue{
 		this.type = FieldType.TEXT;
 	}
 
-	public TextBoxPropValue(Integer id, String value, Integer stageId, TextBoxProp property) {
+	public TextBoxPropValue(Integer id, String value, Integer objectId, Integer propId) {
 		this.id = id;
 		this.type = FieldType.TEXT;
 		this.value = value;
-		this.objectId = stageId;
-		this.property = property;
+		this.objectId = objectId;
+		this.propId = propId;
 	}
 
 	public String getValue() {
@@ -55,12 +52,12 @@ public class TextBoxPropValue implements PropValue{
 	}
 	
 	@Override
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
 	@Override
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -85,22 +82,22 @@ public class TextBoxPropValue implements PropValue{
 	}
 
 	@Override
-	public Property getProperty() {
-		return property;
+	public Integer getPropId() {
+		return propId;
 	}
 
 	@Override
-	public void setProperty(Property property) {
-		this.property = (TextBoxProp) property;
+	public void setPropId(Integer propId) {
+		this.propId = propId;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((objectId == null) ? 0 : objectId.hashCode());
-		result = prime * result + ((property == null) ? 0 : property.hashCode());
+		result = prime * result + ((propId == null) ? 0 : propId.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
@@ -115,17 +112,20 @@ public class TextBoxPropValue implements PropValue{
 		if (getClass() != obj.getClass())
 			return false;
 		TextBoxPropValue other = (TextBoxPropValue) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (objectId == null) {
 			if (other.objectId != null)
 				return false;
 		} else if (!objectId.equals(other.objectId))
 			return false;
-		if (property == null) {
-			if (other.property != null)
+		if (propId == null) {
+			if (other.propId != null)
 				return false;
-		} else if (!property.equals(other.property))
+		} else if (!propId.equals(other.propId))
 			return false;
 		if (type != other.type)
 			return false;
@@ -137,4 +137,8 @@ public class TextBoxPropValue implements PropValue{
 		return true;
 	}
 
+	@Override
+	public boolean isSet() {
+		return (this.value != null && !this.value.isEmpty());
+	}
 }

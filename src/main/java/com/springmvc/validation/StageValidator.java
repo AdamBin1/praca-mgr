@@ -8,7 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.springmvc.dao.service.StageConfigurationService;
+import com.springmvc.dao.service.StageService;
 import com.springmvc.data.model.ComboBoxProp;
 import com.springmvc.data.model.FieldType;
 import com.springmvc.data.model.Stage;
@@ -18,7 +18,7 @@ import com.springmvc.data.model.TextBoxProp;
 public class StageValidator {
 	
 	@Autowired
-	StageConfigurationService stageConfigurationService;
+	StageService stageConfigurationService;
 	
 	boolean wrongNames;
 	boolean wrongSec;
@@ -112,6 +112,10 @@ public class StageValidator {
 		
 		if(!wrongSec && (sequences.size() != stage.getProperties().size())) {
 			errors.add("Wartości numerów w sekwencji muszą być unikalne");
+		}
+		
+		if(stage.getProperties().isEmpty()) {
+			errors.add("Etap nie może być pusty");
 		}
 		
 		if(errors.isEmpty()) {

@@ -72,7 +72,7 @@ body {
 		});
 
 		$.ajax({
-			url : "zatwierdz",
+			url : "../../zatwierdz",
 			type : "POST",
 			dataType : 'json',
 			contentType : "application/json; charset=utf-8",
@@ -152,62 +152,98 @@ body {
 <body>
 	<div id="alert">
 	</div>
-	<div id="mainContainer" class="container">
-		<div class="card break1">
-			<div class="card-header">
-				<c:choose>
-					<c:when test="${empty object.id}">
-					Nowy obiekt	
-					</c:when>
-					<c:otherwise>
-					Edycja obiektu
-					</c:otherwise>
-				</c:choose>
-			</div>
-			<div class="card-body m-3">
-			<c:forEach items="${stage.properties}" var="property">
-				<div id="row" class="form-group row row-to-add">
-				  <label class="col-form-label col-2">${property.name}</label>
-				  <div class="col-5">
-					<c:choose>
-						<c:when test="${property.type eq 'TEXT'}">
-							<input class="form-control" id="val" maxlength="${property.length}" value="${property.propValue.value}"/>
-						</c:when>
-						<c:when test="${property.type eq 'COMBO'}">
-							<select class="form-control" id="val">
-								<option value=""/>
-								<c:forEach items="${property.comboBoxField.options}" var="combobox">
-									<c:choose>
-										<c:when test="${property.propValue.value eq combobox.id}">
-											<option value="${combobox.id}" selected>${combobox.value}</option>
-										</c:when>
-										<c:otherwise>
-											<option value="${combobox.id}">${combobox.value}</option>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</select>
-						</c:when>
-						<c:when test="${property.type eq 'DATE'}">
-							<input class="form-control" type="date" id="val" value="${property.propValue.value}"/>
-						</c:when>
-					</c:choose>
-					<input id="prop_id" hidden="true" value="${property.id}"/>
-					<input id="id" hidden="true" value="${property.propValue.id}"/>
-					<input id="type" hidden="true" value="${property.type}"/>
-				  </div>
-			  </div>
-			  </c:forEach>
-			<div class="container">
-				<div class="row break1">
-					<div class="col-sm">
-						<button class="btn btn-primary" onclick="save()">Zapisz</button>
-						<button class="btn btn-light" onclick="location.href='/SpringMVC'">Wróć</button>
+	<div class="container">
+	<div class="row">
+		<div id="objectContainer" class="col-sm-6">
+			<div class="card break1">
+				<div class="card-header">Dane obiektu</div>
+				<div class="card-body m-3">
+					<c:forEach items="${mainStage.properties}" var="property">
+						<div id="row" class="form-group row row-to-add">
+						  <label class="col-form-label col-3">${property.name}</label>
+						  <div class="col-9">
+							<c:choose>
+								<c:when test="${property.type eq 'TEXT'}">
+									<input class="form-control" value="${property.propValue.value}" disabled="disabled"/>
+								</c:when>
+								<c:when test="${property.type eq 'COMBO'}">
+									<select class="form-control" id="val" disabled="disabled">
+										<option value=""/>
+										<c:forEach items="${property.comboBoxField.options}" var="combobox">
+											<c:choose>
+												<c:when test="${property.propValue.value eq combobox.id}">
+													<option value="${combobox.id}" selected>${combobox.value}</option>
+												</c:when>
+											</c:choose>
+										</c:forEach>
+									</select>
+								</c:when>
+								<c:when test="${property.type eq 'DATE'}">
+									<input class="form-control" type="date" id="val" value="${property.propValue.value}" disabled="disabled"/>
+								</c:when>
+							</c:choose>
+						  </div>
+					  </div>
+					  </c:forEach>
+					<div class="container">
+						<div class="row break1">
+							<div class="col-sm">
+								<button class="btn btn-light" onclick="location.href='../../${mainStage.id}'">Edytuj Obiekt</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+		<div id="mainContainer" class="col-sm-6">
+			<div class="card break1">
+				<div class="card-header">Dane etapu</div>
+				<div class="card-body m-3">
+					<c:forEach items="${stage.properties}" var="property">
+						<div id="row" class="form-group row row-to-add">
+						  <label class="col-form-label col-3">${property.name}</label>
+						  <div class="col-9">
+							<c:choose>
+								<c:when test="${property.type eq 'TEXT'}">
+									<input class="form-control" id="val" maxlength="${property.length}" value="${property.propValue.value}"/>
+								</c:when>
+								<c:when test="${property.type eq 'COMBO'}">
+									<select class="form-control" id="val">
+										<option value=""/>
+										<c:forEach items="${property.comboBoxField.options}" var="combobox">
+											<c:choose>
+												<c:when test="${property.propValue.value eq combobox.id}">
+													<option value="${combobox.id}" selected>${combobox.value}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${combobox.id}">${combobox.value}</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+									</select>
+								</c:when>
+								<c:when test="${property.type eq 'DATE'}">
+									<input class="form-control" type="date" id="val" value="${property.propValue.value}"/>
+								</c:when>
+							</c:choose>
+							<input id="prop_id" hidden="true" value="${property.id}"/>
+							<input id="id" hidden="true" value="${property.propValue.id}"/>
+							<input id="type" hidden="true" value="${property.type}"/>
+						  </div>
+					  </div>
+					  </c:forEach>
+					<div class="container">
+						<div class="row break1">
+							<div class="col-sm">
+								<button class="btn btn-primary" onclick="save()">Zapisz</button>
+								<button class="btn btn-light" onclick="location.href='/SpringMVC'">Wróć</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	
 	<div hidden="true">

@@ -2,19 +2,20 @@ package com.springmvc.dao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import org.springframework.data.repository.Repository;
 
 import com.springmvc.data.model.ComboBoxField;
 
-@Component
-public interface ComboBoxFieldDAO {
-	
-	public List<ComboBoxField> getAllComboBoxes();
-	
-	public void insertOrUpdateComboBoxField(ComboBoxField cbf);
+public interface ComboBoxFieldDAO extends Repository<ComboBoxField, Integer>{
 
-	public ComboBoxField getComboBoxFieldForId(int id);
+	public List<ComboBoxField> findAll();
+	
+	public ComboBoxField findById(Integer id);
 
-	public boolean isNameInDatabase(Integer id, String name);
+	public ComboBoxField save(ComboBoxField cbf);
+	
+	public int countByName(String name);
+	
+	public int countByIdNotAndName(Integer id, String name);
 
 }
