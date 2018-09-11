@@ -1,10 +1,13 @@
 package com.springmvc.dao.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springmvc.dao.ObjectDAO;
 import com.springmvc.data.model.ObjectModel;
+import com.springmvc.data.model.Stage;
 
 @Service
 public class ObjectService {
@@ -17,6 +20,9 @@ public class ObjectService {
 	
 	@Autowired
 	private DateTextBoxPropValueService dateTextBoxPropValueService;
+	
+	@Autowired
+	private StageService stageService;
 	
 	@Autowired
 	ObjectDAO objectDao;
@@ -47,6 +53,25 @@ public class ObjectService {
 
 	public ObjectModel getObjectById(Integer objectId) {
 		return objectDao.findById(objectId);
+	}
+
+	public ObjectModel moveToNextStage(int objectId) {
+		ObjectModel object = objectDao.findById(objectId);
+		List<Stage> stages = stageService.getAllStages();
+		Stage stage;
+		for(int i=0 ; i<stages.size()-1; i++) {
+			stage = stages.get(i);
+			if(object.getActiveStageId() == stage.getId()) {
+				object.setActiveStageId(stages.get(i+1).getId());
+				object = objectDao.save(object);
+				break;
+			}
+		}
+		return object;
+	}
+
+	public void setFirstStageAsActive(ObjectModel object) {
+		object.setActiveStageId(stageService.getFirstStage().getId());
 	}
 
 }

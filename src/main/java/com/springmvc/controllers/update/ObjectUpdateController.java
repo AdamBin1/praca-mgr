@@ -1,14 +1,18 @@
 package com.springmvc.controllers.update;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.dao.service.JsonService;
 import com.springmvc.dao.service.ObjectService;
@@ -48,6 +52,7 @@ public class ObjectUpdateController {
 		System.out.println(jsonString);
 		ObjectModel object = jsonService.convertJsonToObject(jsonString);
 		List<String> errors = objectValidator.validateObject(object);
+		objectService.setFirstStageAsActive(object);
 		
 		if(errors == null) {
 			object = objectService.saveObjectAndPropValues(object);
@@ -88,6 +93,22 @@ public class ObjectUpdateController {
 		}
 		
 		return responseService.createErrorResponseEntity(errors);
+	}
+	
+	@RequestMapping("/modelowanie/obiekt/{id_obiektu}/przenies")
+	public ModelAndView moveObjectToNextStage(@PathVariable("id_obiektu") int objectId) {
+		
+		Map<String, Object> model = new HashMap<>();
+		
+		ObjectModel object = objectService.moveToNextStage(objectId);
+		if(object == null) {
+			return new ModelAndView("resource-not-found", model);
+		}
+		
+		String redirection = "redirect:/modelowanie/obiekt/" + objectId + "/etap/" + object.getActiveStageId();
+		
+		return new ModelAndView(redirection, model);
+
 	}
 
 }

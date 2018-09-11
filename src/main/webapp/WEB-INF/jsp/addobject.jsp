@@ -202,6 +202,7 @@ body {
 				<div class="row break1">
 					<div class="col-sm">
 						<button class="btn btn-primary" onclick="save()">Zapisz</button>
+						<button class="btn btn-light" onclick="location.href='${object.id}/etap/${object.activeStageId}'">Pokaż aktywny etap</button>
 						<button class="btn btn-light" onclick="location.href='/SpringMVC'">Wróć</button>
 					</div>
 				</div>

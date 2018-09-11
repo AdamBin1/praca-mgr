@@ -11,6 +11,7 @@ import com.springmvc.dao.StageDAO;
 import com.springmvc.data.model.FieldType;
 import com.springmvc.data.model.IdPropIdType;
 import com.springmvc.data.model.IdSecPair;
+import com.springmvc.data.model.IdValuePair;
 import com.springmvc.data.model.ObjectModel;
 import com.springmvc.data.model.Stage;
 
@@ -47,7 +48,7 @@ public class StageService {
 		
 		//usuniecie main stage
 		for(int i=0;i<stages.size();i++) {
-			if(stages.get(i).getName()==null) {
+			if(stages.get(i).isMainStage()) {
 				stages.remove(i);
 				break;
 			}
@@ -110,6 +111,17 @@ public class StageService {
 		stage.getTextBoxProperties().forEach(prop -> prop.setPropValue(textBoxPropValueService.findByObjectIdAndPropId(objectId, prop.getId())));
 		stage.getComboBoxProperties().forEach(prop -> prop.setPropValue(comboBoxPropValueService.findByObjectIdAndPropId(objectId, prop.getId())));
 		stage.getDateTextBoxProperties().forEach(prop -> prop.setPropValue(dateTextBoxPropValueService.findByObjectIdAndPropId(objectId, prop.getId())));
+	}
+
+	public List<IdValuePair> getIdAndNamesForAllStages() {
+		List<Stage> stages = this.getAllStages();
+		List<IdValuePair> idValuePairs = new ArrayList<>(stages.size());
+			stages.forEach(s -> idValuePairs.add(new IdValuePair(s.getId(), s.getName())));
+		return idValuePairs;
+	}
+	
+	public Stage getFirstStage() {
+		return stageDAO.findFirstByNameNotNullOrderBySec();
 	}
 	
 }

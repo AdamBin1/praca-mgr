@@ -1,6 +1,7 @@
 package com.springmvc.controllers.presentation;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.springmvc.dao.service.ObjectService;
 import com.springmvc.dao.service.StageService;
+import com.springmvc.data.model.IdValuePair;
 import com.springmvc.data.model.ObjectModel;
 import com.springmvc.data.model.Stage;
 
@@ -79,6 +81,9 @@ public class ObjectPresentationController {
 		
 		model.put("stage", stage);
 		model.put("object", object);
+		
+		List<IdValuePair> idValuePairs = stageService.getIdAndNamesForAllStages();
+		model.put("stagenames", idValuePairs);
 		
 		return new ModelAndView("showobjectstage", model);
 

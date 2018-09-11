@@ -23,5 +23,7 @@ public interface StageDAO extends Repository<Stage, Integer> {
 	public int countBySec(int sec);
 	
 	public int countByIdNotAndSec(Integer id, int sec);
+
+	public Stage findFirstByNameNotNullOrderBySec();
 	
 }

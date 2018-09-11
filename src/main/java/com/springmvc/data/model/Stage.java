@@ -140,6 +140,10 @@ public class Stage{
 			this.properties.sort((p1,p2) -> p1.getSec() - p2.getSec());
 		}
 	}
+	
+	public boolean isMainStage() {
+		return this.getName() == null;
+	}
 
 	@Override
 	public int hashCode() {

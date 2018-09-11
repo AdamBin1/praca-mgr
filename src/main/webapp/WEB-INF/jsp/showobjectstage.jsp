@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -83,7 +84,6 @@ body {
 			success : function(resposeJsonObject) {
 				// Success Message Handler
 				showSuccessAlert();
-				//w trybie edycji dodawanie id do zapisanych elementów
 				if(object_id != ""){
 					resposeJsonObject.idPropIdPairs.forEach(updateDivId);
 				}
@@ -160,8 +160,8 @@ body {
 				<div class="card-body m-3">
 					<c:forEach items="${mainStage.properties}" var="property">
 						<div id="row" class="form-group row row-to-add">
-						  <label class="col-form-label col-3">${property.name}</label>
-						  <div class="col-9">
+						  <label class="col-form-label col-4">${property.name}</label>
+						  <div class="col-8">
 							<c:choose>
 								<c:when test="${property.type eq 'TEXT'}">
 									<input class="form-control" value="${property.propValue.value}" disabled="disabled"/>
@@ -188,7 +188,7 @@ body {
 					<div class="container">
 						<div class="row break1">
 							<div class="col-sm">
-								<button class="btn btn-light" onclick="location.href='../../${mainStage.id}'">Edytuj Obiekt</button>
+								<button class="btn btn-light" onclick="location.href='../../${mainStage.id}'">Edycja obiektu</button>
 							</div>
 						</div>
 					</div>
@@ -201,8 +201,8 @@ body {
 				<div class="card-body m-3">
 					<c:forEach items="${stage.properties}" var="property">
 						<div id="row" class="form-group row row-to-add">
-						  <label class="col-form-label col-3">${property.name}</label>
-						  <div class="col-9">
+						  <label class="col-form-label col-4">${property.name}</label>
+						  <div class="col-8">
 							<c:choose>
 								<c:when test="${property.type eq 'TEXT'}">
 									<input class="form-control" id="val" maxlength="${property.length}" value="${property.propValue.value}"/>
@@ -236,11 +236,37 @@ body {
 						<div class="row break1">
 							<div class="col-sm">
 								<button class="btn btn-primary" onclick="save()">Zapisz</button>
+								<c:if test="${stage.id eq object.activeStageId && stagenames[fn:length(stagenames)-1].id ne object.activeStageId}">
+									<button class="btn btn-light" onclick="location.href='../przenies'">Przenieś na kolejny etap</button>
+								</c:if>
 								<button class="btn btn-light" onclick="location.href='/SpringMVC'">Wróć</button>
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row break1">
+			<div class="col-sm">
+				<c:forEach items="${stagenames}" var="stageName">
+					<c:choose>
+						<c:when test="${stageName.id eq stage.id}">
+							<button class="btn btn-basic" disabled="disabled">${stageName.value}</button>
+						</c:when>
+						<c:otherwise>
+							<c:choose>
+								<c:when test="${stageName.id eq object.activeStageId}">
+									<button class="btn btn-primary" onclick="location.href='./${stageName.id}'">${stageName.value}</button>						
+								</c:when>
+								<c:otherwise>
+									<button class="btn btn-info" onclick="location.href='./${stageName.id}'">${stageName.value}</button>
+								</c:otherwise>
+							</c:choose>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
 			</div>
 		</div>
 	</div>
