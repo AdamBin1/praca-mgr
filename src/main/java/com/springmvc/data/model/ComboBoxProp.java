@@ -51,6 +51,15 @@ public class ComboBoxProp implements Property{
 		this.comboBoxField = comboBoxField;
 	}
 	
+	public ComboBoxProp(ComboBoxProp prop) {
+		this.id = prop.id;
+		this.name = prop.name;
+		this.stage = prop.stage;
+		this.sec = prop.sec;
+		this.type = FieldType.COMBO;
+		this.comboBoxField = prop.comboBoxField;
+	}
+
 	/**
 	 *  Zwraca pierwsze wystąpienie wartości na liście opcji (i jedyne, bo lista opcji jest unikalna)
 	 *  

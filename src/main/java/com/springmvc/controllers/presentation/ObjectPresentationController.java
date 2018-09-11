@@ -27,6 +27,24 @@ public class ObjectPresentationController {
 	StageService stageService;
 	
 	
+	@RequestMapping("/obiekty")
+	public ModelAndView showAllObjects() {
+		
+		Map<String, Object> model = new HashMap<>();
+		
+		
+		
+		Stage stage = stageService.getMainStage();
+		
+		List<Stage> allMainStages = stageService.getMainStageForAllObjects();
+
+		model.put("stage", stage);
+		model.put("allMainStages", allMainStages);
+		
+		return new ModelAndView("showallobjects", model);
+
+	}
+	
 	@RequestMapping("/dodaj")
 	public ModelAndView addMainObject() {
 		
@@ -62,10 +80,13 @@ public class ObjectPresentationController {
 		
 		Map<String, Object> model = new HashMap<>();
 		
+		Stage stage = stageService.getStageForId(stageId);
+		
 		// żeby nie pozwolić na otwieranie main stage do edycji jako etap
-//		if(stageId == 1) {
+//		if(stage.isMainStage()) {
 //			return new ModelAndView("resource-not-found", model);
 //		}
+		stageService.updateValues(stage, objectId);
 		
 		ObjectModel object = objectService.getObjectById(objectId);
 		if(object == null) {
@@ -75,9 +96,6 @@ public class ObjectPresentationController {
 		Stage mainStage = stageService.getMainStage();
 		stageService.updateValues(mainStage, objectId);
 		model.put("mainStage", mainStage);
-		
-		Stage stage = stageService.getStageForId(stageId);
-		stageService.updateValues(stage, objectId);
 		
 		model.put("stage", stage);
 		model.put("object", object);

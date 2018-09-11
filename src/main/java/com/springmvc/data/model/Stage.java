@@ -1,6 +1,7 @@
 package com.springmvc.data.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -201,6 +202,35 @@ public class Stage{
 		} else if (!textBoxProperties.equals(other.textBoxProperties))
 			return false;
 		return true;
+	}
+
+	public Stage cloneStageProperties() {
+		Stage clonedStage = new Stage();
+		
+		Set<TextBoxProp> textBoxProps = new HashSet<>();
+		this.getTextBoxProperties().forEach( prop -> {
+			textBoxProps.add(new TextBoxProp(prop));
+		});
+		
+		clonedStage.setTextBoxProperties(textBoxProps);
+		
+		Set<ComboBoxProp> comboBoxProps = new HashSet<>();
+		this.getComboBoxProperties().forEach( prop -> {
+			comboBoxProps.add(new ComboBoxProp(prop));
+		});
+		
+		clonedStage.setComboBoxProperties(comboBoxProperties);
+		
+		Set<DateTextBoxProp> dateTextBoxProps = new HashSet<>();
+		this.getDateTextBoxProperties().forEach( prop -> {
+			dateTextBoxProps.add(new DateTextBoxProp(prop));
+		});
+		
+		clonedStage.setDateTextBoxProperties(dateTextBoxProperties);
+		
+		clonedStage.updateProperties();
+		
+		return clonedStage;
 	}
 
 }

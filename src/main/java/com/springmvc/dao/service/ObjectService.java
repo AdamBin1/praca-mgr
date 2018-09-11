@@ -74,4 +74,8 @@ public class ObjectService {
 		object.setActiveStageId(stageService.getFirstStage().getId());
 	}
 
+	public List<ObjectModel> getAllObjects() {
+		return objectDao.findAll();
+	}
+	
 }

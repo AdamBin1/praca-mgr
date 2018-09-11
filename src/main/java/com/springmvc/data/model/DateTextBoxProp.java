@@ -47,6 +47,14 @@ public class DateTextBoxProp implements Property{
 		this.type = FieldType.DATE;
 	}
 	
+	public DateTextBoxProp(DateTextBoxProp prop) {
+		this.id = prop.id;
+		this.name = prop.name;
+		this.stage = prop.stage;
+		this.sec = prop.sec;
+		this.type = FieldType.DATE;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

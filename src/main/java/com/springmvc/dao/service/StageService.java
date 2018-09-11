@@ -23,6 +23,9 @@ public class StageService {
 	private StageDAO stageDAO; 
 	
 	@Autowired
+	private ObjectService objectService;
+	
+	@Autowired
 	TextBoxPropValueService textBoxPropValueService;
 
 	@Autowired
@@ -122,6 +125,19 @@ public class StageService {
 	
 	public Stage getFirstStage() {
 		return stageDAO.findFirstByNameNotNullOrderBySec();
+	}
+
+	public List<Stage> getMainStageForAllObjects() {
+		List<ObjectModel> objects = objectService.getAllObjects();
+		List<Stage> stages = new ArrayList<>(objects.size());
+		Stage mainStage = this.getMainStage();
+		Stage cloned;
+		for(ObjectModel object : objects) {
+			cloned = mainStage.cloneStageProperties();
+			updateValues(cloned, object.getId());
+			stages.add(cloned);
+		}
+		return stages;
 	}
 	
 }

@@ -51,6 +51,15 @@ public class TextBoxProp implements Property{
 		this.length = length;
 	}
 	
+	public TextBoxProp(TextBoxProp prop) {
+		this.id = prop.id;
+		this.name = prop.name;
+		this.stage = prop.stage;
+		this.sec = prop.sec;
+		this.type = FieldType.TEXT;
+		this.length = prop.length;
+	}
+
 	public int getLength() {
 		return length;
 	}
