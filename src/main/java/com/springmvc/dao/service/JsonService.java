@@ -213,6 +213,9 @@ public class JsonService {
 	public ObjectModel convertJsonToObject(String inputJson) {
 		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
 		Integer objectId = null;
+		if(dataAsMap.isEmpty()) {
+			return null;
+		}
 		if(dataAsMap.get(0).containsKey("object_id")) {
 			objectId = Integer.parseInt(dataAsMap.get(0).get("object_id"));
 			dataAsMap.remove(0);

@@ -202,7 +202,9 @@ body {
 				<div class="row break1">
 					<div class="">
 						<button class="btn btn-primary" onclick="save()">Zapisz</button>
-						<button class="btn btn-light" onclick="location.href='${object.id}/etap/${object.activeStageId}'">Pokaż aktywny etap</button>
+						<c:if test="${not empty object.id}">
+							<button class="btn btn-light" onclick="location.href='${object.id}/etap/${object.activeStageId}'">Pokaż aktywny etap</button>
+						</c:if>
 						<button class="btn btn-light" onclick="location.href='/SpringMVC/modelowanie/obiekty'">Wróć</button>
 					</div>
 				</div>

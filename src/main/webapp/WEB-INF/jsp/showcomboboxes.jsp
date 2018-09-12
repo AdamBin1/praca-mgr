@@ -32,7 +32,7 @@ body {
 <body>
 	<div id="mainContainer" class="container">
 		<div class="card break1">
-			<div class="card-header">Dost&#281;pne pola wyboru:</div>
+			<div class="card-header">Pola wyboru</div>
 			<div class="card-body m-3">
 			<c:choose>
 				<c:when test="${empty comboboxes}">

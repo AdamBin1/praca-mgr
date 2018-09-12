@@ -160,6 +160,7 @@ body {
 							<button id="editButton" class="btn btn-primary" onclick="edit()" disabled="disabled">Edytuj</button>
 							<button id="showActiveStageButton" class="btn btn-primary" onclick="showActiveStage()" disabled="disabled">Otwórz aktywny etap</button>
 							<button id="removeButton" class="btn btn-secondary" onclick="remove()" disabled="disabled">Usuń</button>
+							<button class="btn btn-light" onclick="location.href='/SpringMVC'">Zakończ modelowanie</button>
 						</div>
 					</div>
 				</div>

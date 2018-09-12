@@ -115,7 +115,11 @@ public class StageValidator {
 		}
 		
 		if(stage.getProperties().isEmpty()) {
-			errors.add("Etap nie może być pusty");
+			if(mainStage) {
+				errors.add("Obiekt musi mieć przynajmniej jedną właściwość");
+			} else {
+				errors.add("Etap nie może być pusty");
+			}
 		}
 		
 		if(errors.isEmpty()) {

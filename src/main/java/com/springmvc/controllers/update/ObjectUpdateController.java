@@ -52,9 +52,9 @@ public class ObjectUpdateController {
 		System.out.println(jsonString);
 		ObjectModel object = jsonService.convertJsonToObject(jsonString);
 		List<String> errors = objectValidator.validateObject(object);
-		objectService.setFirstStageAsActive(object);
 		
 		if(errors == null) {
+			objectService.setFirstStageAsActive(object);
 			object = objectService.saveObjectAndPropValues(object);
 			return responseService.createSuccessResponseEntity();
 		}

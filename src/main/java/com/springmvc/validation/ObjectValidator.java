@@ -25,6 +25,11 @@ public class ObjectValidator {
 
 	List<String> errors = new ArrayList<>();
 	
+	if(object == null) {
+		errors.add("Obiekt nie został poprawnie skonfigurowany");
+		return errors;
+	}
+	
 	if(!isAtLeastOneValue(object)) {
 		errors.add("Przynajmniej jedna wartość musi być ustawiona!");
 	}
