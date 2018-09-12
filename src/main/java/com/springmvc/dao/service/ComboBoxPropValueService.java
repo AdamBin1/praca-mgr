@@ -27,4 +27,8 @@ public class ComboBoxPropValueService {
 	public PropValue findByObjectIdAndPropId(int objectId, Integer propId) {
 		return comboBoxPropValueDAO.findByObjectIdAndPropId(objectId, propId);
 	}
+
+	public void deleteByObjectId(Integer objectId) {
+		comboBoxPropValueDAO.deleteByObjectId(objectId);
+	}
 }

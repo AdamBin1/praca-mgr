@@ -219,14 +219,14 @@ public class Stage{
 			comboBoxProps.add(new ComboBoxProp(prop));
 		});
 		
-		clonedStage.setComboBoxProperties(comboBoxProperties);
+		clonedStage.setComboBoxProperties(comboBoxProps);
 		
 		Set<DateTextBoxProp> dateTextBoxProps = new HashSet<>();
 		this.getDateTextBoxProperties().forEach( prop -> {
 			dateTextBoxProps.add(new DateTextBoxProp(prop));
 		});
 		
-		clonedStage.setDateTextBoxProperties(dateTextBoxProperties);
+		clonedStage.setDateTextBoxProperties(dateTextBoxProps);
 		
 		clonedStage.updateProperties();
 		

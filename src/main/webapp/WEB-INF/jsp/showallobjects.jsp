@@ -7,9 +7,9 @@
 <head>
 <title>Dostępne obiekty</title>
 
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/> 
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
@@ -28,15 +28,22 @@ body {
 .break1 {
 	margin-top:15px;
 }
+
+.selected {
+	background-color: #17a2b8 !important;
+}
+
 </style>
 
 <script type="text/javascript">
 
+	var clicked_id;
+
 	$(document).ready(function() {
-		var table = $('#example').DataTable( {
+		var table = $('#objects').DataTable( {
 	    	// to wywalic
 	    	"lengthMenu": [[1, 2, 50, -1], [1, 2, 50, "Wszystkie"]],
-	    	////////
+	    	//////// 
 	    	 "scrollX": true,
 	         "language": {
 	        	    "processing":     "Przetwarzanie...",
@@ -62,16 +69,77 @@ body {
 	        	}
 	    } );
 	    
-	    $('#example tbody').on( 'click', 'tr', function () {
+	    $('#objects tbody').on( 'click', 'tr', function () {
 	        if ( $(this).hasClass('selected') ) {
 	            $(this).removeClass('selected');
-	        }
-	        else {
+	            clicked_id = null;
+	            disableButtons();
+	        } else {
 	            table.$('tr.selected').removeClass('selected');
 	            $(this).addClass('selected');
+	            clicked_id = $(this).attr('id');
+	            if(clicked_id != null){
+	            	enableButtons();	            	
+	            }
 	        }
 	    } );
 	} );
+	
+	function disableButtons(){
+        $("#editButton").first().prop( "disabled", true );
+        $("#showActiveStageButton").first().prop( "disabled", true );
+        
+        $("#removeButton").first().prop( "disabled", true );
+	};
+	
+	function enableButtons(){
+        $("#editButton").first().prop( "disabled", false );
+        $("#showActiveStageButton").first().prop( "disabled", false );
+        $("#removeButton").first().prop( "disabled", false );		
+	};
+	
+	function edit(){
+		location.href="obiekt/" + clicked_id;
+	};
+	
+	function showActiveStage(){
+		location.href="obiekt/" + clicked_id + "/otworz_aktywny";
+	};
+	
+	function remove(){
+		
+		$.ajax({
+			url : "usun/" + clicked_id,
+			type : "POST",
+			async : false, //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+			cache : false, //This will force requested pages not to be cached by the browser          
+			processData : false, //To avoid making query String instead of JSON
+			success : function(resposeJsonObject) {
+				// Success Message Handler
+				$('#objects').DataTable().rows('.selected').remove().draw();
+				disableButtons();
+			},
+			error : function(resposeJsonObject) {
+				// Error Message Handler
+				showErrorAlert();
+				//resposeJsonObject.responseJSON.errors.forEach(addErrorDiv);
+			}
+		});
+	};
+	
+	function addErrorDiv(value){
+		var divToInsert = $( "#errorToInsert" ).clone();
+		divToInsert.attr("id","error");
+		divToInsert.text(decodeAscii(value.error));
+		divToInsert.appendTo( "#error-alert-txt" );		
+	};
+	
+    function showErrorAlert() {
+    	$("#alert").empty();
+    	var alertToInsert = $( "#error-alertToInsert" ).clone();
+    	alertToInsert.attr("id","error-alert");
+    	alertToInsert.appendTo($("#alert"));
+    };
 	
 </script>
 
@@ -84,37 +152,64 @@ body {
 		<div class="card break1">
 			<div class="card-header">Dostępne obiekty</div>
 			<div class="card-body m-3">
+			
+				<div>
+					<div class="row">
+						<div class="col-sm">
+							<button class="btn btn-primary" onclick="location.href='dodaj'">Dodaj</button>
+							<button id="editButton" class="btn btn-primary" onclick="edit()" disabled="disabled">Edytuj</button>
+							<button id="showActiveStageButton" class="btn btn-primary" onclick="showActiveStage()" disabled="disabled">Otwórz aktywny etap</button>
+							<button id="removeButton" class="btn btn-secondary" onclick="remove()" disabled="disabled">Usuń</button>
+						</div>
+					</div>
+				</div>
 				
-				<table id="example" class="table table-striped table-bordered" style="width:100%">
+				<div class="break1">
+					<table id="objects" class="table table-striped table-bordered" style="width:100%">
 				        <thead>
 				            <tr>
-				            <c:forEach items="${allMainStages.get(0).properties}" var="property">
+				            <c:forEach items="${stage.properties}" var="property">
 				            	<th>${property.name}</th>
 				            </c:forEach>
 				            </tr>
 				        </thead>
 		               <tbody>
 				            <c:forEach items="${allMainStages}" var="stage">
-					            <tr>
+					            <tr id="${stage.properties.get(0).propValue.objectId}">
 					            	<c:forEach items="${stage.properties}" var="property">
 					            		<c:choose>
 					            			<c:when test="${property.type eq 'COMBO'}">
-					            				<c:forEach items="${property.comboBoxField.options}" var="option">
-					            					<c:if test="${option.id eq property.propValue.value}">
-					            						<th>${option.value}</th>
-					            					</c:if>
-					            				</c:forEach>
+					            				<c:choose>
+					            					<c:when test="${empty property.propValue.value}">
+					            						<td></td>
+					            					</c:when>
+					            					<c:otherwise>
+						            					<c:forEach items="${property.comboBoxField.options}" var="option">
+							            					<c:if test="${option.id eq property.propValue.value}">
+							            						<td>${option.value}</td>
+							            					</c:if>
+						            					</c:forEach>
+					            					</c:otherwise>
+				            					</c:choose>
 					            			</c:when>
 					            			<c:otherwise>
-					            				<th>${property.propValue.value}</th>
+					            				<td>${property.propValue.value}</td>
 					            			</c:otherwise>
 					            		</c:choose>
 					            	</c:forEach>
 					            </tr>
 				            </c:forEach>
 			            </tbody>
-				</table>
+					</table>
+				</div>
 			</div>
+		</div>
+	</div>
+	<div hidden="true">
+		<div id="errorToInsert"></div>
+		<div class="alert alert-danger" id="error-alertToInsert">
+		    <button type="button" class="close" data-dismiss="alert">x</button>
+		    <div id="error-alert-txt"></div>
 		</div>
 	</div>
 </body>

@@ -19,6 +19,10 @@ public class TextBoxPropValueService {
 	public TextBoxPropValue save(TextBoxPropValue tbpv) {
 		return textBoxPropValueDAO.save(tbpv);
 	}
+	
+	public void deleteByObjectId(Integer objectId) {
+		textBoxPropValueDAO.deleteByObjectId(objectId);
+	}
 
 	public Iterable<TextBoxPropValue> saveAll(Iterable<TextBoxPropValue> textBoxPropValues) {
 		return textBoxPropValueDAO.saveAll(textBoxPropValues);
@@ -27,4 +31,5 @@ public class TextBoxPropValueService {
 	public PropValue findByObjectIdAndPropId(int objectId, Integer propId) {
 		return textBoxPropValueDAO.findByObjectIdAndPropId(objectId, propId);
 	}
+
 }

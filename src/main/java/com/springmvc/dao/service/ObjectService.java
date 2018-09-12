@@ -2,6 +2,8 @@ package com.springmvc.dao.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -76,6 +78,18 @@ public class ObjectService {
 
 	public List<ObjectModel> getAllObjects() {
 		return objectDao.findAll();
+	}
+
+	@Transactional
+	public void remove(int objectId) {
+		
+		textBoxPropValueService.deleteByObjectId(objectId);
+		comboBoxPropValueService.deleteByObjectId(objectId);
+		dateTextBoxPropValueService.deleteByObjectId(objectId);
+		
+		ObjectModel object =  objectDao.findById(objectId);
+		objectDao.delete(object);
+		
 	}
 	
 }

@@ -110,5 +110,30 @@ public class ObjectUpdateController {
 		return new ModelAndView(redirection, model);
 
 	}
+	
+	@RequestMapping("/modelowanie/obiekt/{id_obiektu}/otworz_aktywny")
+	public ModelAndView showActiveStage(@PathVariable("id_obiektu") int objectId) {
+		
+		Map<String, Object> model = new HashMap<>();
+		
+		ObjectModel object = objectService.getObjectById(objectId);
+		if(object == null) {
+			return new ModelAndView("resource-not-found", model);
+		}
+		
+		String redirection = "redirect:/modelowanie/obiekt/" + objectId + "/etap/" + object.getActiveStageId();
+		
+		return new ModelAndView(redirection, model);
+
+	}
+	
+	@RequestMapping(value = "/modelowanie/usun/{id_obiektu}", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> removeObject(@PathVariable("id_obiektu") int objectId) {
+		
+		objectService.remove(objectId);
+		
+		return responseService.createSuccessResponseEntity();
+
+	}
 
 }

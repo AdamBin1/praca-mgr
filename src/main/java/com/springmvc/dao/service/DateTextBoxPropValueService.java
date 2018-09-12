@@ -25,4 +25,8 @@ public class DateTextBoxPropValueService {
 		return dateTextBoxPropValueDAO.findByObjectIdAndPropId(objectId, propId);
 	}
 
+	public void deleteByObjectId(Integer objectId) {
+		dateTextBoxPropValueDAO.deleteByObjectId(objectId);
+	}
+	
 }
