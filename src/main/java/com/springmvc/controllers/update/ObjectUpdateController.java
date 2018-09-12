@@ -62,7 +62,7 @@ public class ObjectUpdateController {
 		return responseService.createErrorResponseEntity(errors);
 	}
 	
-	@RequestMapping(value = "/modelowanie/obiekt/zatwierdz", method = RequestMethod.POST)
+	@RequestMapping(value = "/modelowanie/produkt/zatwierdz", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> saveObject(@RequestBody String jsonString) {
 
 		System.out.println(jsonString);
@@ -95,7 +95,7 @@ public class ObjectUpdateController {
 		return responseService.createErrorResponseEntity(errors);
 	}
 	
-	@RequestMapping("/modelowanie/obiekt/{id_obiektu}/przenies")
+	@RequestMapping("/modelowanie/produkt/{id_obiektu}/przenies")
 	public ModelAndView moveObjectToNextStage(@PathVariable("id_obiektu") int objectId) {
 		
 		Map<String, Object> model = new HashMap<>();
@@ -105,13 +105,13 @@ public class ObjectUpdateController {
 			return new ModelAndView("resource-not-found", model);
 		}
 		
-		String redirection = "redirect:/modelowanie/obiekt/" + objectId + "/etap/" + object.getActiveStageId();
+		String redirection = "redirect:/modelowanie/produkt/" + objectId + "/etap/" + object.getActiveStageId();
 		
 		return new ModelAndView(redirection, model);
 
 	}
 	
-	@RequestMapping("/modelowanie/obiekt/{id_obiektu}/otworz_aktywny")
+	@RequestMapping("/modelowanie/produkt/{id_obiektu}/otworz_aktywny")
 	public ModelAndView showActiveStage(@PathVariable("id_obiektu") int objectId) {
 		
 		Map<String, Object> model = new HashMap<>();
@@ -121,7 +121,7 @@ public class ObjectUpdateController {
 			return new ModelAndView("resource-not-found", model);
 		}
 		
-		String redirection = "redirect:/modelowanie/obiekt/" + objectId + "/etap/" + object.getActiveStageId();
+		String redirection = "redirect:/modelowanie/produkt/" + objectId + "/etap/" + object.getActiveStageId();
 		
 		return new ModelAndView(redirection, model);
 

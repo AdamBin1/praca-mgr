@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dostępne obiekty</title>
+<title>Produkty</title>
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
@@ -99,11 +99,11 @@ body {
 	};
 	
 	function edit(){
-		location.href="obiekt/" + clicked_id;
+		location.href="produkt/" + clicked_id;
 	};
 	
 	function showActiveStage(){
-		location.href="obiekt/" + clicked_id + "/otworz_aktywny";
+		location.href="produkt/" + clicked_id + "/otworz_aktywny";
 	};
 	
 	function remove(){
@@ -150,7 +150,7 @@ body {
 	</div>
 	<div id="mainContainer" class="container">
 		<div class="card break1">
-			<div class="card-header">Dostępne obiekty</div>
+			<div class="card-header">Produkty</div>
 			<div class="card-body m-3">
 			
 				<div>

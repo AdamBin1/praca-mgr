@@ -7,7 +7,7 @@
 <html>
 <head>
 
-<title>Dane obiektu</title>
+<title>Dane produktu</title>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -138,7 +138,7 @@ body {
     	text = text.replace(/&#281;/g, "ę");
     	text = text.replace(/&#322;/g, "ł");
     	text = text.replace(/&#324;/g, "ń");
-    	text = text.replace(/&#211;/g, "ó");
+    	text = text.replace(/&#243;/g, "ó");
     	text = text.replace(/&#347;/g, "ś");
     	text = text.replace(/&#378;/g, "ź");
     	text = text.replace(/&#380;/g, "ż");
@@ -157,10 +157,10 @@ body {
 			<div class="card-header">
 				<c:choose>
 					<c:when test="${empty object.id}">
-					Nowy obiekt	
+					Nowy produkt	
 					</c:when>
 					<c:otherwise>
-					Edycja obiektu
+					Edycja produktu
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -205,7 +205,7 @@ body {
 						<c:if test="${not empty object.id}">
 							<button class="btn btn-light" onclick="location.href='${object.id}/etap/${object.activeStageId}'">Pokaż aktywny etap</button>
 						</c:if>
-						<button class="btn btn-light" onclick="location.href='/SpringMVC/modelowanie/obiekty'">Wróć</button>
+						<button class="btn btn-light" onclick="location.href='/SpringMVC/modelowanie/produkty'">Wróć</button>
 					</div>
 				</div>
 			</div>

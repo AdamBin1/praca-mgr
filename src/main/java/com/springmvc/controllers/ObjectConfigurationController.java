@@ -20,7 +20,7 @@ public class ObjectConfigurationController {
 	@Autowired
 	ComboBoxConfigurationService comboBoxConfigurationService;
 	
-	@RequestMapping("/konfiguracja/obiekt")
+	@RequestMapping("/konfiguracja/produkt")
 	public ModelAndView showMainConfiguration() {
 		
 		Map<String, Object> model = new HashMap<>();

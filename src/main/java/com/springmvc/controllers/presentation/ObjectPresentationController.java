@@ -27,7 +27,7 @@ public class ObjectPresentationController {
 	StageService stageService;
 	
 	
-	@RequestMapping("/obiekty")
+	@RequestMapping("/produkty")
 	public ModelAndView showAllObjects() {
 		
 		Map<String, Object> model = new HashMap<>();
@@ -56,7 +56,7 @@ public class ObjectPresentationController {
 
 	}
 	
-	@RequestMapping("/obiekt/{id_obiektu}")
+	@RequestMapping("/produkt/{id_obiektu}")
 	public ModelAndView editMainObject(@PathVariable("id_obiektu") int objectId) {
 		
 		Map<String, Object> model = new HashMap<>();
@@ -75,7 +75,7 @@ public class ObjectPresentationController {
 		
 	}
 	
-	@RequestMapping("/obiekt/{id_obiektu}/etap/{id_etapu}")
+	@RequestMapping("/produkt/{id_obiektu}/etap/{id_etapu}")
 	public ModelAndView showObjectStage(@PathVariable("id_obiektu") int objectId, @PathVariable("id_etapu") int stageId) {
 		
 		Map<String, Object> model = new HashMap<>();

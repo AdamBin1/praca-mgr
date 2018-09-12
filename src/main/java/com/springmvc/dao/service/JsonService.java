@@ -330,7 +330,7 @@ public class JsonService {
 		string = string.replace("ę", "&#281;");
 		string = string.replace("ł", "&#322;");
 		string = string.replace("ń", "&#324;");
-		string = string.replace("ó", "&#211;");
+		string = string.replace("ó", "&#243;");
 		string = string.replace("ś", "&#347;");
 		string = string.replace("ź", "&#378;");
 		string = string.replace("ż", "&#380;");

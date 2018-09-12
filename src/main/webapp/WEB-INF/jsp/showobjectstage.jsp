@@ -8,7 +8,7 @@
 <html>
 <head>
 
-<title>Dane obiektu</title>
+<title>Dane produktu</title>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -156,7 +156,7 @@ body {
 	<div class="row">
 		<div id="objectContainer" class="col-sm-6">
 			<div class="card break1">
-				<div class="card-header">Dane obiektu</div>
+				<div class="card-header">Dane produktu</div>
 				<div class="card-body m-3">
 					<c:forEach items="${mainStage.properties}" var="property">
 						<div id="row" class="form-group row row-to-add">
@@ -188,7 +188,7 @@ body {
 					<div class="container">
 						<div class="row break1">
 							<div class="col-sm">
-								<button class="btn btn-light" onclick="location.href='../../${mainStage.properties.get(0).propValue.objectId}'">Edycja obiektu</button>
+								<button class="btn btn-light" onclick="location.href='../../${mainStage.properties.get(0).propValue.objectId}'">Edycja produktu</button>
 							</div>
 						</div>
 					</div>
@@ -239,7 +239,7 @@ body {
 								<c:if test="${stage.id eq object.activeStageId && stagenames[fn:length(stagenames)-1].id ne object.activeStageId}">
 									<button class="btn btn-light" onclick="location.href='../przenies'">Przenieś na kolejny etap</button>
 								</c:if>
-								<button class="btn btn-light" onclick="location.href='/SpringMVC/modelowanie/obiekty'">Wróć</button>
+								<button class="btn btn-light" onclick="location.href='/SpringMVC/modelowanie/produkty'">Wróć</button>
 							</div>
 						</div>
 					</div>

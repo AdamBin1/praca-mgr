@@ -41,7 +41,7 @@ body {
 						<div class="row break1">
 							<div class="col-sm">
 								<button class="btn btn-primary" onclick="location.href='etapy/dodaj'">Dodaj nowy etap</button>
-								<button class="btn btn-light" onclick="location.href='obiekt'">Wróć</button>
+								<button class="btn btn-light" onclick="location.href='produkt'">Wróć</button>
 							</div>
 						</div>
 					</div>
@@ -66,7 +66,7 @@ body {
 						<div class="row break1">
 							<div class="col-sm">
 								<button class="btn btn-primary" onclick="location.href='etapy/dodaj'">Dodaj nowy etap</button>
-								<button class="btn btn-light" onclick="location.href='obiekt'">Wróć</button>
+								<button class="btn btn-light" onclick="location.href='produkt'">Wróć</button>
 							</div>
 						</div>
 					</div>
