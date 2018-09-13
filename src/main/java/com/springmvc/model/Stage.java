@@ -1,4 +1,4 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,60 +18,58 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "STAGES")
-public class Stage{
-	
+public class Stage {
+
 	@Id
-	@Column(name = "ID", nullable=false)
+	@Column(name = "ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;	
-	
+	private Integer id;
+
 	@Column(name = "NAME")
-	private String name;	//null for main stage
-	
+	private String name; // null for main stage
+
 	@Column(name = "SEC")
 	private Integer sec;
-	
+
 	@Column(name = "TEXT_PROPERTIES")
-	@OneToMany(orphanRemoval=true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "stage")
+	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "stage")
 	private Set<TextBoxProp> textBoxProperties;
-	
+
 	@Column(name = "COMBO_PROPERTIES")
-	@OneToMany(orphanRemoval=true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "stage")
+	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "stage")
 	private Set<ComboBoxProp> comboBoxProperties;
-	
+
 	@Column(name = "DATE_PROPERTIES")
-	@OneToMany(orphanRemoval=true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "stage")
+	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "stage")
 	private Set<DateTextBoxProp> dateTextBoxProperties;
-	
+
 	@Transient
 	private List<Property> properties;
-	
+
 	public Stage() {
 	}
-	
+
 	public Stage(Integer id) {
 		this.id = id;
 	}
-	
+
 	public Stage(Integer id, String name, Integer sec, List<Property> properties) {
 		this.id = id;
 		this.name = name;
 		this.sec = sec;
-		
+
 		this.properties = properties;
 	}
 
-	public Stage(Integer id, String name, Integer sec, 
-			Set<TextBoxProp> textBoxProperties,
-			Set<ComboBoxProp> comboBoxProperties,
-			Set<DateTextBoxProp> dateTextBoxProperties) {
+	public Stage(Integer id, String name, Integer sec, Set<TextBoxProp> textBoxProperties,
+			Set<ComboBoxProp> comboBoxProperties, Set<DateTextBoxProp> dateTextBoxProperties) {
 		this.id = id;
 		this.name = name;
 		this.sec = sec;
 		this.textBoxProperties = textBoxProperties;
 		this.comboBoxProperties = comboBoxProperties;
 		this.dateTextBoxProperties = dateTextBoxProperties;
-		
+
 		updateProperties();
 	}
 
@@ -132,16 +130,16 @@ public class Stage{
 	}
 
 	public void updateProperties() {
-		if(textBoxProperties != null && comboBoxProperties != null && dateTextBoxProperties != null) {
+		if (textBoxProperties != null && comboBoxProperties != null && dateTextBoxProperties != null) {
 			this.properties = new ArrayList<>();
 			this.properties.addAll(textBoxProperties);
 			this.properties.addAll(comboBoxProperties);
 			this.properties.addAll(dateTextBoxProperties);
-			
-			this.properties.sort((p1,p2) -> p1.getSec() - p2.getSec());
+
+			this.properties.sort((p1, p2) -> p1.getSec() - p2.getSec());
 		}
 	}
-	
+
 	public boolean isMainStage() {
 		return this.getName() == null;
 	}
@@ -206,30 +204,30 @@ public class Stage{
 
 	public Stage cloneStageProperties() {
 		Stage clonedStage = new Stage();
-		
+
 		Set<TextBoxProp> textBoxProps = new HashSet<>();
-		this.getTextBoxProperties().forEach( prop -> {
+		this.getTextBoxProperties().forEach(prop -> {
 			textBoxProps.add(new TextBoxProp(prop));
 		});
-		
+
 		clonedStage.setTextBoxProperties(textBoxProps);
-		
+
 		Set<ComboBoxProp> comboBoxProps = new HashSet<>();
-		this.getComboBoxProperties().forEach( prop -> {
+		this.getComboBoxProperties().forEach(prop -> {
 			comboBoxProps.add(new ComboBoxProp(prop));
 		});
-		
+
 		clonedStage.setComboBoxProperties(comboBoxProps);
-		
+
 		Set<DateTextBoxProp> dateTextBoxProps = new HashSet<>();
-		this.getDateTextBoxProperties().forEach( prop -> {
+		this.getDateTextBoxProperties().forEach(prop -> {
 			dateTextBoxProps.add(new DateTextBoxProp(prop));
 		});
-		
+
 		clonedStage.setDateTextBoxProperties(dateTextBoxProps);
-		
+
 		clonedStage.updateProperties();
-		
+
 		return clonedStage;
 	}
 

@@ -12,16 +12,16 @@ import com.springmvc.dao.service.StageService;
 
 @Controller
 public class StagePresentationController {
-	
+
 	@Autowired
 	StageService stagesConfigurationService;
-	
+
 	@RequestMapping("/konfiguracja/etapy")
 	public ModelAndView showStages() {
-		
+
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("stages", stagesConfigurationService.getAllStages());
-		
+
 		return new ModelAndView("showstages", model);
 
 	}

@@ -1,4 +1,4 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,60 +17,58 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "STAGES_VALUES")
-public class StageValues{
-	
+public class StageValues {
+
 	@Id
-	@Column(name = "ID", nullable=false)
+	@Column(name = "ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;	
-	
+	private Integer id;
+
 	@Column(name = "NAME")
-	private String name;	//null for main stage
-	
+	private String name; // null for main stage
+
 	@Column(name = "SEC")
 	private Integer sec;
-	
+
 	@Column(name = "TEXT_PROPERTIES")
-	@OneToMany(orphanRemoval=true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "stage")
+	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "stage")
 	private Set<TextBoxProp> textBoxProperties;
-	
+
 	@Column(name = "COMBO_PROPERTIES")
-	@OneToMany(orphanRemoval=true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "stage")
+	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "stage")
 	private Set<ComboBoxProp> comboBoxProperties;
-	
+
 	@Column(name = "DATE_PROPERTIES")
-	@OneToMany(orphanRemoval=true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "stage")
+	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "stage")
 	private Set<DateTextBoxProp> dateTextBoxProperties;
-	
+
 	@Transient
 	private List<Property> properties;
-	
+
 	public StageValues() {
 	}
-	
+
 	public StageValues(Integer id) {
 		this.id = id;
 	}
-	
+
 	public StageValues(Integer id, String name, Integer sec, List<Property> properties) {
 		this.id = id;
 		this.name = name;
 		this.sec = sec;
-		
+
 		this.properties = properties;
 	}
 
-	public StageValues(Integer id, String name, Integer sec, 
-			Set<TextBoxProp> textBoxProperties,
-			Set<ComboBoxProp> comboBoxProperties,
-			Set<DateTextBoxProp> dateTextBoxProperties) {
+	public StageValues(Integer id, String name, Integer sec, Set<TextBoxProp> textBoxProperties,
+			Set<ComboBoxProp> comboBoxProperties, Set<DateTextBoxProp> dateTextBoxProperties) {
 		this.id = id;
 		this.name = name;
 		this.sec = sec;
 		this.textBoxProperties = textBoxProperties;
 		this.comboBoxProperties = comboBoxProperties;
 		this.dateTextBoxProperties = dateTextBoxProperties;
-		
+
 		updateProperties();
 	}
 
@@ -131,13 +129,13 @@ public class StageValues{
 	}
 
 	public void updateProperties() {
-		if(textBoxProperties != null && comboBoxProperties != null && dateTextBoxProperties != null) {
+		if (textBoxProperties != null && comboBoxProperties != null && dateTextBoxProperties != null) {
 			this.properties = new ArrayList<>();
 			this.properties.addAll(textBoxProperties);
 			this.properties.addAll(comboBoxProperties);
 			this.properties.addAll(dateTextBoxProperties);
-			
-			this.properties.sort((p1,p2) -> p1.getSec() - p2.getSec());
+
+			this.properties.sort((p1, p2) -> p1.getSec() - p2.getSec());
 		}
 	}
 

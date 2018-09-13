@@ -1,4 +1,4 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 import java.util.Set;
 import java.util.SortedSet;
@@ -16,29 +16,28 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "COMBO_FIELDS")
-public class ComboBoxField{
+public class ComboBoxField {
 
 	@Id
-	@Column(name = "ID", nullable=false)
+	@Column(name = "ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(name = "NAME")
 	private String name;
-	
+
 	@OrderBy("sec")
 	@Column(name = "COMBO_OPTION")
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "comboBoxField")
 	private SortedSet<ComboOption> options;
-	
+
 	@Column(name = "COMBO_PROPERTY")
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "comboBoxField")
 	private Set<ComboBoxProp> properties;
-	
-	
+
 	public ComboBoxField() {
 	}
-	
+
 	public ComboBoxField(Integer id) {
 		this.id = id;
 	}
@@ -121,5 +120,5 @@ public class ComboBoxField{
 			return false;
 		return true;
 	}
-	
+
 }

@@ -16,27 +16,27 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.springmvc.data.model.ComboBoxField;
-import com.springmvc.data.model.ComboBoxProp;
-import com.springmvc.data.model.ComboBoxPropValue;
-import com.springmvc.data.model.ComboOption;
-import com.springmvc.data.model.DateTextBoxProp;
-import com.springmvc.data.model.DateTextBoxPropValue;
-import com.springmvc.data.model.IdPropIdType;
-import com.springmvc.data.model.IdSecPair;
-import com.springmvc.data.model.ObjectModel;
-import com.springmvc.data.model.PropValue;
-import com.springmvc.data.model.Property;
-import com.springmvc.data.model.Stage;
-import com.springmvc.data.model.TextBoxProp;
-import com.springmvc.data.model.TextBoxPropValue;
+import com.springmvc.model.ComboBoxField;
+import com.springmvc.model.ComboBoxProp;
+import com.springmvc.model.ComboBoxPropValue;
+import com.springmvc.model.ComboOption;
+import com.springmvc.model.DateTextBoxProp;
+import com.springmvc.model.DateTextBoxPropValue;
+import com.springmvc.model.IdPropIdType;
+import com.springmvc.model.IdSecPair;
+import com.springmvc.model.ObjectModel;
+import com.springmvc.model.PropValue;
+import com.springmvc.model.Property;
+import com.springmvc.model.Stage;
+import com.springmvc.model.TextBoxProp;
+import com.springmvc.model.TextBoxPropValue;
 
 @Component
 public class JsonService {
-	
+
 	@Autowired
 	ComboBoxConfigurationService comboBoxConfigurationService;
-	
+
 	@Autowired
 	ObjectService objectService;
 
@@ -58,7 +58,7 @@ public class JsonService {
 	public Stage convertJsonToMainStage(String inputJson) {
 
 		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
-		
+
 		Stage stage = new Stage(1, null, null, null);
 		setPropertiesForStage(stage, dataAsMap);
 
@@ -81,18 +81,18 @@ public class JsonService {
 		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
 
 		Stage stage = new Stage();
-		if(dataAsMap.get(0).containsKey("stage_id")) {
+		if (dataAsMap.get(0).containsKey("stage_id")) {
 			stage.setId(Integer.parseInt(dataAsMap.get(0).get("stage_id")));
 			dataAsMap.remove(0);
 		}
 		stage.setName(dataAsMap.get(0).get("name"));
 		dataAsMap.remove(0);
-		
-		if(!dataAsMap.get(0).get("sec").isEmpty()) {
+
+		if (!dataAsMap.get(0).get("sec").isEmpty()) {
 			stage.setSec(Integer.parseInt(dataAsMap.get(0).get("sec")));
 		}
 		dataAsMap.remove(0);
-		
+
 		setPropertiesForStage(stage, dataAsMap);
 		return stage;
 	}
@@ -109,31 +109,31 @@ public class JsonService {
 	 */
 	public ComboBoxField convertJsonToComboBoxField(String inputJson) {
 		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
-		
+
 		ComboBoxField cbf = new ComboBoxField();
-		if(dataAsMap.get(0).containsKey("combo_id")) {
+		if (dataAsMap.get(0).containsKey("combo_id")) {
 			cbf.setId(Integer.parseInt(dataAsMap.get(0).get("combo_id")));
 			dataAsMap.remove(0);
 		}
 		cbf.setName(dataAsMap.get(0).get("name"));
 		dataAsMap.remove(0);
-		
+
 		SortedSet<ComboOption> options = new TreeSet<ComboOption>();
 		HashMap<String, String> map;
-		for(int i=0 ; i < dataAsMap.size() ; i++) {
+		for (int i = 0; i < dataAsMap.size(); i++) {
 			map = dataAsMap.get(i);
 			ComboOption co = new ComboOption();
-			if(!map.get("id").isEmpty()){
+			if (!map.get("id").isEmpty()) {
 				co.setId(Integer.parseInt(map.get("id")));
 			} else {
 				// minusowe oznaczają, że są to nowe elementy
-				co.setId(-1-i);
+				co.setId(-1 - i);
 			}
 			co.setValue(map.get("val"));
-			if(!map.get("sec").equals("")) {
+			if (!map.get("sec").equals("")) {
 				co.setSec(Integer.parseInt(map.get("sec")));
 			}
-			
+
 			co.setComboBoxField(cbf);
 			options.add(co);
 		}
@@ -141,7 +141,7 @@ public class JsonService {
 		cbf.setOptions(options);
 		return cbf;
 	}
-	
+
 	private List<HashMap<String, String>> createDataMap(String inputJson) {
 		List<HashMap<String, String>> dataAsMap = null;
 		try {
@@ -213,16 +213,16 @@ public class JsonService {
 	public ObjectModel convertJsonToObject(String inputJson) {
 		List<HashMap<String, String>> dataAsMap = createDataMap(inputJson);
 		Integer objectId = null;
-		if(dataAsMap.isEmpty()) {
+		if (dataAsMap.isEmpty()) {
 			return null;
 		}
-		if(dataAsMap.get(0).containsKey("object_id")) {
+		if (dataAsMap.get(0).containsKey("object_id")) {
 			objectId = Integer.parseInt(dataAsMap.get(0).get("object_id"));
 			dataAsMap.remove(0);
 		}
-		
+
 		ObjectModel object;
-		if(objectId == null) {
+		if (objectId == null) {
 			object = new ObjectModel();
 		} else {
 			object = objectService.getObjectById(objectId);
@@ -234,31 +234,30 @@ public class JsonService {
 		object.setTextBoxPropValues(textBoxPropValues);
 		object.setComboBoxPropValues(comboBoxPropValues);
 		object.setDateTextBoxPropValues(dateTextBoxPropValues);
-		
-		
-		for(HashMap<String, String> map : dataAsMap) {
+
+		for (HashMap<String, String> map : dataAsMap) {
 			Integer propValId = map.get("id").isEmpty() ? null : Integer.parseInt(map.get("id"));
-			if(propValId == null && map.get("val").isEmpty()){
+			if (propValId == null && map.get("val").isEmpty()) {
 				continue;
 			}
 			PropValue propVal = null;
 			switch (map.get("type")) {
 			case "TEXT":
 				propVal = new TextBoxPropValue();
-				((TextBoxPropValue)propVal).setValue(map.get("val"));
+				((TextBoxPropValue) propVal).setValue(map.get("val"));
 				textBoxPropValues.add((TextBoxPropValue) propVal);
 				break;
 			case "COMBO":
 				propVal = new ComboBoxPropValue();
-				if(!map.get("val").isEmpty()) {
-					((ComboBoxPropValue)propVal).setValue(Integer.parseInt(map.get("val")));
+				if (!map.get("val").isEmpty()) {
+					((ComboBoxPropValue) propVal).setValue(Integer.parseInt(map.get("val")));
 				}
 				comboBoxPropValues.add((ComboBoxPropValue) propVal);
 				break;
 			case "DATE":
 				propVal = new DateTextBoxPropValue();
-				if(!map.get("val").isEmpty()) {
-					((DateTextBoxPropValue)propVal).setValue(LocalDate.parse(map.get("val")));
+				if (!map.get("val").isEmpty()) {
+					((DateTextBoxPropValue) propVal).setValue(LocalDate.parse(map.get("val")));
 				}
 				dateTextBoxPropValues.add((DateTextBoxPropValue) propVal);
 				break;
@@ -334,7 +333,7 @@ public class JsonService {
 		string = string.replace("ś", "&#347;");
 		string = string.replace("ź", "&#378;");
 		string = string.replace("ż", "&#380;");
-		
+
 		return string;
 	}
 

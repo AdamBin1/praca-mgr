@@ -1,4 +1,4 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 public interface PropValue {
 

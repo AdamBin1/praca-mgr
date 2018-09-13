@@ -1,4 +1,4 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,22 +10,22 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "COMBO_OPTIONS")
-public class ComboOption implements Comparable<ComboOption>{
+public class ComboOption implements Comparable<ComboOption> {
 
 	@Id
-	@Column(name = "ID", nullable=false)
+	@Column(name = "ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(name = "VALUE")
 	private String value;
-	
+
 	@Column(name = "SEC")
 	private int sec;
-	
+
 	@ManyToOne
 	private ComboBoxField comboBoxField;
-	
+
 	public ComboOption() {
 	}
 
@@ -35,22 +35,27 @@ public class ComboOption implements Comparable<ComboOption>{
 		this.sec = sec;
 		this.comboBoxField = comboBoxField;
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public String getValue() {
 		return value;
 	}
+
 	public void setValue(String value) {
 		this.value = value;
 	}
+
 	public int getSec() {
 		return sec;
 	}
+
 	public void setSec(int sec) {
 		this.sec = sec;
 	}
@@ -104,10 +109,10 @@ public class ComboOption implements Comparable<ComboOption>{
 
 	@Override
 	public int compareTo(ComboOption o) {
-		if(this.getSec() - o.getSec()!=0) {
+		if (this.getSec() - o.getSec() != 0) {
 			return this.getSec() - o.getSec();
 		}
-		if(this.equals(o)) {
+		if (this.equals(o)) {
 			return 0;
 		}
 		return 1;

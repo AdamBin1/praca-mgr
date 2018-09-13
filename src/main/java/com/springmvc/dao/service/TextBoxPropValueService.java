@@ -4,22 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springmvc.dao.TextBoxPropValueDAO;
-import com.springmvc.data.model.PropValue;
-import com.springmvc.data.model.TextBoxPropValue;
+import com.springmvc.model.PropValue;
+import com.springmvc.model.TextBoxPropValue;
 
 @Service
 public class TextBoxPropValueService {
-	
+
 	@Autowired
 	TextBoxPropValueDAO textBoxPropValueDAO;
-	
+
 	public TextBoxPropValueService() {
 	}
-	
+
 	public TextBoxPropValue save(TextBoxPropValue tbpv) {
 		return textBoxPropValueDAO.save(tbpv);
 	}
-	
+
 	public void deleteByObjectId(Integer objectId) {
 		textBoxPropValueDAO.deleteByObjectId(objectId);
 	}

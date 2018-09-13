@@ -18,7 +18,7 @@
 <bean id="dataSource"
 	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-	<property name="url" value="jdbc:mysql://localhost:3306/springmvcdb?serverTimezone=UTC" />
+	<property name="url" value="jdbc:mysql://localhost:3306/springmvcdb?serverTimezone=Europe/Berlin" />
 	<property name="username" value="developer" />
 	<property name="password" value="user123@" />
 	<property name="connectionProperties" value="useSSL=false"/>
@@ -29,7 +29,7 @@
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan"
-			value="com.springmvc.data.model, com.springmvc.dao, com.springmvc.dao.impl" />
+			value="com.springmvc.model, com.springmvc.dao" />
 		<property name="jpaVendorAdapter">
 			<bean
 				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">

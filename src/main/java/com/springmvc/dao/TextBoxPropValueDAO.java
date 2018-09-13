@@ -4,8 +4,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.data.repository.Repository;
 
-import com.springmvc.data.model.PropValue;
-import com.springmvc.data.model.TextBoxPropValue;
+import com.springmvc.model.PropValue;
+import com.springmvc.model.TextBoxPropValue;
 
 @Transactional
 public interface TextBoxPropValueDAO extends Repository<TextBoxPropValue, Integer> {

@@ -18,42 +18,42 @@ import com.springmvc.dao.service.JsonService;
 import com.springmvc.dao.service.ObjectService;
 import com.springmvc.dao.service.ResponseService;
 import com.springmvc.dao.service.StageService;
-import com.springmvc.data.model.IdPropIdType;
-import com.springmvc.data.model.IdSecPair;
-import com.springmvc.data.model.ObjectModel;
-import com.springmvc.data.model.Stage;
+import com.springmvc.model.IdPropIdType;
+import com.springmvc.model.IdSecPair;
+import com.springmvc.model.ObjectModel;
+import com.springmvc.model.Stage;
 import com.springmvc.validation.ObjectValidator;
 import com.springmvc.validation.StageValidator;
 
 @Controller
 public class ObjectUpdateController {
-	
+
 	@Autowired
 	StageService stageService;
 
 	@Autowired
 	StageValidator stageValidator;
-	
+
 	@Autowired
 	ObjectValidator objectValidator;
-	
+
 	@Autowired
 	private JsonService jsonService;
-	
+
 	@Autowired
 	private ObjectService objectService;
-	
+
 	@Autowired
 	private ResponseService responseService;
-	
+
 	@RequestMapping(value = "/modelowanie/zatwierdz", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> addObject(@RequestBody String jsonString) {
 
 		System.out.println(jsonString);
 		ObjectModel object = jsonService.convertJsonToObject(jsonString);
 		List<String> errors = objectValidator.validateObject(object);
-		
-		if(errors == null) {
+
+		if (errors == null) {
 			objectService.setFirstStageAsActive(object);
 			object = objectService.saveObjectAndPropValues(object);
 			return responseService.createSuccessResponseEntity();
@@ -61,15 +61,15 @@ public class ObjectUpdateController {
 
 		return responseService.createErrorResponseEntity(errors);
 	}
-	
+
 	@RequestMapping(value = "/modelowanie/produkt/zatwierdz", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> saveObject(@RequestBody String jsonString) {
 
 		System.out.println(jsonString);
 		ObjectModel object = jsonService.convertJsonToObject(jsonString);
 		List<String> errors = objectValidator.validateObject(object);
-		
-		if(errors == null) {
+
+		if (errors == null) {
 			object = objectService.saveObjectAndPropValues(object);
 			List<IdPropIdType> idPropIdPairs = stageService.getIdPropIdPairList(object);
 			return responseService.createSuccessResponseEntityForIdPropIdPairs(idPropIdPairs);
@@ -85,53 +85,53 @@ public class ObjectUpdateController {
 		Stage mainStage = jsonService.convertJsonToMainStage(jsonString);
 		List<String> errors = stageValidator.validateMainStage(mainStage);
 
-		if(errors == null) {
+		if (errors == null) {
 			Stage savedStage = stageService.saveStage(mainStage);
-			//TODO walidacja zapisu i podmiana errors
+			// TODO walidacja zapisu i podmiana errors
 			List<IdSecPair> idSecPairs = stageService.getIdSecPairList(savedStage);
 			return responseService.createSuccessResponseEntityForIdSecPairs(idSecPairs);
 		}
-		
+
 		return responseService.createErrorResponseEntity(errors);
 	}
-	
+
 	@RequestMapping("/modelowanie/produkt/{id_obiektu}/przenies")
 	public ModelAndView moveObjectToNextStage(@PathVariable("id_obiektu") int objectId) {
-		
+
 		Map<String, Object> model = new HashMap<>();
-		
+
 		ObjectModel object = objectService.moveToNextStage(objectId);
-		if(object == null) {
+		if (object == null) {
 			return new ModelAndView("resource-not-found", model);
 		}
-		
+
 		String redirection = "redirect:/modelowanie/produkt/" + objectId + "/etap/" + object.getActiveStageId();
-		
+
 		return new ModelAndView(redirection, model);
 
 	}
-	
+
 	@RequestMapping("/modelowanie/produkt/{id_obiektu}/otworz_aktywny")
 	public ModelAndView showActiveStage(@PathVariable("id_obiektu") int objectId) {
-		
+
 		Map<String, Object> model = new HashMap<>();
-		
+
 		ObjectModel object = objectService.getObjectById(objectId);
-		if(object == null) {
+		if (object == null) {
 			return new ModelAndView("resource-not-found", model);
 		}
-		
+
 		String redirection = "redirect:/modelowanie/produkt/" + objectId + "/etap/" + object.getActiveStageId();
-		
+
 		return new ModelAndView(redirection, model);
 
 	}
-	
+
 	@RequestMapping(value = "/modelowanie/usun/{id_obiektu}", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> removeObject(@PathVariable("id_obiektu") int objectId) {
-		
+
 		objectService.remove(objectId);
-		
+
 		return responseService.createSuccessResponseEntity();
 
 	}

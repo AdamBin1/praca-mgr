@@ -1,9 +1,9 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 public class IdSecPair {
 	int id;
 	int sec;
-	
+
 	public IdSecPair(int id, int sec) {
 		super();
 		this.id = id;
@@ -17,5 +17,5 @@ public class IdSecPair {
 	public int getSec() {
 		return sec;
 	}
-	
+
 }

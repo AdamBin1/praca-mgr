@@ -1,6 +1,4 @@
-package com.springmvc.data.model;
-
-import java.time.LocalDate;
+package com.springmvc.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,47 +9,47 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "DATE_PROP_VALUES")
-public class DateTextBoxPropValue implements PropValue{
+@Table(name = "TEXT_PROP_VALUES")
+public class TextBoxPropValue implements PropValue {
 
 	@Id
-	@Column(name = "ID", nullable=false)
+	@Column(name = "ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Transient
 	private FieldType type;
-	
+
 	@Column(name = "OBJECT_ID")
 	private Integer objectId;
-	
+
 	@Column(name = "PROP_ID")
 	private Integer propId;
-	
+
 	@Column(name = "VALUE")
-	LocalDate value;	
-	
-	public DateTextBoxPropValue() {
+	private String value;
+
+	public TextBoxPropValue() {
 		super();
-		this.type = FieldType.DATE;
+		this.type = FieldType.TEXT;
 	}
 
-	public DateTextBoxPropValue(Integer id, LocalDate value, Integer objectId, Integer propId) {
+	public TextBoxPropValue(Integer id, String value, Integer objectId, Integer propId) {
 		this.id = id;
-		this.type = FieldType.DATE;
+		this.type = FieldType.TEXT;
 		this.value = value;
 		this.objectId = objectId;
 		this.propId = propId;
 	}
 
-	public LocalDate getValue() {
+	public String getValue() {
 		return value;
 	}
 
-	public void setValue(LocalDate value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
-	
+
 	@Override
 	public Integer getId() {
 		return id;
@@ -82,10 +80,12 @@ public class DateTextBoxPropValue implements PropValue{
 		this.objectId = objectId;
 	}
 
+	@Override
 	public Integer getPropId() {
 		return propId;
 	}
 
+	@Override
 	public void setPropId(Integer propId) {
 		this.propId = propId;
 	}
@@ -110,7 +110,7 @@ public class DateTextBoxPropValue implements PropValue{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DateTextBoxPropValue other = (DateTextBoxPropValue) obj;
+		TextBoxPropValue other = (TextBoxPropValue) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -138,7 +138,6 @@ public class DateTextBoxPropValue implements PropValue{
 
 	@Override
 	public boolean isSet() {
-		return this.value != null;
+		return (this.value != null && !this.value.isEmpty());
 	}
-
 }

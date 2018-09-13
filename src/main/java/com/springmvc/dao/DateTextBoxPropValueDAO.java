@@ -4,11 +4,11 @@ import javax.transaction.Transactional;
 
 import org.springframework.data.repository.Repository;
 
-import com.springmvc.data.model.DateTextBoxPropValue;
-import com.springmvc.data.model.PropValue;
+import com.springmvc.model.DateTextBoxPropValue;
+import com.springmvc.model.PropValue;
 
 @Transactional
-public interface DateTextBoxPropValueDAO extends Repository<DateTextBoxPropValue, Integer>{
+public interface DateTextBoxPropValueDAO extends Repository<DateTextBoxPropValue, Integer> {
 
 	public DateTextBoxPropValue save(DateTextBoxPropValue dtbpv);
 

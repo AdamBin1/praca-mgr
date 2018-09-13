@@ -1,4 +1,4 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 public enum FieldType {
 	TEXT(1), DATE(2), COMBO(3);

@@ -9,8 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.springmvc.data.model.IdPropIdType;
-import com.springmvc.data.model.IdSecPair;
+import com.springmvc.model.IdPropIdType;
+import com.springmvc.model.IdSecPair;
 
 @Service
 public class ResponseService {

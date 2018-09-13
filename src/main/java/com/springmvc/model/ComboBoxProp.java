@@ -1,4 +1,4 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,64 +10,75 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "TEXT_PROPS")
-public class TextBoxProp implements Property{
+@Table(name = "COMBO_PROPS")
+public class ComboBoxProp implements Property {
 
 	@Id
-	@Column(name = "ID", nullable=false)
+	@Column(name = "ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Transient
 	private FieldType type;
-	
+
 	@Column(name = "NAME")
 	private String name;
-	
+
 	@ManyToOne
 	private Stage stage;
-	
+
 	@Column(name = "SEC")
 	private int sec;
-	
-	@Column(name = "LENGTH")	
-	private int length;
-	
+
+	@ManyToOne
+	private ComboBoxField comboBoxField;
+
 	@Transient
-	TextBoxPropValue textBoxPropValue;
-	
-	public TextBoxProp() {
+	private ComboBoxPropValue comboBoxPropValue;
+
+	public ComboBoxProp() {
 		super();
-		this.type = FieldType.TEXT;
+		this.type = FieldType.COMBO;
 	}
 
-	public TextBoxProp(Integer id, String name, Stage stage, int sequence, boolean saveRequired, int length) {
+	public ComboBoxProp(Integer id, String name, Stage stage, int sequence, ComboBoxField comboBoxField) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.stage = stage;
 		this.sec = sequence;
-		this.type = FieldType.TEXT;
-		this.length = length;
+		this.type = FieldType.COMBO;
+		this.comboBoxField = comboBoxField;
 	}
-	
-	public TextBoxProp(TextBoxProp prop) {
+
+	public ComboBoxProp(ComboBoxProp prop) {
 		this.id = prop.id;
 		this.name = prop.name;
 		this.stage = prop.stage;
 		this.sec = prop.sec;
-		this.type = FieldType.TEXT;
-		this.length = prop.length;
+		this.type = FieldType.COMBO;
+		this.comboBoxField = prop.comboBoxField;
 	}
 
-	public int getLength() {
-		return length;
+	/**
+	 * Zwraca pierwsze wystąpienie wartości na liście opcji (i jedyne, bo lista
+	 * opcji jest unikalna)
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public int getComboOptionIdByValue(String value) {
+		return comboBoxField.getOptions().stream().filter(co -> co.getValue().equals(value)).findFirst().get().getId();
 	}
 
-	public void setLength(int length) {
-		this.length = length;
+	public ComboBoxField getComboBoxField() {
+		return comboBoxField;
 	}
-	
+
+	public void setComboBoxField(ComboBoxField comboBoxField) {
+		this.comboBoxField = comboBoxField;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;
@@ -102,7 +113,7 @@ public class TextBoxProp implements Property{
 	public Stage getStage() {
 		return stage;
 	}
-	
+
 	@Override
 	public void setStage(Stage stage) {
 		this.stage = stage;
@@ -117,15 +128,15 @@ public class TextBoxProp implements Property{
 	public void setSec(int sec) {
 		this.sec = sec;
 	}
-	
+
 	@Override
-	public TextBoxPropValue getPropValue() {
-		return textBoxPropValue;
+	public ComboBoxPropValue getPropValue() {
+		return comboBoxPropValue;
 	}
-	
+
 	@Override
 	public void setPropValue(PropValue propValue) {
-		this.textBoxPropValue = (TextBoxPropValue) propValue;
+		this.comboBoxPropValue = (ComboBoxPropValue) propValue;
 	}
 
 	@Override
@@ -133,7 +144,6 @@ public class TextBoxProp implements Property{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + length;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + sec;
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -148,13 +158,16 @@ public class TextBoxProp implements Property{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TextBoxProp other = (TextBoxProp) obj;
+		ComboBoxProp other = (ComboBoxProp) obj;
+		if (comboBoxField == null) {
+			if (other.comboBoxField != null)
+				return false;
+		} else if (!comboBoxField.equals(other.comboBoxField))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (length != other.length)
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -172,5 +185,5 @@ public class TextBoxProp implements Property{
 			return false;
 		return true;
 	}
-	
+
 }

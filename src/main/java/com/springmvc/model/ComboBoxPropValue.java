@@ -1,4 +1,4 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,9 +9,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "TEXT_PROP_VALUES")
-public class TextBoxPropValue implements PropValue{
-	
+@Table(name = "COMBO_PROP_VALUES")
+public class ComboBoxPropValue implements PropValue{
 	
 	@Id
 	@Column(name = "ID", nullable=false)
@@ -28,26 +27,27 @@ public class TextBoxPropValue implements PropValue{
 	private Integer propId;
 	
 	@Column(name = "VALUE")
-	private String value;	
+	private Integer value;
 	
-	public TextBoxPropValue() {
+	public ComboBoxPropValue() {
 		super();
-		this.type = FieldType.TEXT;
+		this.type = FieldType.COMBO;
 	}
 
-	public TextBoxPropValue(Integer id, String value, Integer objectId, Integer propId) {
+	public ComboBoxPropValue(Integer id, Integer value, Integer objectId, Integer propId) {
+		super();
 		this.id = id;
-		this.type = FieldType.TEXT;
+		this.type = FieldType.COMBO;
 		this.value = value;
 		this.objectId = objectId;
 		this.propId = propId;
 	}
 
-	public String getValue() {
+	public Integer getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public void setValue(Integer value) {
 		this.value = value;
 	}
 	
@@ -111,7 +111,7 @@ public class TextBoxPropValue implements PropValue{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TextBoxPropValue other = (TextBoxPropValue) obj;
+		ComboBoxPropValue other = (ComboBoxPropValue) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -139,6 +139,7 @@ public class TextBoxPropValue implements PropValue{
 
 	@Override
 	public boolean isSet() {
-		return (this.value != null && !this.value.isEmpty());
+		return this.value != null;
 	}
+
 }

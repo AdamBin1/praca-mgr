@@ -1,4 +1,4 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,72 +10,49 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "COMBO_PROPS")
-public class ComboBoxProp implements Property{
+@Table(name = "DATE_PROPS")
+public class DateTextBoxProp implements Property {
 
 	@Id
-	@Column(name = "ID", nullable=false)
+	@Column(name = "ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Transient
 	private FieldType type;
-	
+
 	@Column(name = "NAME")
 	private String name;
-	
+
 	@ManyToOne
 	private Stage stage;
-	
+
 	@Column(name = "SEC")
 	private int sec;
-	
-	@ManyToOne
-	private ComboBoxField comboBoxField;
-	
+
 	@Transient
-	private ComboBoxPropValue comboBoxPropValue;
-	
-	public ComboBoxProp() {
+	DateTextBoxPropValue dateTextBoxPropValue;
+
+	public DateTextBoxProp() {
 		super();
-		this.type = FieldType.COMBO;
+		this.type = FieldType.DATE;
 	}
-	
-	public ComboBoxProp(Integer id, String name, Stage stage, int sequence, ComboBoxField comboBoxField) {
+
+	public DateTextBoxProp(Integer id, String name, Stage stage, int sequence, boolean saveRequired) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.stage = stage;
 		this.sec = sequence;
-		this.type = FieldType.COMBO;
-		this.comboBoxField = comboBoxField;
+		this.type = FieldType.DATE;
 	}
-	
-	public ComboBoxProp(ComboBoxProp prop) {
+
+	public DateTextBoxProp(DateTextBoxProp prop) {
 		this.id = prop.id;
 		this.name = prop.name;
 		this.stage = prop.stage;
 		this.sec = prop.sec;
-		this.type = FieldType.COMBO;
-		this.comboBoxField = prop.comboBoxField;
-	}
-
-	/**
-	 *  Zwraca pierwsze wystąpienie wartości na liście opcji (i jedyne, bo lista opcji jest unikalna)
-	 *  
-	 * @param value
-	 * @return
-	 */
-	public int getComboOptionIdByValue(String value) {
-		return comboBoxField.getOptions().stream().filter(co -> co.getValue().equals(value)).findFirst().get().getId();
-	}
-
-	public ComboBoxField getComboBoxField() {
-		return comboBoxField;
-	}
-
-	public void setComboBoxField(ComboBoxField comboBoxField) {
-		this.comboBoxField = comboBoxField;
+		this.type = FieldType.DATE;
 	}
 
 	@Override
@@ -129,13 +106,13 @@ public class ComboBoxProp implements Property{
 	}
 
 	@Override
-	public ComboBoxPropValue getPropValue() {
-		return comboBoxPropValue;
+	public DateTextBoxPropValue getPropValue() {
+		return dateTextBoxPropValue;
 	}
-	
+
 	@Override
 	public void setPropValue(PropValue propValue) {
-		this.comboBoxPropValue = (ComboBoxPropValue) propValue;
+		this.dateTextBoxPropValue = (DateTextBoxPropValue) propValue;
 	}
 
 	@Override
@@ -157,12 +134,7 @@ public class ComboBoxProp implements Property{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ComboBoxProp other = (ComboBoxProp) obj;
-		if (comboBoxField == null) {
-			if (other.comboBoxField != null)
-				return false;
-		} else if (!comboBoxField.equals(other.comboBoxField))
-			return false;
+		DateTextBoxProp other = (DateTextBoxProp) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -184,5 +156,5 @@ public class ComboBoxProp implements Property{
 			return false;
 		return true;
 	}
-	
+
 }

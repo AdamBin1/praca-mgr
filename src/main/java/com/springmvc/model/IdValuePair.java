@@ -1,9 +1,9 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 public class IdValuePair {
 	int id;
 	String value;
-	
+
 	public IdValuePair(int id, String value) {
 		super();
 		this.id = id;
@@ -17,5 +17,5 @@ public class IdValuePair {
 	public String getValue() {
 		return value;
 	}
-	
+
 }

@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springmvc.dao.ComboBoxPropValueDAO;
-import com.springmvc.data.model.ComboBoxPropValue;
-import com.springmvc.data.model.PropValue;
+import com.springmvc.model.ComboBoxPropValue;
+import com.springmvc.model.PropValue;
 
 @Service
 public class ComboBoxPropValueService {
 
 	@Autowired
 	ComboBoxPropValueDAO comboBoxPropValueDAO;
-	
+
 	public ComboBoxPropValueService() {
 	}
 

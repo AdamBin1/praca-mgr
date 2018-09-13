@@ -1,4 +1,4 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,49 +10,62 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "DATE_PROPS")
-public class DateTextBoxProp implements Property{
-		
+@Table(name = "TEXT_PROPS")
+public class TextBoxProp implements Property {
+
 	@Id
-	@Column(name = "ID", nullable=false)
+	@Column(name = "ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Transient
 	private FieldType type;
-	
+
 	@Column(name = "NAME")
 	private String name;
-	
+
 	@ManyToOne
 	private Stage stage;
-	
+
 	@Column(name = "SEC")
 	private int sec;
-	
+
+	@Column(name = "LENGTH")
+	private int length;
+
 	@Transient
-	DateTextBoxPropValue dateTextBoxPropValue;
-	
-	public DateTextBoxProp() {
+	TextBoxPropValue textBoxPropValue;
+
+	public TextBoxProp() {
 		super();
-		this.type = FieldType.DATE;
+		this.type = FieldType.TEXT;
 	}
 
-	public DateTextBoxProp(Integer id, String name, Stage stage, int sequence, boolean saveRequired) {
+	public TextBoxProp(Integer id, String name, Stage stage, int sequence, boolean saveRequired, int length) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.stage = stage;
 		this.sec = sequence;
-		this.type = FieldType.DATE;
+		this.type = FieldType.TEXT;
+		this.length = length;
 	}
-	
-	public DateTextBoxProp(DateTextBoxProp prop) {
+
+	public TextBoxProp(TextBoxProp prop) {
 		this.id = prop.id;
 		this.name = prop.name;
 		this.stage = prop.stage;
 		this.sec = prop.sec;
-		this.type = FieldType.DATE;
+		this.type = FieldType.TEXT;
+		this.length = prop.length;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
 	}
 
 	@Override
@@ -104,15 +117,15 @@ public class DateTextBoxProp implements Property{
 	public void setSec(int sec) {
 		this.sec = sec;
 	}
-	
+
 	@Override
-	public DateTextBoxPropValue getPropValue() {
-		return dateTextBoxPropValue;
+	public TextBoxPropValue getPropValue() {
+		return textBoxPropValue;
 	}
-	
+
 	@Override
 	public void setPropValue(PropValue propValue) {
-		this.dateTextBoxPropValue = (DateTextBoxPropValue) propValue;
+		this.textBoxPropValue = (TextBoxPropValue) propValue;
 	}
 
 	@Override
@@ -120,6 +133,7 @@ public class DateTextBoxProp implements Property{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + length;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + sec;
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -134,11 +148,13 @@ public class DateTextBoxProp implements Property{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DateTextBoxProp other = (DateTextBoxProp) obj;
+		TextBoxProp other = (TextBoxProp) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (length != other.length)
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -156,5 +172,5 @@ public class DateTextBoxProp implements Property{
 			return false;
 		return true;
 	}
-	
+
 }

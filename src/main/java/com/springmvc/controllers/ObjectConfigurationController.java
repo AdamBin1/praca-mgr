@@ -16,18 +16,18 @@ public class ObjectConfigurationController {
 
 	@Autowired
 	StageService stageConfigurationService;
-	
+
 	@Autowired
 	ComboBoxConfigurationService comboBoxConfigurationService;
-	
+
 	@RequestMapping("/konfiguracja/produkt")
 	public ModelAndView showMainConfiguration() {
-		
+
 		Map<String, Object> model = new HashMap<>();
-		
+
 		model.put("mainstage", stageConfigurationService.getMainStage());
 		model.put("comboboxes", comboBoxConfigurationService.getAllComboBoxFields());
-		
+
 		return new ModelAndView("configureobjectmain", model);
 	}
 }

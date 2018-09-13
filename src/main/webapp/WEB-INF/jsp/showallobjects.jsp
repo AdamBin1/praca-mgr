@@ -41,9 +41,6 @@ body {
 
 	$(document).ready(function() {
 		var table = $('#objects').DataTable( {
-	    	// to wywalic
-	    	"lengthMenu": [[1, 2, 50, -1], [1, 2, 50, "Wszystkie"]],
-	    	//////// 
 	    	 "scrollX": true,
 	         "language": {
 	        	    "processing":     "Przetwarzanie...",

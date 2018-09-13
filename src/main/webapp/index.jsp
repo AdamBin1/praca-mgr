@@ -33,7 +33,7 @@ body {
 				<div class="row break1">
 					<div class="">
 						<button class="btn btn-primary" onclick="location.href='konfiguracja/produkt'"">Konfiguracja</button>
-						<button class="btn btn-primary" onclick="location.href='modelowanie/produkty">Modelowanie</button>
+						<button class="btn btn-primary" onclick="location.href='modelowanie/produkty'">Modelowanie</button>
 					</div>
 				</div>
 			</div>

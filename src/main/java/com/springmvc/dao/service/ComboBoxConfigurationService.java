@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.springmvc.dao.ComboBoxFieldDAO;
-import com.springmvc.data.model.ComboBoxField;
-import com.springmvc.data.model.IdSecPair;
+import com.springmvc.model.ComboBoxField;
+import com.springmvc.model.IdSecPair;
 
 @Service
 @Transactional

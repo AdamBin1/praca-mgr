@@ -4,11 +4,11 @@ import javax.transaction.Transactional;
 
 import org.springframework.data.repository.Repository;
 
-import com.springmvc.data.model.ComboBoxPropValue;
-import com.springmvc.data.model.PropValue;
+import com.springmvc.model.ComboBoxPropValue;
+import com.springmvc.model.PropValue;
 
 @Transactional
-public interface ComboBoxPropValueDAO extends Repository<ComboBoxPropValue, Integer>{
+public interface ComboBoxPropValueDAO extends Repository<ComboBoxPropValue, Integer> {
 
 	public ComboBoxPropValue save(ComboBoxPropValue cbp);
 

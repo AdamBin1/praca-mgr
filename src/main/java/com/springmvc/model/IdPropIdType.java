@@ -1,10 +1,10 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 public class IdPropIdType {
 	int id;
 	int propId;
 	FieldType fieldType;
-	
+
 	public IdPropIdType(int id, int propId, FieldType fieldType) {
 		super();
 		this.id = id;
@@ -23,5 +23,5 @@ public class IdPropIdType {
 	public FieldType getFieldType() {
 		return fieldType;
 	}
-	
+
 }

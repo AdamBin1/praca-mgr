@@ -17,8 +17,8 @@ import com.springmvc.dao.service.ComboBoxConfigurationService;
 import com.springmvc.dao.service.JsonService;
 import com.springmvc.dao.service.ResponseService;
 import com.springmvc.dao.service.StageService;
-import com.springmvc.data.model.IdSecPair;
-import com.springmvc.data.model.Stage;
+import com.springmvc.model.IdSecPair;
+import com.springmvc.model.Stage;
 import com.springmvc.validation.StageValidator;
 
 @Controller
@@ -79,6 +79,6 @@ public class StageUpdateController {
 			return responseService.createSuccessResponseEntityForIdSecPairs(idSecPairs);
 		}
 		return responseService.createErrorResponseEntity(errors);
-		
+
 	}
 }

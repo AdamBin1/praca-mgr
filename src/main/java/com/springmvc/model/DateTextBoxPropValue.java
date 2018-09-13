@@ -1,4 +1,6 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
+
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,48 +11,47 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "COMBO_PROP_VALUES")
-public class ComboBoxPropValue implements PropValue{
-	
+@Table(name = "DATE_PROP_VALUES")
+public class DateTextBoxPropValue implements PropValue {
+
 	@Id
-	@Column(name = "ID", nullable=false)
+	@Column(name = "ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Transient
 	private FieldType type;
-	
+
 	@Column(name = "OBJECT_ID")
 	private Integer objectId;
-	
+
 	@Column(name = "PROP_ID")
 	private Integer propId;
-	
+
 	@Column(name = "VALUE")
-	private Integer value;
-	
-	public ComboBoxPropValue() {
+	LocalDate value;
+
+	public DateTextBoxPropValue() {
 		super();
-		this.type = FieldType.COMBO;
+		this.type = FieldType.DATE;
 	}
 
-	public ComboBoxPropValue(Integer id, Integer value, Integer objectId, Integer propId) {
-		super();
+	public DateTextBoxPropValue(Integer id, LocalDate value, Integer objectId, Integer propId) {
 		this.id = id;
-		this.type = FieldType.COMBO;
+		this.type = FieldType.DATE;
 		this.value = value;
 		this.objectId = objectId;
 		this.propId = propId;
 	}
 
-	public Integer getValue() {
+	public LocalDate getValue() {
 		return value;
 	}
 
-	public void setValue(Integer value) {
+	public void setValue(LocalDate value) {
 		this.value = value;
 	}
-	
+
 	@Override
 	public Integer getId() {
 		return id;
@@ -81,12 +82,10 @@ public class ComboBoxPropValue implements PropValue{
 		this.objectId = objectId;
 	}
 
-	@Override
 	public Integer getPropId() {
 		return propId;
 	}
 
-	@Override
 	public void setPropId(Integer propId) {
 		this.propId = propId;
 	}
@@ -111,7 +110,7 @@ public class ComboBoxPropValue implements PropValue{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ComboBoxPropValue other = (ComboBoxPropValue) obj;
+		DateTextBoxPropValue other = (DateTextBoxPropValue) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

@@ -1,4 +1,4 @@
-package com.springmvc.data.model;
+package com.springmvc.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,26 +13,26 @@ import javax.persistence.Transient;
 public class ObjectModel {
 
 	@Id
-	@Column(name = "ID", nullable=false)
+	@Column(name = "ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(name = "ACTIVE_STAGE_ID")
 	private Integer activeStageId;
-	
+
 	@Transient
 	Iterable<TextBoxPropValue> textBoxPropValues;
-	
+
 	@Transient
 	Iterable<ComboBoxPropValue> comboBoxPropValues;
-	
+
 	@Transient
 	Iterable<DateTextBoxPropValue> dateTextBoxPropValues;
-	
+
 	public ObjectModel() {
 		super();
 	}
-	
+
 	public ObjectModel(Integer id, Integer activeStageId) {
 		super();
 		this.id = id;
@@ -110,6 +110,4 @@ public class ObjectModel {
 		return true;
 	}
 
-	
-	
 }
