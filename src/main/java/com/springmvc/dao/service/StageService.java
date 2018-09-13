@@ -1,6 +1,7 @@
 package com.springmvc.dao.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,13 +136,17 @@ public class StageService {
 	}
 
 	public List<Stage> getMainStageForAllObjects() {
+		List<Stage> stages = stageDAO.findAll();
+		HashMap<Integer, String> stageNames = new HashMap<>(stages.size());
+		stages.forEach(stage -> stageNames.put(stage.getId(), stage.getName()));
 		List<ObjectModel> objects = objectService.getAllObjects();
-		List<Stage> stages = new ArrayList<>(objects.size());
+		stages.clear();
 		Stage mainStage = this.getMainStage();
 		Stage cloned;
 		for (ObjectModel object : objects) {
 			cloned = mainStage.cloneStageProperties();
 			updateValues(cloned, object.getId());
+			cloned.setName(stageNames.get(object.getActiveStageId()));
 			stages.add(cloned);
 		}
 		return stages;

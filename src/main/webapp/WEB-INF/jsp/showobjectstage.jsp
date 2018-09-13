@@ -189,6 +189,7 @@ body {
 						<div class="row break1">
 							<div class="col-sm">
 								<button class="btn btn-light" onclick="location.href='../../${mainStage.properties.get(0).propValue.objectId}'">Edycja produktu</button>
+								<button class="btn btn-light" onclick="location.href='/SpringMVC/modelowanie/produkty'">Pokaż produkty</button>
 							</div>
 						</div>
 					</div>
@@ -239,7 +240,6 @@ body {
 								<c:if test="${stage.id eq object.activeStageId && stagenames[fn:length(stagenames)-1].id ne object.activeStageId}">
 									<button class="btn btn-light" onclick="location.href='../przenies'">Przenieś na kolejny etap</button>
 								</c:if>
-								<button class="btn btn-light" onclick="location.href='/SpringMVC/modelowanie/produkty'">Wróć</button>
 							</div>
 						</div>
 					</div>

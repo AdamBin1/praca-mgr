@@ -169,6 +169,7 @@ body {
 				            <c:forEach items="${stage.properties}" var="property">
 				            	<th>${property.name}</th>
 				            </c:forEach>
+				            <th>Aktywny etap</th>
 				            </tr>
 				        </thead>
 		               <tbody>
@@ -195,6 +196,7 @@ body {
 					            			</c:otherwise>
 					            		</c:choose>
 					            	</c:forEach>
+					            	<td>${stage.name}</td>
 					            </tr>
 				            </c:forEach>
 			            </tbody>

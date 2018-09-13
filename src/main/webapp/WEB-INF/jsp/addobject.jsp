@@ -205,7 +205,7 @@ body {
 						<c:if test="${not empty object.id}">
 							<button class="btn btn-light" onclick="location.href='${object.id}/etap/${object.activeStageId}'">Pokaż aktywny etap</button>
 						</c:if>
-						<button class="btn btn-light" onclick="location.href='/SpringMVC/modelowanie/produkty'">Wróć</button>
+						<button class="btn btn-light" onclick="location.href='/SpringMVC/modelowanie/produkty'">Pokaż produkty</button>
 					</div>
 				</div>
 			</div>
