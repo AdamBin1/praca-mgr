@@ -74,7 +74,6 @@ public class StageUpdateController {
 		
 		if(errors == null) {
 			Stage savedStage = stageConfigurationService.saveStage(stage);
-			//TODO walidacja zapisu i podmiana errors
 			List<IdSecPair> idSecPairs = stageConfigurationService.getIdSecPairList(savedStage);
 			return responseService.createSuccessResponseEntityForIdSecPairs(idSecPairs);
 		}

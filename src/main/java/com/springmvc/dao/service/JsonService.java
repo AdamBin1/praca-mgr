@@ -182,7 +182,6 @@ public class JsonService {
 			case "DATE":
 				prop = new DateTextBoxProp();
 				dateTextBoxProps.add((DateTextBoxProp) prop);
-				//TODO: mapowanie wartości
 				break;
 			}
 			
