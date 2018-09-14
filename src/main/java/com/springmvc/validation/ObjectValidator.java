@@ -26,7 +26,7 @@ public class ObjectValidator {
 		List<String> errors = new ArrayList<>();
 
 		if (object == null) {
-			errors.add("Obiekt nie został poprawnie skonfigurowany");
+			errors.add("Produkt nie został poprawnie skonfigurowany");
 			return errors;
 		}
 
