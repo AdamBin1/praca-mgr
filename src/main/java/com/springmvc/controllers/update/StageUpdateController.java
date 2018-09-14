@@ -40,8 +40,6 @@ public class StageUpdateController {
 	@Autowired
 	private ResponseService responseService;
 	
-	// DOKOŃCZYĆ/ZMIENIĆ
-	
 	@RequestMapping("/dodaj")
 	public ModelAndView add() {
 		
