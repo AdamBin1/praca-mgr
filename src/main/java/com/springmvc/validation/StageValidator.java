@@ -18,7 +18,7 @@ import com.springmvc.model.TextBoxProp;
 public class StageValidator {
 
 	@Autowired
-	StageService stageConfigurationService;
+	private StageService stageConfigurationService;
 
 	boolean wrongNames;
 	boolean wrongSec;

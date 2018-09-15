@@ -15,7 +15,7 @@ import com.springmvc.model.ComboBoxField;
 public class ComboBoxValidator {
 
 	@Autowired
-	ComboBoxConfigurationService comboBoxConfigurationService;
+	private ComboBoxConfigurationService comboBoxConfigurationService;
 
 	boolean wrongNames;
 	boolean wrongSec;

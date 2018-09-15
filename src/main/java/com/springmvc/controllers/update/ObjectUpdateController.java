@@ -29,13 +29,13 @@ import com.springmvc.validation.StageValidator;
 public class ObjectUpdateController {
 
 	@Autowired
-	StageService stageService;
+	private StageService stageService;
 
 	@Autowired
-	StageValidator stageValidator;
+	private StageValidator stageValidator;
 
 	@Autowired
-	ObjectValidator objectValidator;
+	private ObjectValidator objectValidator;
 
 	@Autowired
 	private JsonService jsonService;

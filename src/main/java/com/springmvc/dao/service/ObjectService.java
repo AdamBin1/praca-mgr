@@ -27,7 +27,7 @@ public class ObjectService {
 	private StageService stageService;
 
 	@Autowired
-	ObjectDAO objectDao;
+	private ObjectDAO objectDao;
 
 	public ObjectModel saveObjectAndPropValues(ObjectModel object) {
 		ObjectModel savedObject = objectDao.save(object);

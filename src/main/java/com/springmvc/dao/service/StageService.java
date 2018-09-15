@@ -27,13 +27,13 @@ public class StageService {
 	private ObjectService objectService;
 
 	@Autowired
-	TextBoxPropValueService textBoxPropValueService;
+	private TextBoxPropValueService textBoxPropValueService;
 
 	@Autowired
-	ComboBoxPropValueService comboBoxPropValueService;
+	private ComboBoxPropValueService comboBoxPropValueService;
 
 	@Autowired
-	DateTextBoxPropValueService dateTextBoxPropValueService;
+	private DateTextBoxPropValueService dateTextBoxPropValueService;
 
 	public StageService() {
 	}

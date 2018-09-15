@@ -21,10 +21,10 @@ import com.springmvc.model.Stage;
 public class ObjectPresentationController {
 
 	@Autowired
-	ObjectService objectService;
+	private ObjectService objectService;
 
 	@Autowired
-	StageService stageService;
+	private StageService stageService;
 
 	@RequestMapping("/produkty")
 	public ModelAndView showAllObjects() {

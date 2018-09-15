@@ -14,7 +14,7 @@ import com.springmvc.dao.service.StageService;
 public class StagePresentationController {
 
 	@Autowired
-	StageService stagesConfigurationService;
+	private StageService stagesConfigurationService;
 
 	@RequestMapping("/konfiguracja/etapy")
 	public ModelAndView showStages() {

@@ -11,7 +11,7 @@ import com.springmvc.model.TextBoxPropValue;
 public class TextBoxPropValueService {
 
 	@Autowired
-	TextBoxPropValueDAO textBoxPropValueDAO;
+	private TextBoxPropValueDAO textBoxPropValueDAO;
 
 	public TextBoxPropValueService() {
 	}

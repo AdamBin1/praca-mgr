@@ -15,10 +15,10 @@ import com.springmvc.dao.service.StageService;
 public class ObjectConfigurationController {
 
 	@Autowired
-	StageService stageConfigurationService;
+	private StageService stageConfigurationService;
 
 	@Autowired
-	ComboBoxConfigurationService comboBoxConfigurationService;
+	private ComboBoxConfigurationService comboBoxConfigurationService;
 
 	@RequestMapping("/konfiguracja/produkt")
 	public ModelAndView showMainConfiguration() {

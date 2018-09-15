@@ -11,21 +11,14 @@ import com.springmvc.model.PropValue;
 public class DateTextBoxPropValueService {
 
 	@Autowired
-	DateTextBoxPropValueDAO dateTextBoxPropValueDAO;
+	private DateTextBoxPropValueDAO dateTextBoxPropValueDAO;
 
 	public DateTextBoxPropValue save(DateTextBoxPropValue dtbpv) {
 		return dateTextBoxPropValueDAO.save(dtbpv);
 	}
 
 	public Iterable<DateTextBoxPropValue> saveAll(Iterable<DateTextBoxPropValue> dateTextBoxPropValues) {
-		dateTextBoxPropValues.forEach(a -> {
-			System.out.println(a.getValue().toString());
-		});
-		Iterable<DateTextBoxPropValue> daty =  dateTextBoxPropValueDAO.saveAll(dateTextBoxPropValues);
-		daty.forEach(a -> {
-			System.out.println(a.getValue().toString());
-		});
-		return daty;
+		return dateTextBoxPropValueDAO.saveAll(dateTextBoxPropValues);
 	}
 
 	public PropValue findByObjectIdAndPropId(int objectId, Integer propId) {

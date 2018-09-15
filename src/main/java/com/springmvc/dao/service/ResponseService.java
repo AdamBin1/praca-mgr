@@ -16,7 +16,7 @@ import com.springmvc.model.IdSecPair;
 public class ResponseService {
 	
 	@Autowired
-	JsonService jsonService;
+	private JsonService jsonService;
 
 	public ResponseEntity<String> createErrorResponseEntity(List<String> errors) {
 		

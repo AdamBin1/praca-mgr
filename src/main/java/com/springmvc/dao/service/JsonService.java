@@ -35,10 +35,10 @@ import com.springmvc.model.TextBoxPropValue;
 public class JsonService {
 
 	@Autowired
-	ComboBoxConfigurationService comboBoxConfigurationService;
+	private ComboBoxConfigurationService comboBoxConfigurationService;
 
 	@Autowired
-	ObjectService objectService;
+	private ObjectService objectService;
 
 	private static final ObjectMapper objectMapper;
 

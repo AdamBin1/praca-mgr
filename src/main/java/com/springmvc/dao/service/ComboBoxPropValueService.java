@@ -11,7 +11,7 @@ import com.springmvc.model.PropValue;
 public class ComboBoxPropValueService {
 
 	@Autowired
-	ComboBoxPropValueDAO comboBoxPropValueDAO;
+	private ComboBoxPropValueDAO comboBoxPropValueDAO;
 
 	public ComboBoxPropValueService() {
 	}

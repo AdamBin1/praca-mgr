@@ -15,7 +15,7 @@ import com.springmvc.dao.service.ComboBoxConfigurationService;
 public class ComboBoxPresentationController {
 
 	@Autowired
-	ComboBoxConfigurationService comboBoxConfigurationService;
+	private ComboBoxConfigurationService comboBoxConfigurationService;
 
 	@RequestMapping("/pola_wyboru")
 	public ModelAndView showComboboxes() {

@@ -16,7 +16,7 @@ import com.springmvc.model.TextBoxPropValue;
 public class ObjectValidator {
 
 	@Autowired
-	TextBoxPropDAO textBoxPropDAO;
+	private TextBoxPropDAO textBoxPropDAO;
 
 	public ObjectValidator() {
 	}
