@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.springmvc.dao.service.ComboBoxConfigurationService;
-import com.springmvc.dao.service.JsonService;
-import com.springmvc.dao.service.ResponseService;
 import com.springmvc.model.ComboBoxField;
 import com.springmvc.model.IdSecPair;
+import com.springmvc.service.ComboBoxConfigurationService;
+import com.springmvc.service.JsonService;
+import com.springmvc.service.ResponseService;
 import com.springmvc.validation.ComboBoxValidator;
 
 @Controller

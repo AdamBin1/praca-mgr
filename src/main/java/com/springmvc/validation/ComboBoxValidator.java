@@ -8,8 +8,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.springmvc.dao.service.ComboBoxConfigurationService;
 import com.springmvc.model.ComboBoxField;
+import com.springmvc.service.ComboBoxConfigurationService;
 
 @Component
 public class ComboBoxValidator {

@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.springmvc.dao.service.ComboBoxConfigurationService;
-import com.springmvc.dao.service.JsonService;
-import com.springmvc.dao.service.ResponseService;
-import com.springmvc.dao.service.StageService;
 import com.springmvc.model.IdSecPair;
 import com.springmvc.model.Stage;
+import com.springmvc.service.ComboBoxConfigurationService;
+import com.springmvc.service.JsonService;
+import com.springmvc.service.ResponseService;
+import com.springmvc.service.StageService;
 import com.springmvc.validation.StageValidator;
 
 @Controller
@@ -65,7 +65,6 @@ public class StageUpdateController {
 	
 	@RequestMapping(value = {"edytuj/zatwierdz", "/zatwierdz"}, method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> save(@RequestBody String jsonString) {
-		System.out.println(jsonString);
 		Stage stage = jsonService.convertJsonToStage(jsonString);
 		
 		List<String> errors = stageValidator.validateStage(stage);
@@ -76,6 +75,5 @@ public class StageUpdateController {
 			return responseService.createSuccessResponseEntityForIdSecPairs(idSecPairs);
 		}
 		return responseService.createErrorResponseEntity(errors);
-
 	}
 }

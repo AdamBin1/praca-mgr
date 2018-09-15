@@ -1,4 +1,4 @@
-package com.springmvc.dao.service;
+package com.springmvc.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;

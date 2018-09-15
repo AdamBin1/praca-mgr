@@ -8,11 +8,11 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.springmvc.dao.service.StageService;
 import com.springmvc.model.ComboBoxProp;
 import com.springmvc.model.FieldType;
 import com.springmvc.model.Stage;
 import com.springmvc.model.TextBoxProp;
+import com.springmvc.service.StageService;
 
 @Component
 public class StageValidator {

@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.springmvc.dao.service.JsonService;
-import com.springmvc.dao.service.ObjectService;
-import com.springmvc.dao.service.ResponseService;
-import com.springmvc.dao.service.StageService;
 import com.springmvc.model.IdPropIdType;
 import com.springmvc.model.IdSecPair;
 import com.springmvc.model.ObjectModel;
 import com.springmvc.model.Stage;
+import com.springmvc.service.JsonService;
+import com.springmvc.service.ObjectService;
+import com.springmvc.service.ResponseService;
+import com.springmvc.service.StageService;
 import com.springmvc.validation.ObjectValidator;
 import com.springmvc.validation.StageValidator;
 

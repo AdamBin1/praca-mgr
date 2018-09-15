@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.springmvc.dao.service.ObjectService;
-import com.springmvc.dao.service.StageService;
 import com.springmvc.model.IdValuePair;
 import com.springmvc.model.ObjectModel;
 import com.springmvc.model.Stage;
+import com.springmvc.service.ObjectService;
+import com.springmvc.service.StageService;
 
 @Controller
 @RequestMapping("modelowanie")

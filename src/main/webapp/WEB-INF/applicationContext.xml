@@ -12,24 +12,24 @@
  http://www.springframework.org/schema/context/spring-context-4.0.xsd
  http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd">
 
-<context:component-scan base-package="com.springmvc.controllers, com.springmvc.model, com.springmvc.dao, com.springmvc.validation"></context:component-scan>
+	<context:component-scan base-package="com.springmvc"/>
 
 	<context:annotation-config /> 
-<bean id="dataSource"
-	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-	<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-	<property name="url" value="jdbc:mysql://localhost:3306/springmvcdb?serverTimezone=Europe/Berlin" />
-	<property name="username" value="developer" />
-	<property name="password" value="user123@" />
-	<property name="connectionProperties" value="useSSL=false"/>
-</bean>
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/springmvcdb?serverTimezone=Europe/Berlin" />
+		<property name="username" value="developer" />
+		<property name="password" value="user123@" />
+		<property name="connectionProperties" value="useSSL=false"/>
+	</bean>
 
-<mvc:annotation-driven/>
+	<mvc:annotation-driven/>
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan"
-			value="com.springmvc.model, com.springmvc.dao" />
+			value="com.springmvc.model" />
 		<property name="jpaVendorAdapter">
 			<bean
 				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
@@ -54,7 +54,7 @@
 			ref="entityManagerFactory" />
 	</bean>
 	
-	<jpa:repositories base-package="com.springmvc"/>
+	<jpa:repositories base-package="com.springmvc.dao"/>
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/"></property>
